@@ -1,0 +1,16 @@
+/Rolling_Notes.md
+
+# vim
+*~
+.*.swp
+
+# vs code
+.vscode
+__debug_bin
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
