@@ -1,3 +1,9 @@
+# MATH-500: Error control in scientific modelling
+
+This repository contains the teaching material of the course
+[MATH-500 Error control in scientific modelling](https://staging-edu.epfl.ch/coursebook/en/error-control-in-scientific-modelling-MATH-500) at EPFL.
+For more details see [matmat.org/teaching](https://matmat.org/teaching/error-control).
+
 1. [Introduction](https://epfl-matmat.github.io/error-control-modelling/01_Introduction.html)
 1. [The Dirichlet Laplacian in an Unbounded Domain](https://epfl-matmat.github.io/error-control-modelling/02_Laplace_error_sources.html)
 1. [Matrix Eigenproblems](https://epfl-matmat.github.io/error-control-modelling/03_Matrix_eigenproblems.html)
@@ -10,3 +16,7 @@
 1. [Self-adjoint operators](https://epfl-matmat.github.io/error-control-modelling/10_Spectra_self_adjoint.html)
 1. [Periodic Problems](https://epfl-matmat.github.io/error-control-modelling/11_Periodic_problems.html)
 1. [Nomenclature](https://epfl-matmat.github.io/error-control-modelling/nomenclature.html)
+
+If you spot an error feel free to make a pull request to the
+[github repository](https://github.com/epfl-matmat/error-control-modelling)
+generating this website.

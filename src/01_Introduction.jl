@@ -8,8 +8,8 @@ using InteractiveUtils
 begin
 	using HypertextLiteral
 	using PlutoUI
-	
-	toc = 
+
+	toc =
 # sidebar --- DO NOT TOUCH THIS LINE
 Markdown.parse( "**Error control in scientific modeling** 
 " * read("sidebar.md",String)) 
