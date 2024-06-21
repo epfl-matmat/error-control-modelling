@@ -9,8 +9,7 @@ begin
 	
 toc = 
 # sidebar --- DO NOT TOUCH THIS LINE
-Markdown.parse( "**Error control in scientific modeling** 
-" * read("sidebar.md",String)) 
+Markdown.parse(read("sidebar.md", String))
 # sidebar --- DO NOT TOUCH THIS LINE 
 	
 using HypertextLiteral

@@ -1,3 +1,5 @@
+**[Error control in scientific modelling](https://teaching.matmat.org/error-control/)**
+
 1. [Introduction](https://teaching.matmat.org/error-control/01_Introduction.html)
 1. [The Dirichlet Laplacian in an Unbounded Domain](https://teaching.matmat.org/error-control/02_Laplace_error_sources.html)
 1. [Matrix Eigenproblems](https://teaching.matmat.org/error-control/03_Matrix_eigenproblems.html)
