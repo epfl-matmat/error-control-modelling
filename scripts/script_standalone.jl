@@ -8,8 +8,8 @@ macros = open("latex_macros.jl", "r") do f
     macros = replace(macros, "\n\n" => "\n") # remove empty lines
 end
 
-#load toc (to put in sidebar) from index.md
-toc = open("index.md", "r") do f
+#load toc (to put in sidebar) from sidebar.md
+toc = open("sidebar.md", "r") do f
     "md\"\"\"\n" * read(f,String) * "\n\"\"\""
 end
 
