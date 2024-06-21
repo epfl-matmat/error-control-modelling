@@ -1,4 +1,4 @@
-cd("notes") do
+cd("src") do
 
 #load macros from latex_macros file
 macros = open("latex_macros.jl", "r") do f

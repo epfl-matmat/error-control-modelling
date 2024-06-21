@@ -1,4 +1,4 @@
-cd("notes") do
+cd("src") do
 
 for filepath in readdir()
 
