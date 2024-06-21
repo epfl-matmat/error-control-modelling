@@ -32,9 +32,9 @@ for filepath in readdir()
     sidebar_delimeter = "# sidebar --- DO NOT TOUCH THIS LINE"
     file_split = split(file,sidebar_delimeter)
     if length(file_split) == 3
-        file_split[2] = "\nMarkdown.parse( \"**Error control in scientific modeling** \n\" * read(\"index.md\",String)) \n"
+        file_split[2] = "\nMarkdown.parse( \"**Error control in scientific modeling** \n\" * read(\"sidebar.md\",String)) \n"
         file = join(file_split,sidebar_delimeter)
-        println("$filepath : toc changed to read(\"index.md\",String)")
+        println("$filepath : toc changed to read(\"sidebar.md\",String)")
         do_write = true
     else 
         println("$filepath : No sidebar (course TOC) delimited")
