@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.42
+# v0.19.43
 
 using Markdown
 using InteractiveUtils
@@ -8,22 +8,29 @@ using InteractiveUtils
 begin
 	using HypertextLiteral
 	using PlutoUI
-
-	toc =
-# sidebar --- DO NOT TOUCH THIS LINE
-Markdown.parse(read("sidebar.md",String)) 
-# sidebar --- DO NOT TOUCH THIS LINE
-
-# latex macros --- DO NOT TOUCH THIS LINE
-include("latex_macros.jl") 
-# latex macros --- DO NOT TOUCH THIS LINE
-		
+	using PlutoTeachingTools
+	
+	RobustLocalResource("https://teaching.matmat.org/error-control/latex_macros.md", "latex_macros.md")
+	Markdown.parse(read("latex_macros.md", String))
 end
 
-# ╔═╡ 7dc4fa2c-9f80-45bd-a0e9-bb9a8aaa2603
+# ╔═╡ b944f68e-85a6-4613-8c5e-0fe3d47ff0d4
 md"""
 # Introduction
+"""
 
+# ╔═╡ f4a7a3f0-b6e6-4e9a-bd14-2a62fc824f2c
+TODO(md"""
+## Opening words
+
+
+
+
+
+""")
+
+# ╔═╡ 189b99a5-776f-4ad6-b05a-66b9801a97c4
+md"""
 ## The connection between linear and eigenvalue problems : the heat equation
 
 Let $\Omega \subset \mathbb R^n$ with a Lipshitz (smooth) boundary.
@@ -264,46 +271,28 @@ md"""
 - Of key importance in quantum mechanics in particular is the computation of the eigenpair corresponding to the smallest eigenvalue of $\opH$, called the *ground state*.
 """
 
-# ╔═╡ 908295c7-0cde-438b-a8a3-ea2d1f04596c
+# ╔═╡ d26799e2-bd9a-4ff5-89b2-7d4a8cc61b74
 TableOfContents()
 
-# ╔═╡ 2dceea9f-35b5-44a1-b804-967c0377ca5c
-begin
-	Sidebar(elts...; location="upper right") = @htl("""
-	<aside class="sidebar" style='top: 235px;right: 17px;'>$elts</aside>
+# ╔═╡ 8993ae47-1173-46c1-8f1e-55412215b61f
+let
+	RobustLocalResource("https://teaching.matmat.org/error-control/sidebar.md", "sidebar.md")
+	Sidebar(toc, ypos) = @htl("""<aside class="plutoui-toc aside indent"
+		style='top:$(ypos)px; max-height: calc(100vh - $(ypos)px - 55px);' >$toc</aside>""")
 	
-	<style>
-	aside.sidebar {
-		position: fixed;
-		max-width: min(30%, 300px, calc(100vw - 750px));
-		padding: 0.4rem;
-		border-radius: 10px;
-		max-height: calc(100vh - 300px);
-		overflow: auto;
-		z-index: 10;
-		background-color: rgba(0, 0, 0, 0.02);
-	}
-	
-	aside.aside-sticky table {
-		margin: 0.2rem 0;
-	}
-	</style>
-	""")
-	
-	Sidebar(toc) 
+	Sidebar(Markdown.parse(read("sidebar.md", String)), 255)
 end
-
-# ╔═╡ 70169838-035f-4f85-b8b9-9dcfd2d2f2af
-
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 HypertextLiteral = "~0.9.5"
+PlutoTeachingTools = "~0.2.15"
 PlutoUI = "~0.7.59"
 """
 
@@ -311,9 +300,9 @@ PlutoUI = "~0.7.59"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.2"
+julia_version = "1.10.4"
 manifest_format = "2.0"
-project_hash = "e7223c1a7ed85110e7a6918a8fa41e0f1158e7b8"
+project_hash = "72c07b07bb225d1401f37584678b084190a9d3b1"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -331,6 +320,12 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
+[[deps.CodeTracking]]
+deps = ["InteractiveUtils", "UUIDs"]
+git-tree-sha1 = "c0216e792f518b39b22212127d4a84dc31e4e386"
+uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
+version = "1.3.5"
+
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
 git-tree-sha1 = "b10d0b65641d57b8b4d5e234446582de5047050d"
@@ -340,11 +335,15 @@ version = "0.11.5"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.1.0+0"
+version = "1.1.1+0"
 
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[deps.Distributed]]
+deps = ["Random", "Serialization", "Sockets"]
+uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Downloads]]
 deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
@@ -360,6 +359,11 @@ git-tree-sha1 = "05882d6995ae5c12bb5f36dd2ed3f61c98cbb172"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.5"
 
+[[deps.Format]]
+git-tree-sha1 = "9c68794ef81b08086aeb32eeaf33531668d5f5fc"
+uuid = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
+version = "1.3.7"
+
 [[deps.Hyperscript]]
 deps = ["Test"]
 git-tree-sha1 = "179267cfa5e712760cd43dcae385d7ea90cc25a4"
@@ -374,9 +378,9 @@ version = "0.9.5"
 
 [[deps.IOCapture]]
 deps = ["Logging", "Random"]
-git-tree-sha1 = "8b72179abc660bfab5e28472e019392b97d0985c"
+git-tree-sha1 = "b6d6bfdd7ce25b0f9b2f6b3dd56b2673a66c8770"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
-version = "0.2.4"
+version = "0.2.5"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -387,6 +391,31 @@ deps = ["Dates", "Mmap", "Parsers", "Unicode"]
 git-tree-sha1 = "31e996f0a15c7b280ba9f76636b3ff9e2ae58c9a"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.4"
+
+[[deps.JuliaInterpreter]]
+deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
+git-tree-sha1 = "a6adc2dcfe4187c40dc7c2c9d2128e326360e90a"
+uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
+version = "0.9.32"
+
+[[deps.LaTeXStrings]]
+git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
+uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+version = "1.3.1"
+
+[[deps.Latexify]]
+deps = ["Format", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Requires"]
+git-tree-sha1 = "5b0d630f3020b82c0775a51d05895852f8506f50"
+uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
+version = "0.16.4"
+
+    [deps.Latexify.extensions]
+    DataFramesExt = "DataFrames"
+    SymEngineExt = "SymEngine"
+
+    [deps.Latexify.weakdeps]
+    DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+    SymEngine = "123dc426-2d89-5057-bbad-38513e3affd8"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -422,10 +451,22 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.LoweredCodeUtils]]
+deps = ["JuliaInterpreter"]
+git-tree-sha1 = "eeaedcf337f33c039f9f3a209a8db992deefd7e9"
+uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
+version = "2.4.8"
+
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
 uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
 version = "0.1.4"
+
+[[deps.MacroTools]]
+deps = ["Markdown", "Random"]
+git-tree-sha1 = "2fa9ee3e63fd3a4f7a9a4f4744a52f4856de82df"
+uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+version = "0.5.13"
 
 [[deps.Markdown]]
 deps = ["Base64"]
@@ -452,6 +493,11 @@ deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
 version = "0.3.23+4"
 
+[[deps.OrderedCollections]]
+git-tree-sha1 = "dfdf5519f235516220579f949664f1bf44e741c5"
+uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+version = "1.6.3"
+
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
 git-tree-sha1 = "8489905bcdbcfac64d1daa51ca07c0d8f0283821"
@@ -462,6 +508,24 @@ version = "2.8.1"
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 version = "1.10.0"
+
+[[deps.PlutoHooks]]
+deps = ["InteractiveUtils", "Markdown", "UUIDs"]
+git-tree-sha1 = "072cdf20c9b0507fdd977d7d246d90030609674b"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0774"
+version = "0.0.5"
+
+[[deps.PlutoLinks]]
+deps = ["FileWatching", "InteractiveUtils", "Markdown", "PlutoHooks", "Revise", "UUIDs"]
+git-tree-sha1 = "8f5fa7056e6dcfb23ac5211de38e6c03f6367794"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0420"
+version = "0.1.6"
+
+[[deps.PlutoTeachingTools]]
+deps = ["Downloads", "HypertextLiteral", "LaTeXStrings", "Latexify", "Markdown", "PlutoLinks", "PlutoUI", "Random"]
+git-tree-sha1 = "5d9ab1a4faf25a62bb9d07ef0003396ac258ef1c"
+uuid = "661c6b06-c737-4d37-b85c-46df65de6f69"
+version = "0.2.15"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
@@ -497,6 +561,18 @@ uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "1.2.2"
+
+[[deps.Requires]]
+deps = ["UUIDs"]
+git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
+uuid = "ae029012-a4dd-5104-9daa-d747884805df"
+version = "1.3.0"
+
+[[deps.Revise]]
+deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "Pkg", "REPL", "Requires", "UUIDs", "Unicode"]
+git-tree-sha1 = "85ddd93ea15dcd8493400600e09104a9e94bb18d"
+uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
+version = "3.5.15"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -576,8 +652,10 @@ version = "17.4.0+2"
 """
 
 # ╔═╡ Cell order:
+# ╟─b944f68e-85a6-4613-8c5e-0fe3d47ff0d4
 # ╟─52b4d68c-d6f1-11ee-18b4-db386a5995ad
-# ╟─7dc4fa2c-9f80-45bd-a0e9-bb9a8aaa2603
+# ╠═f4a7a3f0-b6e6-4e9a-bd14-2a62fc824f2c
+# ╟─189b99a5-776f-4ad6-b05a-66b9801a97c4
 # ╟─e52eb9de-c5b3-424e-b2d5-e1b926f76fd4
 # ╟─d5581136-7b5e-4987-a67d-241286d424c8
 # ╟─4db1319a-0b7c-42d5-ba03-00f106542c80
@@ -588,8 +666,7 @@ version = "17.4.0+2"
 # ╟─33c563af-3436-4275-becd-5333d480b4f4
 # ╟─8e7daba1-277b-4632-b995-5be76616d0d3
 # ╟─94c2368c-243e-4e29-ba9b-a6c9253fa74f
-# ╟─908295c7-0cde-438b-a8a3-ea2d1f04596c
-# ╟─2dceea9f-35b5-44a1-b804-967c0377ca5c
-# ╟─70169838-035f-4f85-b8b9-9dcfd2d2f2af
+# ╟─d26799e2-bd9a-4ff5-89b2-7d4a8cc61b74
+# ╟─8993ae47-1173-46c1-8f1e-55412215b61f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
