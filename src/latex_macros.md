@@ -1,7 +1,3 @@
-using Markdown
-#using InteractiveUtils
-
-md"""
 ```math
 \def\resolvent{{\rho}}
 \def\spectralradius{{\varrho}}
@@ -30,19 +26,3 @@ md"""
 \definecolor{warnyellow}{RGB}{165, 159, 116}
 \definecolor{prooftext}{RGB}{85, 85, 85}
 ```
-"""
-
-# Graveyard 
-# \def\bra{{\langle}}
-# \def\ket{{\rangle}}
-# \def\R{{\mathbb R}}
-# \def\C{{\mathbb C}}
-# \def\mA{{A}}
-# \def\opB{{\mathcal B}}
-# \def\sobolev{{H}}
-# \def\subspace{{\leq}}
-# \def\opV{{\mathcal V}}
-# \def\oldphi{{\phi}}
-# \def\phi{{\varphi}}
-# \def\oldepsilon{{\epsilon}}
-# \def\epsilon{{\varepsilon}}

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.37
+# v0.19.43
 
 using Markdown
 using InteractiveUtils
@@ -11,22 +11,18 @@ begin
 	using PlutoTeachingTools
 	using PlutoUI
 	using HypertextLiteral
-	
-	toc = 
-# sidebar --- DO NOT TOUCH THIS LINE
-Markdown.parse(read("sidebar.md", String))
-# sidebar --- DO NOT TOUCH THIS LINE
 
-# latex macros --- DO NOT TOUCH THIS LINE
-include("latex_macros.jl") 
-# latex macros --- DO NOT TOUCH THIS LINE
-	
+	RobustLocalResource("https://teaching.matmat.org/error-control/latex_macros.md", "latex_macros.md")
+	Markdown.parse(read("latex_macros.md", String))
 end
 
-# ╔═╡ 62ea6cf9-6862-40db-b610-f6d387cfac5a
+# ╔═╡ 7d7ac845-c19c-4aff-84ed-8a486eb1bc56
 md"""
 # Hilbert Spaces
+"""
 
+# ╔═╡ 49f2bf4a-8f1a-4122-aad6-8b50db93ac1f
+md"""
 In our introductory discussion abut quantum mechanics we already discussed the importance of the probability density $|\Psi(x)|^{2}$.
 Clearly for this to make sense the wavefunction $\Psi: \mathbb{R}^{n} \rightarrow \mathbb{C}$ needs to be normalized, i.e. the integral
 ```math
@@ -386,29 +382,12 @@ md"""
 TableOfContents()
 
 # ╔═╡ b9d75bc0-5e4a-4585-b4c0-327c485ad26f
-begin
-	Sidebar(elts...; location="upper right") = @htl("""
-	<aside class="sidebar" style='top: 305px;right: 17px;'>$elts</aside>
+let
+	RobustLocalResource("https://teaching.matmat.org/error-control/sidebar.md", "sidebar.md")
+	Sidebar(toc, ypos) = @htl("""<aside class="plutoui-toc aside indent"
+		style='top:$(ypos)px; max-height: calc(100vh - $(ypos)px - 55px);' >$toc</aside>""")
 	
-	<style>
-	aside.sidebar {
-		position: fixed;
-		max-width: min(30%, 300px, calc(100vw - 750px));
-		padding: 0.4rem;
-		border-radius: 10px;
-		max-height: calc(100vh - 370px);
-		overflow: auto;
-		z-index: 10;
-		background-color: rgba(0, 0, 0, 0.02);
-	}
-	
-	aside.aside-sticky table {
-		margin: 0.2rem 0;
-	}
-	</style>
-	""")
-	
-	Sidebar(toc) 
+	Sidebar(Markdown.parse(read("sidebar.md", String)), 305)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -432,7 +411,7 @@ TikzPictures = "~3.5.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.0"
+julia_version = "1.10.4"
 manifest_format = "2.0"
 project_hash = "c52e33438f230a8285860e7d80a61412a18560fd"
 
@@ -479,7 +458,7 @@ version = "0.11.5"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.5+1"
+version = "1.1.1+0"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -576,9 +555,9 @@ version = "69.1.0+0"
 
 [[deps.IOCapture]]
 deps = ["Logging", "Random"]
-git-tree-sha1 = "8b72179abc660bfab5e28472e019392b97d0985c"
+git-tree-sha1 = "b6d6bfdd7ce25b0f9b2f6b3dd56b2673a66c8770"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
-version = "0.2.4"
+version = "0.2.5"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -604,9 +583,9 @@ version = "3.0.3+0"
 
 [[deps.JuliaInterpreter]]
 deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
-git-tree-sha1 = "e9648d90370e2d0317f9518c9c6e0841db54a90b"
+git-tree-sha1 = "5d3a5a206297af3868151bb4a2cf27ebce46f16d"
 uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
-version = "0.9.31"
+version = "0.9.33"
 
 [[deps.LERC_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -633,9 +612,9 @@ version = "1.3.1"
 
 [[deps.Latexify]]
 deps = ["Format", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Requires"]
-git-tree-sha1 = "e0b5cd21dc1b44ec6e64f351976f961e6f31d6c4"
+git-tree-sha1 = "5b0d630f3020b82c0775a51d05895852f8506f50"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.16.3"
+version = "0.16.4"
 
     [deps.Latexify.extensions]
     DataFramesExt = "DataFrames"
@@ -729,9 +708,9 @@ uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[deps.LoweredCodeUtils]]
 deps = ["JuliaInterpreter"]
-git-tree-sha1 = "c6a36b22d2cca0e1a903f00f600991f97bf5f426"
+git-tree-sha1 = "0b898aba6cb0b01fb96245fa5375accb651a241a"
 uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
-version = "2.4.6"
+version = "3.0.0"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
@@ -767,7 +746,7 @@ version = "1.2.0"
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.23+2"
+version = "0.3.23+4"
 
 [[deps.OpenJpeg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libtiff_jll", "LittleCMS_jll", "Pkg", "libpng_jll"]
@@ -875,9 +854,9 @@ version = "1.3.0"
 
 [[deps.Revise]]
 deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "Pkg", "REPL", "Requires", "UUIDs", "Unicode"]
-git-tree-sha1 = "12aa2d7593df490c407a3bbd8b86b8b515017f3e"
+git-tree-sha1 = "677b65e17aeb6b4a0be1982e281ec03b0f55155c"
 uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
-version = "3.5.14"
+version = "3.5.16"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -943,15 +922,15 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
-git-tree-sha1 = "52ff2af32e591541550bd753c0da8b9bc92bb9d9"
+git-tree-sha1 = "d9717ce3518dc68a99e6b96300813760d887a01d"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.12.7+0"
+version = "2.13.1+0"
 
 [[deps.XSLT_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
-git-tree-sha1 = "91844873c4085240b95e795f692c4cec4d805f8a"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "XML2_jll", "Zlib_jll"]
+git-tree-sha1 = "a54ee957f4c86b526460a720dbc882fa5edcbefc"
 uuid = "aed1982a-8fda-507f-9586-7b0439959a61"
-version = "1.1.34+0"
+version = "1.1.41+0"
 
 [[deps.Xorg_libX11_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libxcb_jll", "Xorg_xtrans_jll"]
@@ -991,9 +970,9 @@ version = "0.1.1+0"
 
 [[deps.Xorg_libxcb_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "XSLT_jll", "Xorg_libXau_jll", "Xorg_libXdmcp_jll", "Xorg_libpthread_stubs_jll"]
-git-tree-sha1 = "b4bfde5d5b652e22b9c790ad00af08b6d042b97d"
+git-tree-sha1 = "bcd466676fef0878338c61e655629fa7bbc69d8e"
 uuid = "c7cfdc94-dc32-55de-ac96-5a1b8d977c5b"
-version = "1.15.0+0"
+version = "1.17.0+0"
 
 [[deps.Xorg_xtrans_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1041,8 +1020,9 @@ version = "0.13.1+0"
 """
 
 # ╔═╡ Cell order:
+# ╟─7d7ac845-c19c-4aff-84ed-8a486eb1bc56
 # ╟─46704182-ef55-11ee-31c7-db589297db34
-# ╟─62ea6cf9-6862-40db-b610-f6d387cfac5a
+# ╟─49f2bf4a-8f1a-4122-aad6-8b50db93ac1f
 # ╟─526efb20-8bfd-4060-9171-979c43b92435
 # ╟─338c4b80-c710-4e8a-8dcd-e11ff464cbc8
 # ╟─09efc623-3c15-4b91-8c3d-bda48baa8727
