@@ -19,15 +19,107 @@ md"""
 # Introduction
 """
 
-# ╔═╡ f4a7a3f0-b6e6-4e9a-bd14-2a62fc824f2c
-TODO(md"""
-## Opening words
+# ╔═╡ 53e49738-8673-4ecd-9e86-b1431200b132
+md"""
+## Opening remarks
 
+```math
+\text{\textit{All models are wrong, only some models are useful.}}
+```
 
+**[Slides of the presentation](/)**: These summarise the following paragraphs and the content of the course in a short presentation.
+$\textcolor{red}{\text{todo: add slide link here}}$
+"""
 
+# ╔═╡ aa175689-f915-42a1-b472-19deb5811f46
+md"""
+Constructing suitable **approximations to model the world** around us
+sits at the **heart of all sciences**. As the above famous quote implies,
+modelling a scientific problem inevitable comes with the introduction
+of errors. Even the most accurate models of physics, e.g. the standard model
+of particle physics or relativistic quantum mechanics have their limitations.
+Moreover these models are typically too involved to be applied to
+all but the simplest systems. In particular for "real" systems of macroscopic
+size additional approximations.
+Typically this not only involves the selection of **more approximate**,
+thus simpler,
+**physical models**, but also employing **numerical** instead of an analytical techniques
+for solving the underlying equations.
+"""
 
+# ╔═╡ 7229e2b6-cf77-4b32-b52d-1fc7d218b007
+md"""
+Which physical effects can be neglected and which numerical techniques are most
+appropriate is often application-specific and **many alternatives exist**.
+Understanding the **dominant sources of error** in a simulation is thus
+a crucial component in understanding whether each respective **approximation choice** has been appropriate and --- most importantly --- which of them **needs to be refined** in order to improve the result.
+"""
 
-""")
+# ╔═╡ bd045f8e-7baa-4fbf-94bc-22e39cac9a0d
+md"""
+The goal of this lecture is to discuss mathematical techniques
+which aid with the estimation of error in scientific simulations.
+Within the lecture we will distinguish various forms of error and consider (some) of them in separate discussions throughout the semester. For example we will distinguish the **model error**, i.e. the error introduced the selected physical model compared to the ground truth,
+as well as the **numerical error**,
+i.e. all additional error from the numerical procedure employed for
+solving the chosen physical model.
+Of particular focus in the lecture will be understanding the various aspects
+of the numerical error,
+that is in particular the errors due to the chosen **discretisation basis**,
+the **algorithms** to solve the numerical problem as well as the chosen
+**floating-point arithmetic**.
+"""
+
+# ╔═╡ cd9950c8-1b3d-4a1b-8606-9fcf4f39599f
+md"""
+Looking back into the **history of scientific modelling**
+a number of incidents with **hundreds of millions of dollars
+of damage** could have been **prevented** if better numerical error control
+measures would have been implemented.
+One example is the 
+[sinking of the Sleipner A oil rig](https://en.wikipedia.org/wiki/Sleipner_A)
+platform
+due to an insufficient finite element discretisation.
+A second example is the
+[self-destruction of an Ariane 5 rocket](https://en.wikipedia.org/wiki/Ariane_5)
+in its test flight
+due to an error in the performed floating-point arithmetic.
+In this lecture we will discuss techniques how such errors could have been prevented.
+Some guiding questions for our lecture are:
+- What can go wrong in a simulation?
+- How can we detect this and what can we do about it?
+- If we know errors how can this be used to make simulations faster and more reliable?
+"""
+
+# ╔═╡ d6db19e2-78fb-4619-b2c7-c2784461c583
+md"""
+## Eigenvalue problems in scientific modelling
+
+Eigenvalue problems occur naturally in many domains of science.
+In physics and engineering problems they are frequently related to vibrations,
+e.g. bridges or buildings can swing under wind load.
+A famous example is the Tacoma narrows bridge, which collapsed in 1940 just half
+a year after its opening due to strong winds bringing the bridge into strong vibrations.
+Similarly the London millennium foot bridge had to be closed due to its strong wobbeling
+by the passing pedestrians.
+
+In my own field, atomistic modelling, the underlying workhorse theory is the Schrödinger equation.
+In quantum mechanics the eigenpairs (states) of an operator describing the physical system under
+study form the key quantity of interest in simulations.
+
+Moreover, as we will discuss in the next examples in more detail,
+there is a natural connections from solving partial
+differential equations~(PDE) to eigenvalue problems involving the PDE operator.
+
+Another natural connection arises when analysing the convergence of
+iterative numerical schemes,
+such as multidimensional fixed-point problems,
+iterative schemes like Newton or the conjugate-gradient algorithm.
+The convergence of CG, for example,
+is related to the condition number of the underlying linear system,
+which in turn are related to singular values of the system matrix
+--- an Quantity, which can be obtained by solving an eigenvalue problem.
+"""
 
 # ╔═╡ 189b99a5-776f-4ad6-b05a-66b9801a97c4
 md"""
@@ -280,7 +372,7 @@ let
 	Sidebar(toc, ypos) = @htl("""<aside class="plutoui-toc aside indent"
 		style='top:$(ypos)px; max-height: calc(100vh - $(ypos)px - 55px);' >$toc</aside>""")
 	
-	Sidebar(Markdown.parse(read("sidebar.md", String)), 255)
+	Sidebar(Markdown.parse(read("sidebar.md", String)), 265)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -654,7 +746,12 @@ version = "17.4.0+2"
 # ╔═╡ Cell order:
 # ╟─b944f68e-85a6-4613-8c5e-0fe3d47ff0d4
 # ╟─52b4d68c-d6f1-11ee-18b4-db386a5995ad
-# ╠═f4a7a3f0-b6e6-4e9a-bd14-2a62fc824f2c
+# ╟─53e49738-8673-4ecd-9e86-b1431200b132
+# ╟─aa175689-f915-42a1-b472-19deb5811f46
+# ╟─7229e2b6-cf77-4b32-b52d-1fc7d218b007
+# ╟─bd045f8e-7baa-4fbf-94bc-22e39cac9a0d
+# ╟─cd9950c8-1b3d-4a1b-8606-9fcf4f39599f
+# ╟─d6db19e2-78fb-4619-b2c7-c2784461c583
 # ╟─189b99a5-776f-4ad6-b05a-66b9801a97c4
 # ╟─e52eb9de-c5b3-424e-b2d5-e1b926f76fd4
 # ╟─d5581136-7b5e-4987-a67d-241286d424c8
