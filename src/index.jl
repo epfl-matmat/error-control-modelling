@@ -34,6 +34,15 @@ If you spot an error feel free to make a pull request to the
 generating this website.
 """
 
+# ╔═╡ 854d367b-1609-4c00-9c62-9439874a03d6
+md"""
+## EPFL resources
+
+If you are an EPFL student, you can find the following course resources:
+- **Moodle link:** <https://go.epfl.ch/error-control>
+
+"""
+
 # ╔═╡ ebf43572-95f2-401e-aa2e-d7748d3bf639
 md"""
 ## Summary
@@ -110,7 +119,7 @@ begin
 	toc = Markdown.parse(read("sidebar.md", String))
 	Sidebar(toc, ypos) = @htl("""<aside class="plutoui-toc aside indent"
 		style='top:$(ypos)px; max-height: calc(100vh - $(ypos)px - 55px);' >$toc</aside>""")
-	Sidebar(toc, 290)
+	Sidebar(toc, 315)
 end
 
 # ╔═╡ fefc5308-7caf-465a-afc0-b1a6f2e68ba2
@@ -491,6 +500,7 @@ version = "17.4.0+2"
 # ╟─a9d71171-dd24-472a-be5f-12619295c4bf
 # ╟─fefc5308-7caf-465a-afc0-b1a6f2e68ba2
 # ╟─d448115a-6857-4082-893b-37549fe83b8b
+# ╟─854d367b-1609-4c00-9c62-9439874a03d6
 # ╟─ebf43572-95f2-401e-aa2e-d7748d3bf639
 # ╟─7e571edb-6206-4138-863e-5a9d804e07ec
 # ╟─0ccf77bd-0c5d-4c3c-82b5-b25c4adbc3ba
