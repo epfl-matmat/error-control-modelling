@@ -19,7 +19,7 @@ md"""
 # ╔═╡ 09579796-7e0e-4990-b727-b20f63242bcb
 md"""
 This repository contains the teaching material of the course
-[MATH-500 Error control in scientific modelling](https://staging-edu.epfl.ch/coursebook/en/error-control-in-scientific-modelling-MATH-500) at EPFL.
+[MATH-500 Error control in scientific modelling](https://edu.epfl.ch/coursebook/en/error-control-in-scientific-modelling-MATH-500) at EPFL.
 """
 
 # ╔═╡ c0da4104-9a5a-4553-8df0-fdadd0194c14

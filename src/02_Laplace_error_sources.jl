@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.43
+# v0.19.45
 
 using Markdown
 using InteractiveUtils
@@ -34,10 +34,47 @@ To start our journey we will thus consider the problem of computing the eigenspe
 Our goal is to keep rigorously track of the error contributions along the way as we introduce more and more approximations.
 """
 
+# ╔═╡ 03a20311-7ff9-4177-9a0d-d85433a57ae0
+md"""
+## Triangle inequality
+
+The triangle inequality is a common ingredient in numerical analysis to decompose error contributions. As you may remember from linear algebra, if you have two vectors $u$ any $v$, than the triangle inequality reads that
+```math
+\|u + v\| \leq \|u\| + \|v\|,
+```
+where $\|\,\cdot\,\|$ denotes some norm from the vector space of $u$ and $v$.
+
+Now imagine we have a two-fold computational procedure.
+The first, defined by the function $y = b(x)$ and the second taking
+the result of this operation leading to $z = s(y)$.
+To be more concrete you can think of $b$ as the method used to discretise
+the problem on a finite basis and of $s$ as solving it somehow.
+
+Let's say both of these tasks introduce an error,
+i.e. instead of $b(x)$ we actually perform $\tilde{b}(x)$
+and instead of $s(y)$ we perfom $\tilde{s}(y)$.
+Overall we will thus obtain $\tilde{z}=\tilde{s}(\tilde{b}(x))$
+instead of the $z$ we are actally after.
+
+Usually it is much easier to separately understand the error
+between $s$ and $\tilde{s}$ and between $b$ and $\tilde{b}$
+rather than directly estimating the error between $z$ and $\tilde{z}$.
+The triangle inequality shows how this is feasible:
+```math
+\begin{aligned}
+\|z - \tilde{z}\| &= \| s(b(x)) - \tilde{s}(\tilde{b}(x)) \| \\
+&= \| s(b(x)) - \tilde{s}(b(x)) + \tilde{s}(b(x)) - \tilde{s}(\tilde{b}(x)) \| \\
+&\leq \| s(b(x)) - \tilde{s}(b(x)) \| + \|\tilde{s}(b(x)) - \tilde{s}(\tilde{b}(x)) \|
+\end{aligned}
+```
+The first term now measures the error introduced between $s$ and $\tilde{s}$
+and the second measures the error $b$ and $\tilde{b}$.
+
+Let's make this more clear for the Laplacian example.
+"""
+
 # ╔═╡ 5f84e5cd-5c53-42ec-88cc-aeb9f09387d8
 TODO(md"""
-Bring a short reminder of the triangle inequality. Show how this can be used to decompose the total error and use this to motivate why we go through all these steps.
-
 Some graphics illustrating the domain (infinite versus cut, discretisation points) and the error contributions in a bar or so could be useful
 """)
 
@@ -513,6 +550,12 @@ version = "0.18.20"
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
+[[deps.Dbus_jll]]
+deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "fc173b380865f70627d7dd1190dc2fce6cc105af"
+uuid = "ee1fde0b-3d02-5ea6-8484-8dfef6360eab"
+version = "1.14.10+0"
+
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
 git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
@@ -597,7 +640,7 @@ uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.14+0"
 
 [[deps.GLFW_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "xkbcommon_jll"]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "libdecor_jll", "xkbcommon_jll"]
 git-tree-sha1 = "3f74912a156096bd8fdbef211eff66ab446e7297"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
 version = "3.4.0+0"
@@ -956,6 +999,12 @@ version = "1.6.3"
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
 version = "10.42.0+1"
+
+[[deps.Pango_jll]]
+deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "FriBidi_jll", "Glib_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "cb5a2ab6763464ae0f19c86c56c63d4a2b0f5bda"
+uuid = "36c8627f-9965-5494-a995-c6b170f724f3"
+version = "1.52.2+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
@@ -1481,6 +1530,12 @@ deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 version = "5.8.0+1"
 
+[[deps.libdecor_jll]]
+deps = ["Artifacts", "Dbus_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pango_jll", "Wayland_jll", "xkbcommon_jll"]
+git-tree-sha1 = "9bf7903af251d2050b467f76bdbe57ce541f7f4f"
+uuid = "1183f4f0-6f2a-5f1a-908b-139f9cdfea6f"
+version = "0.2.2+0"
+
 [[deps.libevdev_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "141fe65dc3efabb0b1d5ba74e91f6ad26f84cc22"
@@ -1550,6 +1605,7 @@ version = "1.4.1+1"
 # ╟─c5439ba8-c5e1-491d-88d1-1a079e0a1541
 # ╟─325ad613-8019-4e7c-9218-ebfbe7ccbd19
 # ╟─49f8f904-57cd-4c41-9769-b28f01a6d048
+# ╟─03a20311-7ff9-4177-9a0d-d85433a57ae0
 # ╟─5f84e5cd-5c53-42ec-88cc-aeb9f09387d8
 # ╟─9272964b-07ad-4378-8267-09ea71ac2fb6
 # ╟─3b0bcfad-dfa6-477a-bbe1-bbf951aada68
