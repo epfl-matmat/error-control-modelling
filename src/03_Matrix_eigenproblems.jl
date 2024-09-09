@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.43
+# v0.19.46
 
 using Markdown
 using InteractiveUtils
@@ -252,7 +252,7 @@ md"""
 
 """
 
-# ╔═╡ dd067624-717b-4699-8a38-8a0589ae81c2
+# ╔═╡ 8e87aa27-131a-4fc2-b837-fce855fdc8d4
 md"""
 !!! note "Definition (Quadratic form)"
 	The polynomial $q_A : \mathbb C^n \to \mathbb C$
@@ -260,20 +260,26 @@ md"""
 	q_A(x) = \sum_{i,j=1}^N \overline{x_i} A_{ij} x_j = \langle x , A x \rangle
 	```
 	associated to a matrix $A$ is called *quadratic form* of $A$. 
+"""
 
+# ╔═╡ 82281d67-5824-4974-a4ae-504f5f91c338
+md"""
 Based on the quadratic form we can show
 
 !!! note "Lemma 3"
 	Every matrix $A \in \mathbb C^{n \times n}$ has at least one eigenvalue $\lambda \in \mathbb C$.
 
 > *Proof.*
-> Consider $\min_{x \in \mathbb C^n, g(x) = 0} q_A(x)$ with $g(x) = \langle x,x \rangle -1$.
+> - Consider
+> ```math
+>  \min_{x \in \mathbb C^n,\, g(x) = 0} q_A(x) \quad \text{with}\quad g(x) = \langle x,x \rangle -1.
+> ```
 > 
->  $q_A$ is a polynomial, and thus continuous. 
-> Let $S = \{ x \in \mathbb C^n \mid g(x) = 0 \} \neq \varnothing$, which is closed and bounded.
-> Therefore, $q_A$ must have a minimum over $S$ at $v \in S$ by the extreme value theorem (proved in the appendix).
-> Further, $q_A$ and $g$ are complex (Wirtinger) differentiable. 
-> Thus, by the Lagrange multiplier theorem there exists $\lambda \in \mathbb C$ such that
+> -  $q_A$ is a polynomial, and thus continuous. 
+> - Let $S = \{ x \in \mathbb C^n \mid g(x) = 0 \} \neq \varnothing$, which is closed and bounded.
+> - Therefore, $q_A$ must have a minimum over $S$ at $v \in S$ by the extreme value theorem (proved in the appendix).
+> - Further, $q_A$ and $g$ are complex (Wirtinger) differentiable. 
+> - Thus, by the Lagrange multiplier theorem there exists $\lambda \in \mathbb C$ such that
 > ```math
 > \begin{align}
 > 		&\nabla q_A(v) = \lambda \nabla g(v)
@@ -283,7 +289,7 @@ Based on the quadratic form we can show
 > 		\end{cases}
 > \end{align}
 > ```
-> Hence, $\lambda$ is an eigenvalue of A. $\hspace{9.5cm} \square$
+> - Hence, $\lambda$ is an eigenvalue of A. $\hspace{9.0cm} \square$
 """
 
 # ╔═╡ abae949c-3d70-4d16-ac3b-18397f12fa51
@@ -329,20 +335,21 @@ md"""
 > 
 >  $n = 1$ : Trivial, just take $\Lambda_{11} = A_{11}$ (the only element of $A$), $u_{11} = 1$.
 >
->  $n \geq 1$ : By Lemma 3 and Theorem 4, there exists $\lambda_1 \in \mathbb R$ and a $v_1 \in \mathbb C^n$ such that $A v_1 = \lambda_1 v_1$.
-> Let $W = \text{span} \{v_1\}$ and $\{ v_2 ,\dots, v_n \}$ be an orthonormal basis for $W^\perp$, and collect $V = (v_1, \dots, v_n)$.
-> Then,
+>  $n \geq 1$ :
+>  - By Lemma 3 and Theorem 4, there exists $\lambda_1 \in \mathbb R$ and a $v_1 \in \mathbb C^n$ such that $A v_1 = \lambda_1 v_1$.
+> - Let $W = \text{span} \{v_1\}$ and $\{ v_2 ,\dots, v_n \}$ be an orthonormal basis for $W^\perp$, and collect $V = (v_1, \dots, v_n)$.
+> - Then,
 > ```math
 > V^H A V = \begin{pmatrix} \lambda_1 & C \\ 0 & B \end{pmatrix}
 > ```
 > where $B \in \mathbb C^{(n-1) \times (n-1)}, C \in \mathbb C^{1 \times (n-1)}$.
-> As $W$ is an invariant subspace of $A$, so is $W^\perp$ by Lemma 5, and thus $C = 0$.
-> By induction hypothesis $B = Q D Q^T$ with $D$ real and diagonal and $Q$ unitary.
-> The decomposition is thus obtained as 
+> - As $W$ is an invariant subspace of $A$, so is $W^\perp$ by Lemma 5, and thus $C = 0$.
+> - By induction hypothesis $B = Q D Q^T$ with $D$ real and diagonal and $Q$ unitary.
+>   The decomposition is thus obtained as 
 > ```math
 > \begin{align}
 > 		U &= V \begin{pmatrix} 1 & 0 \\ 0 & Q \end{pmatrix}
-> 		\\
+> 		&\qquad
 > 		\Lambda &= \begin{pmatrix} \lambda & 0 \\ 0 & D \end{pmatrix} && && \square
 > \end{align}
 > ```
@@ -442,6 +449,7 @@ md"""
 > since by construction $\lambda_i \leq \lambda_k$ for $i = 1, \dots, k$.
 > Thus, denoting the minimum of $R_A$ over subspace $S$ as $\mu(S)$, we obtain 
 > ```math
+> \tag{a}
 > \mu(S) \coloneqq \min_{0 \neq v \in S} R_A(v) \leq R_A(x) \leq \lambda_k.
 > ```
 >
@@ -450,10 +458,15 @@ md"""
 > ```math
 > 		R_A(\tilde x) = \frac{\sum_{i=k}^n \tilde c_i^2 \lambda_i}{\sum_{i=k}^n \tilde c_i^2} \geq \lambda_k
 > ```
-> and thus $\mu(\tilde S) = \min_{0 \neq \tilde x \in \tilde S} R_A(\tilde x) \geq \lambda_k$.
-> Combining with our previous argument for *any* $(n-k+1)$-dimensional subspace :
+> and thus
 > ```math
-> 		\lambda_k \leq \mu(\tilde S) \leq \mu(S) \leq \lambda_k
+>   \tag{b}
+>   \mu(\tilde S) = \min_{0 \neq \tilde x \in \tilde S} R_A(\tilde x) \geq \lambda_k.
+> ```
+>
+> Therefore according to (a) *any* $(n-k+1)$-dimensional subspace $S$ has $\mu(S) \leq \lambda_k$, while according to (b) the special subspace $\tilde{S}$ of this size even has $\mu(\tilde{S}) \geq \lambda_k$, such that
+> ```math
+> \max_{\substack{S \subset \mathbb C^n \\ \dim (S) = n - k + 1}} \mu(S) = \lambda_k,
 > ```
 > which proves the first result.
 > The second can be proven using an analogous strategy. $\qquad \square$
@@ -575,7 +588,7 @@ PlutoUI = "~0.7.59"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.4"
+julia_version = "1.10.5"
 manifest_format = "2.0"
 project_hash = "72c07b07bb225d1401f37584678b084190a9d3b1"
 
@@ -913,7 +926,7 @@ version = "1.2.13+1"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.8.0+1"
+version = "5.11.0+0"
 
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -939,7 +952,8 @@ version = "17.4.0+2"
 # ╟─6aef964d-650c-460c-807d-9afcf6d7475e
 # ╟─bc5beb41-903f-439f-ac2f-40b523945563
 # ╟─4b0bef6c-39da-458a-bd72-5db98b972435
-# ╟─dd067624-717b-4699-8a38-8a0589ae81c2
+# ╟─8e87aa27-131a-4fc2-b837-fce855fdc8d4
+# ╟─82281d67-5824-4974-a4ae-504f5f91c338
 # ╟─abae949c-3d70-4d16-ac3b-18397f12fa51
 # ╟─b7ad00f2-4112-458c-bf79-6c78a722fde2
 # ╟─7b4df739-334e-4c30-b42e-38395848a927

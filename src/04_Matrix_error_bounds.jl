@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.43
+# v0.19.46
 
 using Markdown
 using InteractiveUtils
@@ -70,7 +70,7 @@ md"""
 	```
 	In other words,
 	```math
-		\forall \lambda \in \sigma(A) \quad \exists i \text{ s.t. } \left|\lambda-A_{i i}\right| \leq \sum_{\substack{j=1 \\ j \neq i}}^{j=n}\left|A_{i j}\right| \tag{1}
+		\forall \lambda \in \sigma(A) \quad \exists\, i\, \text{ s.t. }\, \left|\lambda-A_{i i}\right| \leq \sum_{\substack{j=1 \\ j \neq i}}^{j=n}\left|A_{i j}\right| \tag{1}
 	```
 
 
@@ -79,22 +79,28 @@ md"""
 
 # ╔═╡ 118355a0-2104-4216-9d11-53079fa2024d
 md"""
-> *Proof* by contradiction. Assume (1) does not hold. Then there is an eigenvalue $\lambda$ such that, for all $i=1, \dots, n$,
+> *Proof* by contradiction.
+> - Assume (1) does not hold. Then there is an eigenvalue $\lambda$ such that, for all $i=1, \dots, n$,
 > ```math
 >	\left|\lambda-A_{i i}\right| > \sum_{\substack{j=1 \\ j \neq i}}^{j=n} \left|A_{i j}\right| \text {. }  \tag{2}
 > ```
-> We then write $A-\lambda I=D-\lambda I+H$, with $D=\operatorname{diag}\left(A_{11}, \ldots, A_{i i}, \ldots, A_{n n}\right)$ and $H=A-D$ (i.e. zero on the diagonal). Due to (2), $D - \lambda I$ is invertible, thus
+> - We then write
+>   ```math
+>   A-\lambda I=D-\lambda I+H,
+>   ```
+>   with $D=\operatorname{diag}\left(A_{11}, \ldots, A_{i i}, \ldots, A_{n n}\right)$ and $H=A-D$ (i.e. zero on the diagonal).
+> - Due to (2), $D - \lambda I$ is invertible, thus
 > ```math
-> 	A-\lambda I=(D-\lambda I)(I+\underbrace{(D-\lambda I)^{-1} H}_{M})
+> 	A-\lambda I=(D-\lambda I)\Big(I+\underbrace{(D-\lambda I)^{-1} H}_{M}\Big)
 > ```
-> The elements of $M$ are
+> - The elements of $M$ are
 > ```math
 > 	M_{i j}= \begin{cases}0 & \text{if } i=j \\ \frac{A_{i j}}{A_{i i}-\lambda} & \text {otherwise }\end{cases}
 > ```
-> Due to (2), we thus have $\sum_{j=1}^{n}\left|M_{i j}\right|<1$ $\forall i$, therefore $\|M\|_{\infty}< 1$, and $\|M\|_{2}<\|M\|_{\infty}<1$.
-> Since $\|M\|_{2}$ bounds the modulus of the eigenvalues of $M$, $I+M$ is non-singular, which implies $A-\lambda I$ is non-singular, meaning that $\lambda$ is not an eigenvalue of $A$.
-> This contradicts our initial statement.
->  $\hspace{8cm} \square$
+> - Due to (2), we thus have $\sum_{j=1}^{n}\left|M_{i j}\right|<1$ $\forall i$, therefore $\|M\|_{\infty}< 1$, and $\|M\|_{2}<\|M\|_{\infty}<1$.
+> - Since $\|M\|_{2}$ bounds the modulus of the eigenvalues of $M$, we have that $I+M$ is non-singular, which implies $A-\lambda I$ is non-singular. Therefore $\lambda$ cannot be an eigenvalue of $A$.
+> - This contradicts our initial statement.
+>   $\hspace{7cm} \square$
 
 """
 
@@ -103,7 +109,7 @@ md"""
 !!! tip "Remark"
 	Since the same result holds for $A^T$, we can formulate a version in terms of column sums instead of row sums.
 	```math
-	\forall \lambda \in \sigma(A) \quad \exists  j  \text { s.t. } \left|\lambda-A_{j j}\right| \leq \sum_{\substack{i=1 \\ i \neq j}}^{i = n} \left|A_{i j}\right|.
+	\forall \lambda \in \sigma(A) \quad \exists  \,j\,  \text { s.t. }\, \left|\lambda-A_{j j}\right| \leq \sum_{\substack{i=1 \\ i \neq j}}^{i = n} \left|A_{i j}\right|.
 	```
 """
 
@@ -137,31 +143,31 @@ md"""
 	```
 
 > *Proof.* 
-> If $\tilde{\lambda} \in \sigma(A)$ the result is trivial. 
-> Suppose $\tilde{\lambda}$ is not on eigenvalue of $A$. 
-> Then $A-\tilde{\lambda} I$ is invertible, thus we write
-> ```math
->	\begin{align}
->	\tilde{v} & =(A-\tilde{\lambda} I)^{-1} r \\
->	& = U (D-\tilde{\lambda} I)^{-1} U^{-1} r  \tag{3}
->	\end{align}
-> ```
-> where in the last step we used that $A$ is Hermitian, thus it can be diagonalised as $A=U D U^{-1}$ with $U$ unitary.
-> Taking the 2-norm on both sids of (3) yields
-> ```math
->	\begin{aligned}
->	1 =\|\tilde{v}\|_2 & =\left\|U (D-\tilde{\lambda} I)^{-1} U^{-1} r\right\|_2 \\
->	& \leq  \underbrace{\|U\|_{2}}_{=1}\| D -\tilde{\lambda} I ^{-1}\|_{2} 
-> {\underbrace{\left\|U^{-1}\right\|_{2}}_{=1}} \| r \|_{2}  \\
->	& =\max _{i=1,\dots,n} \left|\lambda_{i}-\tilde{\lambda}\right|^{-1} \|r\|_{2}
->	\end{aligned}
-> ```
-> Since $\min _{i} x_{i}=\max x_i^{-1}$, we obtain
-> ```math
-> 	\min _{i=1, \ldots, n}\left|\lambda_{i}- \tilde \lambda \right| \leq\|r\|_{2}
->```
->as desired. 
-> $\hspace{13cm} \square$
+> - If $\tilde{\lambda} \in \sigma(A)$ the result is trivial. 
+> - Suppose $\tilde{\lambda}$ is not on eigenvalue of $A$. 
+>   Then $A-\tilde{\lambda} I$ is invertible, thus we write
+>   ```math
+>   \begin{align}
+>   \tilde{v} & =(A-\tilde{\lambda} I)^{-1} r \\
+>   & = U \, (D-\tilde{\lambda} I)^{-1} \, U^{-1} \, r  \tag{3}
+>   \end{align}
+>   ```
+>   where in the last step we used that $A$ is Hermitian, thus it can be diagonalised as $A=U D U^{-1}$ with $U$ unitary.
+> - Taking the 2-norm on both sids of (3) yields
+>   ```math
+>   \begin{aligned}
+>   1 =\|\tilde{v}\|_2 & =\left\|U\,(D-\tilde{\lambda} I)^{-1}\, U^{-1}\, r\right\|_2 \\
+>   & \leq  \underbrace{\|U\|_{2}}_{=1} \ \| D -\tilde{\lambda} I ^{-1}\|_{2} \ 
+>   {\underbrace{\left\|U^{-1}\right\|_{2}}_{=1}} \, \| r \|_{2}  \\
+>   & =\max _{i=1,\dots,n} \left|\lambda_{i}-\tilde{\lambda}\right|^{-1} \|r\|_{2}
+>   \end{aligned}
+>   ```
+> - Since $\min _{i} x_{i}=\max x_i^{-1}$, we obtain
+>   ```math
+>   \min _{i=1, \ldots, n}\left|\lambda_{i}- \tilde \lambda \right| \leq\|r\|_{2}
+>   ```
+>   as desired. 
+>   $\hspace{12cm} \square$
 """
 
 # ╔═╡ fd5bcfb5-86c5-4097-a8b0-3f12ef8ed752
@@ -174,9 +180,11 @@ We will note that there is no need to know the exact result !
 	```math
 	\|e\|_{p} \leq  C \|r\|_{q}
 	```
-	where $e$ is the error against the exact answer, $r$ the residual, and $C$ a known and computable constant. 
-	Which norms $p$ and $q$ are the best choice *depends on context*. 
-	For example, for measuring the error in the eigenvector we might choose the $\infty$-norm if we are interested in entry-wise error, or the 2-norm if we are interested in the error natural to the vector space $\mathbb{C}^{n}$.
+	where $e$ is the **error against the exact answer**, $r$ the **residual**,
+    and $C$ a known and computable constant. 
+	**Which norms** $p$ and $q$ are the best choice *depends on context*. 
+
+	For example, for measuring the error in the eigenvector we might choose the $\infty$-norm if we are interested in **entry-wise error**, or the 2-norm if we are interested in the error **natural to the vector space** $\mathbb{C}^{n}$.
 	Note that there is no reason for $q$ or $C$ to be identical in both cases.
 
 This suggests the following important point: error-residual relationships are not unique.
@@ -188,7 +196,7 @@ In fact for our case a better bound is the Kato-Temple bound, which we will deri
 # ╔═╡ 54fea52c-6adb-4c83-b380-416bfdaeacec
 md"""
 !!! note "Lemma 3"
-	Let $\tilde{v}$ be an approximate eigenvector of a Hermitian matrix $A$ and $\tilde \lambda$ the associated approximated eigenvalue, calculated from $\tilde{\lambda}=\langle\tilde{v}, A \tilde{v}\rangle=R_{A}(\tilde{v})$. Let $(\alpha, \beta)$ be an interval that contains no eigenvalue of $A$, but let $\tilde{\lambda} \in(\alpha, \beta)$. Then
+	Let $\tilde{v}$ be an approximate eigenvector of a Hermitian matrix $A$ with (for simplicity) $\|\tilde{v}\| = 1$. Let $\tilde \lambda$ be the associated approximated eigenvalue, calculated from $\tilde{\lambda}=\langle\tilde{v}, A \tilde{v}\rangle=R_{A}(\tilde{v})$. Further let $(\alpha, \beta)$ be an interval that contains no eigenvalue of $A$, but let $\tilde{\lambda} \in(\alpha, \beta)$. Then
 	```math
 	(\beta-\tilde{\lambda})(\tilde{\lambda}-\alpha) \leq\|r\|_{2}^{2} .
 	```
@@ -197,39 +205,45 @@ md"""
 # ╔═╡ f172a676-599b-4be7-9b5d-ceba6b1794dc
 md"""
 > *Proof.*
-> First notice $r \perp \tilde{v}$ :
->```math
->	\begin{align*}
->	\langle\tilde{v}, r\rangle & =\langle\tilde{v}, A \tilde{v}-\tilde{\lambda} \tilde{v}\rangle \\
->	& =\langle\tilde{v}, A \tilde{v}-\langle\tilde{v}, A \tilde{v}\rangle \tilde{v}\rangle \\
->  & =\langle\tilde{v}, A \tilde{v}\rangle-\langle\tilde{v}, A \tilde{v}\rangle=0  \tag{4}
->	\end{align*}
->```
-> Thus,
->```math
-> \begin{align}
-> \left\langle(A-\alpha I) \tilde{v}, (A-\beta I) \tilde{v}\right\rangle
-> &=\langle(A-\tilde{\lambda} I) \tilde{v} +(\tilde{\lambda}-\alpha) \tilde v, \tilde{v} 
-> (A-\tilde{\lambda} I) \tilde{v}+(\tilde{\lambda}-\beta) \tilde{v} \rangle 
-> \\
->& =\langle r+(\tilde{\lambda}-\alpha) \tilde{v}, r+(\tilde{\lambda}-\beta) \tilde{v}\rangle 
-> \\
-> & \stackrel{(4)}{=}\|r\|_{2}^{2}+(\tilde{\lambda}-\alpha)(\tilde{\lambda}-\beta). \tag{5}
->\end{align}
-> ```
-> Now expand $\tilde{v}$ in an eigenbasis of $A$, i.e. $\tilde{v}=\sum_{i=1}^{n} c_{i} v_{i}$ where $v_i$ is an eigenvector of $A$ with associated eigenvalue $\lambda_i$, which yields for the left-hand side of (5)
->```math
->	\begin{align}
->	\left\langle(A-\alpha I) \tilde v,(A-\beta I) \tilde{v}\right\rangle & =\sum_{i=1}^{n}\left|c_{i}\right|^{2}(\lambda_i -\alpha)(\lambda_i -\beta) \\
->	& \geq 0
->	\end{align}
->```
-> since $(\alpha, \beta)$ contains no eigenpairs. 
-> Considering the right-hand side of (5), we obtain
-> ```math
-> \|r\|_{2}^{2}+(\tilde{\lambda}-\alpha)(\tilde{\lambda}-\beta) \geq 0
-> ```
-> which is the desired result. $\hspace{11cm} \square$
+> - First notice $r \perp \tilde{v}$ :
+>   ```math
+>   \begin{align*}
+>   \langle\tilde{v}, r\rangle & =\left\langle\tilde{v}, A \tilde{v}-\tilde{\lambda}\, \tilde{v}\right\rangle \\
+>   & =\Big\langle\tilde{v}, A \tilde{v}-\left\langle\tilde{v}, A \tilde{v}\right\rangle \tilde{v}\Big\rangle \\
+>   & =\langle\tilde{v}, A \tilde{v}\rangle-\langle\tilde{v}, A \tilde{v}\rangle=0  \tag{4}
+>   \end{align*}
+>   ```
+> - Using this result as well as the trick of adding and subtracting $\tilde{\lambda} \tilde{v}$:
+>   ```math
+>   \begin{align}
+>   \Big\langle(A-\alpha I) \, \tilde{v}, (A-\beta I) \, \tilde{v}\Big\rangle
+>   &=\Big\langle(A-\tilde{\lambda} I)\, \tilde{v} +(\tilde{\lambda}-\alpha)\, \tilde v,\\
+>   &\hspace{50pt}
+>   (A-\tilde{\lambda} I) \, \tilde{v}+(\tilde{\lambda}-\beta)\, \tilde{v} \Big\rangle 
+>   \\
+>   & =\Big\langle r+(\tilde{\lambda}-\alpha) \tilde{v},\ r+(\tilde{\lambda}-\beta) \tilde{v}\Big\rangle 
+>   \\
+>   & \stackrel{(4)}{=}\|r\|_{2}^{2}+(\tilde{\lambda}-\alpha)(\tilde{\lambda}-\beta). \tag{5}
+>   \end{align}
+>   ```
+> - Now expand $\tilde{v}$ in an eigenbasis of $A$, i.e.
+>   ```math
+>   \tilde{v}=\sum_{i=1}^{n} c_{i} v_{i}
+>   ```
+>   where $v_i$ is an eigenvector of $A$ with associated eigenvalue $\lambda_i$.
+> - This yields for the left-hand side of (5)
+>   ```math
+>   \begin{align}
+>   \big\langle(A-\alpha I) \, \tilde v,\ (A-\beta I) \, \tilde{v}\big\rangle & =\sum_{i=1}^{n}\left|c_{i}\right|^{2}\,(\lambda_i -\alpha)(\lambda_i -\beta) \\
+>   & \geq 0
+>   \end{align}
+>   ```
+>   since the interval $(\alpha, \beta)$ contains no eigenpairs.
+> - Considering the right-hand side of (5), we obtain
+>   ```math
+>   \|r\|_{2}^{2}+(\tilde{\lambda}-\alpha)(\tilde{\lambda}-\beta) \geq 0
+>   ```
+>   which is the desired result. $\hspace{10cm} \square$
 
 """
 
@@ -283,18 +297,23 @@ md"""
 
 # ╔═╡ 4eb5e944-000f-4755-b039-63591d1dab8a
 md"""
-Kato-Temple type bounds are considerably shaper than Bauer-Fike bounds.
-However, $\delta$ is in general not directly computable. 
-Instead, we usually seek a computable approximation for it.
+Given a sufficiently good eigenvector $\tilde{v}$ **Kato-Temple-type bounds**
+are considerably **shaper** than Bauer-Fike bounds.
+Their main complication is that the gap $\delta$ requires access to the **exact** eigenvalue and is thus usually not directly computable.
+However, one can usually determine an approximate gap as we will detail below.
 
-- Let us assume a diagonalization routine yields approximate eigenvectors $\tilde{v}_{1}, \ldots, \tilde{v}_{n}$ with eigenvalue approximations $\tilde{\lambda}_{1}, \ldots, \tilde{\lambda}_{n}$ and residuals $\tilde{r}_{1}, \ldots, \tilde{r}_{n}$.
-- A natural idea to approximate $\delta$ when targeting the error estimate of $\lambda_{i}$ is to take
+- Let us assume a diagonalization routine yields approximate eigenvectors $\tilde{v}_{1}, \ldots, \tilde{v}_{n}$ with eigenvalue approximations $\tilde{\lambda}_{1}, \ldots, \tilde{\lambda}_{n}$ and residuals $\tilde{r}_{1}, \ldots, \tilde{r}_{n}$. We further assume that we have not lost any eigenpair, i.e. $\tilde{λ}_i$ approximates $λ_i$ for all $i = 1, \ldots, n$.
+- **A naive idea** to approximate the gap $\delta$ for eigenvalue $\lambda_{i}$ is to take
   ```math
   \delta_{\text {est}}=\min \left(\left|\tilde{\lambda}_{i-1}-  \tilde{\lambda}_{i}\right|,\left|\tilde{\lambda}_{i}-\tilde{\lambda}_{i+1}\right|\right)
   ```
-  This can be a good approximation, however it is not guaranteed that the error $|\lambda_{i}-\tilde{\lambda}_{i} |$ is smaller $\left\|r_{i}\right\|^{2} / \delta_{\text{est}}$ since it may happen that $\delta_{\text {est}} > \delta$.
+  While this *can be* a good approximation, a disadvantage of this approach is
+  that this expression **is not a guaranteed lower bound** to $\delta$.
+  In particular it may happen that $\delta_{\text {est}} > \delta$, which implies
+  that $\left\|r_{i}\right\|^{2} / \delta_{\text{est}}$
+  may be smaller than the actual error ! The Kato-Temple estimate is **no longer a guaranteed bound**.
 
-- Pictorially consider the following situation where we want to bound $|\lambda-\tilde{\lambda}_{i} |$ by Kato-Temple, and where $\delta=\min \left(\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right|,\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|\right)$.
+- Pictorially consider the following situation where we want to bound $|\lambda-\tilde{\lambda}_{i} |$ by Kato-Temple, and where the exact gap $\delta=\min \left(\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right|,\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|\right)$:
 """
 
 # ╔═╡ f6e33422-d41e-4444-b08b-b281f5eb0db3
@@ -334,18 +353,18 @@ TikzPicture(L"""
 
 # ╔═╡ c7c14c64-133f-44e2-83ea-abde368de440
 md"""
-- Instead, we can use Theorem 2 (Bauer-Fike) to save the situation and get a guaranteed error bound !
-  For example : 
+- To avoid this problem, we can use Theorem 2 (Bauer-Fike) to obtain a **guaranteed lower bound on the gap**. For example:
   ```math
   	\begin{align}
   	\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right| & =\left|\tilde{\lambda}_{i}-\tilde{\lambda}_{i+1}+\tilde{\lambda}_{i+1}-\lambda_{i+1}\right| \\
-  	& \geq\left|\tilde{\lambda}_{i}-\tilde{\lambda}_{i+1}\right|-\left|\tilde{\lambda}_{i+1}-\lambda_{i+1}\right| \\
-  	& \hspace{-0.5em} \stackrel{\text{Thm 2}}{=}\left|\tilde{\lambda}_{i}-\tilde{\lambda}_{i+1}\right|-\left\|r_{i+1}\right\|_{2}
+  	& \stackrel{\text{rev.}~\Delta}{\geq}\left|\tilde{\lambda}_{i}-\tilde{\lambda}_{i+1}\right|-\left|\tilde{\lambda}_{i+1}-\lambda_{i+1}\right| \\
+  	& \hspace{-0.5em} \stackrel{\text{Thm 2}}{\geq}\left|\tilde{\lambda}_{i}-\tilde{\lambda}_{i+1}\right|-\left\|r_{i+1}\right\|_{2}
   	\end{align}
   ```
   and similarly for $\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|$. 
 
-- With this we obtain a computable lower bound to $\delta$, and thus a guaranteed upper bound to $\left\|r_{i}\right\|^{2} / \delta$.
+- This results in computable lower bounds to $\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right|$ and $\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|$, thus $\delta$.
+  Using this gap estimate thus yields a guaranteed upper bound to $\left\|r_{i}\right\|^{2} / \delta$.
 """
 
 # ╔═╡ 1b5e1cf6-e041-4311-9d9a-1db6cb628a3e
@@ -545,7 +564,7 @@ TikzPictures = "~3.5.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.4"
+julia_version = "1.10.5"
 manifest_format = "2.0"
 project_hash = "dae857aa02f1b28b551de5211af7daea92cb0cbe"
 
@@ -665,6 +684,12 @@ version = "0.18.20"
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
+[[deps.Dbus_jll]]
+deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "fc173b380865f70627d7dd1190dc2fce6cc105af"
+uuid = "ee1fde0b-3d02-5ea6-8484-8dfef6360eab"
+version = "1.14.10+0"
+
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
 git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
@@ -749,7 +774,7 @@ uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.14+0"
 
 [[deps.GLFW_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "xkbcommon_jll"]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "libdecor_jll", "xkbcommon_jll"]
 git-tree-sha1 = "3f74912a156096bd8fdbef211eff66ab446e7297"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
 version = "3.4.0+0"
@@ -1132,6 +1157,12 @@ version = "1.6.3"
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
 version = "10.42.0+1"
+
+[[deps.Pango_jll]]
+deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "FriBidi_jll", "Glib_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "9dd97171646850ee607593965ce1f55063d8d3f9"
+uuid = "36c8627f-9965-5494-a995-c6b170f724f3"
+version = "1.54.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
@@ -1607,7 +1638,13 @@ version = "0.15.1+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.8.0+1"
+version = "5.11.0+0"
+
+[[deps.libdecor_jll]]
+deps = ["Artifacts", "Dbus_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pango_jll", "Wayland_jll", "xkbcommon_jll"]
+git-tree-sha1 = "9bf7903af251d2050b467f76bdbe57ce541f7f4f"
+uuid = "1183f4f0-6f2a-5f1a-908b-139f9cdfea6f"
+version = "0.2.2+0"
 
 [[deps.libfdk_aac_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
