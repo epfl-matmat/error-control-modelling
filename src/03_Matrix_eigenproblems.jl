@@ -188,7 +188,7 @@ md"""
 	The Frobenius norm $\| \cdot \|_F$ and the spectral norm $\| \cdot \|_2$ are equivalent.
 	Moreover,
 	```math
-		\| A \|_2 \stackrel{(a)}{\leq} \| A \|_F \stackrel{(b)}{\leq} \sqrt{N} \| A \|_2
+		\| A \|_2 \stackrel{(a)}{\leq} \| A \|_F \stackrel{(b)}{\leq} \sqrt{n} \| A \|_2
 	```
 
 This relationship is relevant as $\| A \|_2$ proves useful in theory but is hard to compute, unlike $\| A \|_F$ for which computation is quite straightforward.
@@ -197,7 +197,7 @@ This relationship is relevant as $\| A \|_2$ proves useful in theory but is hard
 > (a) is left as an exercise. For (b), we have
 > ```math
 > \begin{align}
-> \| A \|_F^2 = \text{tr} ( A ^H A ) = \sum_{i=1}^N \lambda_i( A ^H A) \leq \sum_{i=1}^N \lambda_{max} ( A ^H A ) = N \| A \|_2^2
+> \| A \|_F^2 = \text{tr} ( A ^H A ) = \sum_{i=1}^n \lambda_i( A ^H A) \leq \sum_{i=1}^n \lambda_{max} ( A ^H A ) = n \| A \|_2^2
 > && \square
 > \end{align}
 > ```
@@ -257,7 +257,7 @@ md"""
 !!! note "Definition (Quadratic form)"
 	The polynomial $q_A : \mathbb C^n \to \mathbb C$
 	```math
-	q_A(x) = \sum_{i,j=1}^N \overline{x_i} A_{ij} x_j = \langle x , A x \rangle
+	q_A(x) = \sum_{i,j=1}^n \overline{x_i} A_{ij} x_j = \langle x , A x \rangle
 	```
 	associated to a matrix $A$ is called *quadratic form* of $A$. 
 """
