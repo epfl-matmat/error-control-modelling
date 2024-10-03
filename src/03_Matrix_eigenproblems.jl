@@ -435,8 +435,9 @@ md"""
 > Let $S_k$ denote the span of the first $k$ eigenvectors in $U$, i.e. $S_k = \textrm{span} (v_1, \dots, v_k)$.
 > Since the eigenvectors are linearly independent, $\dim S_k = k$.
 >
-> We consider an arbitrary $(n-k+1)$-dimensional subspace $S$.
-> Since $\dim (S) = n-k+1$ and $\dim S_k = k$, their intersection cannot reduce to $\{ 0 \}$, i.e. $S \cap S_k \neq \{ 0 \}$.
+> We consider an *arbitrary* $(n-k+1)$-dimensional subspace $S$.
+> Since $\dim (S) = n-k+1$ and $\dim S_k = k$ thus the sum exceeding $n$,
+> their intersection cannot reduce to $\{ 0 \}$, i.e. $S \cap S_k \neq \{ 0 \}$.
 > Therefore, there exists $x \in S \cap S_k$ with $x \neq 0$.
 > We write
 > ```math
@@ -453,7 +454,7 @@ md"""
 > \mu(S) \coloneqq \min_{0 \neq v \in S} R_A(v) \leq R_A(x) \leq \lambda_k.
 > ```
 >
-> On the other hand, now consider the particular $(n-k+1)$-dimensional subspace $\tilde S = \textrm{span} (v_k, \dots, v_n)$.
+> On the other hand, now consider the *particular* $(n-k+1)$-dimensional subspace $\tilde S = \textrm{span} (v_k, \dots, v_n)$.
 > Similarly to our previous construction, for any $\tilde x = \sum_{i=k}^n \tilde c_i v_i \in \tilde S$ it holds
 > ```math
 > 		R_A(\tilde x) = \frac{\sum_{i=k}^n \tilde |c_i|^2 \lambda_i}{\sum_{i=k}^n \tilde |c_i|^2} \geq \lambda_k

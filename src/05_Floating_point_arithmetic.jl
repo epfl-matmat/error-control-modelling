@@ -838,14 +838,14 @@ compute_e(n::T) where {T} = (one(T) + one(T) / n)^n
 # ╔═╡ 562abdb2-0a8a-4bc6-aa2c-0266de924ee6
 begin
 	p = plot(xaxis=:log, yaxis=:log, ylabel="absolute error",
-		     xlabel="n", legend=:bottomleft)
+		     xlabel="n", legend=:bottomleft, lw=2)
 	for T in (Float32, Float64, BigFloat)
 		ns = T(10).^(1:18)
 		errors = abs.(compute_e.(ns) .- ℯ)
-		plot!(p, ns, errors, label=string(T))
+		plot!(p, ns, errors, label=string(T), lw=2)
 	end
-	vline!([2/eps(Float32)],  ls=:dash, label="inv. Float32 precision", c=1)
-	vline!([2/eps(Float64)], ls=:dash, label="inv. Float64 precision", c=2)
+	vline!([2/eps(Float32)],  ls=:dash, label="inv. Float32 precision", c=1, lw=2)
+	vline!([2/eps(Float64)], ls=:dash, label="inv. Float64 precision", c=2, lw=2)
 	p
 end
 
@@ -855,7 +855,7 @@ let
 	samples    = 1.606 .+ (ks .- 1) .* 2 .^ -52.0
 	references = r.(BigFloat.(samples))
 
-	p = plot(       ks, references, label="BigFloat")
+	p = plot(       ks, references, label="BigFloat", lw=2)
 	p = scatter!(p, ks, r.(samples), label="Float64")
 end
 
@@ -873,7 +873,7 @@ let
 	reference = eval_with_precision(256)
 	precisions = 10:40
 	evals = abs.(eval_with_precision.(precisions) .- reference)
-	plot(precisions, evals; yaxis=:log, mark=:x, label="")
+	plot(precisions, evals; yaxis=:log, mark=:x, label="", lw=2)
 end
 
 # ╔═╡ bbbf8e57-2ee0-44c6-9d84-d51c9fe5fd1e
