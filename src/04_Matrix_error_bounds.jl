@@ -298,7 +298,7 @@ md"""
 # ╔═╡ 4eb5e944-000f-4755-b039-63591d1dab8a
 md"""
 Given a sufficiently good eigenvector $\tilde{v}$ **Kato-Temple-type bounds**
-are considerably **shaper** than Bauer-Fike bounds.
+are considerably **sharper** than Bauer-Fike bounds.
 Their main complication is that the gap $\delta$ requires access to the **exact** eigenvalue and is thus usually not directly computable.
 However, one can usually determine an approximate gap as we will detail below.
 
