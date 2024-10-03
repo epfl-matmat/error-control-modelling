@@ -1,0 +1,53 @@
+\documentclass[nostatus,
+%aspectratio=1610
+]{MFHpresentation}
+\usepackage{MFHcolours}
+\usepackage{MFHscience}
+\usepackage{MFHabbr}
+\usetikzlibrary{positioning,arrows,backgrounds,fit,calc,tikzmark}
+\usepackage{fontawesome}
+\usepackage{multirow}
+\usepackage{bbold}
+\usepackage{bm}
+\usepackage{marvosym}
+\usepackage{ifthen}
+\usepackage{transparent}
+
+\usetheme{MFHepfl}
+
+%------------------------------------------------------------------
+
+\newcommand{\matmat}{\raisebox{-0.35em}{\includegraphics[height=1.45em]{img/matmat.png}}\xspace}
+\newcommand{\julia}{\raisebox{-0.21em}{\includegraphics[height=1.2em]{img/julia.pdf}}\xspace}
+
+%------------------------------------------------------------------
+
+\title{
+    Error control in scientific modelling\\[-0.2em]
+    \textcolor{black}{\smaller[1.5] (with a focus on eigenvalue problems)}
+}
+\author{Michael F. Herbst, Niklas Schmitz}
+\date{12 September 2024}
+
+\institute{Mathematics for Materials Modelling (\href{https://matmat.org}{\texttt{matmat.org}}), EPFL}
+
+\titlegraphic{
+    \includegraphics[width=0.4\textwidth]{img/si_band_errors.pdf}
+    \qquad
+    \includegraphics[width=0.25\textwidth]{img/matmat.png}
+}
+
+\begin{document}
+\setbeamerfont{footnote}{size=\tiny}
+
+\showlogotrue
+\begin{frame}[plain]
+ \titlepage
+ \addtocounter{framenumber}{-1}
+\end{frame}
+
+\showlogofalse
+\input{motivation}
+\input{course}
+\input{about_you}
+\end{document}
