@@ -157,12 +157,12 @@ md"""
 >   ```math
 >   \begin{aligned}
 >   1 =\|\tilde{v}\|_2 & =\left\|U\,(D-\tilde{\lambda} I)^{-1}\, U^{-1}\, r\right\|_2 \\
->   & \leq  \underbrace{\|U\|_{2}}_{=1} \ \| D -\tilde{\lambda} I ^{-1}\|_{2} \ 
+>   & \leq  \underbrace{\|U\|_{2}}_{=1} \ \| (D -\tilde{\lambda} I)^{-1}\|_{2} \ 
 >   {\underbrace{\left\|U^{-1}\right\|_{2}}_{=1}} \, \| r \|_{2}  \\
 >   & =\max _{i=1,\dots,n} \left|\lambda_{i}-\tilde{\lambda}\right|^{-1} \|r\|_{2}
 >   \end{aligned}
 >   ```
-> - Since $\min _{i} x_{i}=\max x_i^{-1}$, we obtain
+> - Since $\text{argmin}_{i}\, x_{i}=\text{argmax}_i \, x_i^{-1}$, we obtain
 >   ```math
 >   \min _{i=1, \ldots, n}\left|\lambda_{i}- \tilde \lambda \right| \leq\|r\|_{2}
 >   ```
@@ -280,10 +280,10 @@ md"""
 # ╔═╡ f9cdf1eb-e803-48be-ab67-cd81fc33be3e
 md"""
 !!! note "Corollary 5 (Symmetric version of Kato-Temple)"
-	Let $\tilde{v}$ be an approximate eigenvector to $A$, $\|\tilde{v}\|=1, \tilde{\lambda}=\langle\tilde{v}, A \tilde{v}\rangle$ and $r=A \tilde{v}-\tilde{\lambda} \tilde{v}$. Let $\lambda$ be the eigenvalue closest to $\tilde \lambda$. 
-	We define the distance of $\lambda$ to the rest of the spectrum as
+	Let $\tilde{v}$ be an approximate eigenvector to $A$, $\|\tilde{v}\|=1, \tilde{\lambda}=\langle\tilde{v}, A \tilde{v}\rangle$ and $r=A \tilde{v}-\tilde{\lambda} \tilde{v}$. Let $\lambda_i$ be the eigenvalue closest to $\tilde \lambda$. 
+	We define the distance of $\tilde{\lambda}$ to the rest of the spectrum as
 	```math
-		\delta=\min _{i}\left\{ |\lambda_{i}-\tilde{\lambda} |, \lambda_{i} \neq \lambda\right\} .
+		\delta=\min _{j,\, j\neq i} |\lambda_{j}-\tilde{\lambda} | .
 	```
 	 $\delta$ is also sometimes called the **gap**.
 	Then,
@@ -297,6 +297,8 @@ md"""
 
 # ╔═╡ 4eb5e944-000f-4755-b039-63591d1dab8a
 md"""
+Note that Corollary 5 does not give a useful bound if $\delta = 0$, which can happen for degenerate eigenvalues.
+
 Given a sufficiently good eigenvector $\tilde{v}$ **Kato-Temple-type bounds**
 are considerably **sharper** than Bauer-Fike bounds.
 Their main complication is that the gap $\delta$ requires access to the **exact** eigenvalue and is thus usually not directly computable.
@@ -313,8 +315,11 @@ However, one can usually determine an approximate gap as we will detail below.
   that $\left\|r_{i}\right\|^{2} / \delta_{\text{est}}$
   may be smaller than the actual error ! The Kato-Temple estimate is **no longer a guaranteed bound**.
 
-- Pictorially consider the following situation where we want to bound $|\lambda-\tilde{\lambda}_{i} |$ by Kato-Temple, and where the exact gap $\delta=\min \left(\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right|,\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|\right)$:
+- To see this pictorially, let us assume for simplicity that all exact eigenvalues are simple. We want to bound $|\lambda-\tilde{\lambda}_{i} |$ by Kato-Temple, and where the exact gap $\delta=\min \left(\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right|,\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|\right)$. Then it can happen that:
 """
+
+# ╔═╡ c68d3e98-8b17-416b-a231-c5356573580e
+
 
 # ╔═╡ f6e33422-d41e-4444-b08b-b281f5eb0db3
 TikzPicture(L"""
@@ -365,6 +370,8 @@ md"""
 
 - This results in computable lower bounds to $\left|\tilde{\lambda}_{i}-\lambda_{i+1}\right|$ and $\left|\tilde{\lambda}_{i}-\lambda_{i-1}\right|$, thus $\delta$.
   Using this gap estimate thus yields a guaranteed upper bound to $\left\|r_{i}\right\|^{2} / \delta$.
+
+- Note that when $\lambda_i$ and $\lambda_{i+1}$ are too close, this estimate can be negative, thus not a valid lower bound for $\delta$.
 """
 
 # ╔═╡ 1b5e1cf6-e041-4311-9d9a-1db6cb628a3e
@@ -1717,6 +1724,7 @@ version = "1.4.1+1"
 # ╟─a3e89cc9-55b6-423f-874a-b923026847ea
 # ╟─f9cdf1eb-e803-48be-ab67-cd81fc33be3e
 # ╟─4eb5e944-000f-4755-b039-63591d1dab8a
+# ╠═c68d3e98-8b17-416b-a231-c5356573580e
 # ╟─f6e33422-d41e-4444-b08b-b281f5eb0db3
 # ╟─c7c14c64-133f-44e2-83ea-abde368de440
 # ╟─1b5e1cf6-e041-4311-9d9a-1db6cb628a3e
