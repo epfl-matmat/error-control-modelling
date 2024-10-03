@@ -444,7 +444,7 @@ md"""
 > ```
 > such that
 > ```math
-> 	R_A(x) = \frac{\langle x, Ax \rangle}{\langle x,x \rangle} = \frac{\sum_{i=1}^k c_i^2 \lambda_i}{\sum_{i=1}^k c_i^2} \leq \lambda_k \frac{\sum_{i=1}^k c_i^2}{\sum_{i=1}^k c_i^2}  = \lambda_k
+> 	R_A(x) = \frac{\langle x, Ax \rangle}{\langle x,x \rangle} = \frac{\sum_{i=1}^k |c_i|^2 \lambda_i}{\sum_{i=1}^k |c_i|^2} \leq \lambda_k \frac{\sum_{i=1}^k |c_i|^2}{\sum_{i=1}^k |c_i|^2}  = \lambda_k
 > ```
 > since by construction $\lambda_i \leq \lambda_k$ for $i = 1, \dots, k$.
 > Thus, denoting the minimum of $R_A$ over subspace $S$ as $\mu(S)$, we obtain 
@@ -456,7 +456,7 @@ md"""
 > On the other hand, now consider the particular $(n-k+1)$-dimensional subspace $\tilde S = \textrm{span} (v_k, \dots, v_n)$.
 > Similarly to our previous construction, for any $\tilde x = \sum_{i=k}^n \tilde c_i v_i \in \tilde S$ it holds
 > ```math
-> 		R_A(\tilde x) = \frac{\sum_{i=k}^n \tilde c_i^2 \lambda_i}{\sum_{i=k}^n \tilde c_i^2} \geq \lambda_k
+> 		R_A(\tilde x) = \frac{\sum_{i=k}^n \tilde |c_i|^2 \lambda_i}{\sum_{i=k}^n \tilde |c_i|^2} \geq \lambda_k
 > ```
 > and thus
 > ```math
