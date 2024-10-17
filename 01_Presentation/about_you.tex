@@ -1,0 +1,102 @@
+\begin{frame}{Your background \& prior knowledge}
+    \begin{center}
+        \LARGE{Your background and prior knowledge}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Vector spaces}
+    \noindent
+    Which of the following things is a \alert{vector space} over $\R$
+    \vspace{1em}
+    \begin{enumerate}
+        \item $\R^n = \{(x_1, \ldots, x_n)^T , x_i \in \R \}$
+        \item $\mathcal{F}(D, \R) = \{f : D \to \R\}$,
+            the set of all functions from $D$ to $\R$.
+        \item $\R^{n\times n}$: The set of all matrices
+    \end{enumerate}
+    \vspace{1em}
+    \visible<2>{\alert{Answer:} All of them!}
+\end{frame}
+
+\begin{frame}{Inner products}
+    \noindent
+    Given vectors $x,y,z$ from an $\C$-vector space $V$.
+    What makes an \alert{inner product}?
+    \visible<2>{
+        \vspace{1em}
+        \begin{itemize}
+            \item $\langle x, x \rangle \geq 0$
+            \item $\langle x, y \rangle = \overline{\langle y, x \rangle}$
+            \item $\langle x, \alpha y + \beta z \rangle
+                = \alpha \langle x, y \rangle
+                + \beta \langle x, z \rangle$
+        \end{itemize}
+        \vspace{1em}
+        Examples:
+        \begin{itemize}
+            \item 
+        $\langle x, y \rangle = x^H y = \overline{x^T} y = \sum_{x=1}^n \overline{x_i} y_i$ for vectors $x,y \in \C^n$
+        \item
+        $\langle A, B \rangle_F = A^H B = \tr(A^H B)$ 
+        for matrices $A,B \in \C^{n\times n}$
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Norms}
+    \noindent
+    Which of these statements is true:
+    \vspace{1em}
+    \begin{enumerate}
+        \item If $\langle x, y\rangle$ is an inner product,
+            then $\norm{x} = \sqrt{\langle x, x \rangle}$ is a norm
+        \item If $\langle x, y\rangle$ is an inner product
+            and $\norm{x} = \sqrt{\langle x, x \rangle}$, then
+            \[ \langle x, y \rangle < \norm{x} \norm{y} \]
+        \item If $\norm{x}$ is a norm, there exists an inner product
+            $\langle x, y\rangle$, such that $\norm{x} = \sqrt{\langle x, x \rangle}$
+        \item Every norm satisfies the triangle inequality
+            \[ \norm{x + y} \leq \norm{x} + \norm{y} \]
+    \end{enumerate}
+    \vspace{1em}
+    \visible<2>{\alert{Answer:} 1 and 4 are true, 2 and 3 are false.
+        2 is almost true the correct version is
+        \[ \langle x, y \rangle \leq \norm{x} \norm{y} \qquad \text{Cauchy-Schwarz}\]
+    }
+\end{frame}
+
+\begin{frame}{Diagonalisation algorithms}
+    \noindent Which iterative diagonalisation algorithms do you know?\\
+    \vspace{1em}
+    \noindent Who has studied before:
+    \vspace{1em}
+    \begin{itemize}
+        \visible<2->{\item Power method}
+        \visible<3->{\item Inverse power method}
+        \visible<4->{\item Rayleigh-quotient iteration}
+        \visible<5->{\item LOPCG}
+    \end{itemize}
+\end{frame}
+
+
+
+% Sobolev spaces
+% Hilbert spaces
+% Numerical analysis
+% PDE discretisations
+% a posteriori error
+% spectral theorem
+% operators
+% spectral theory
+% diagonalisation algorithms
+% Quantum mechanics
+% Harmonic oscillator
+% Plane waves
+% Programming
+% Julia
+
+\begin{frame}{I need a volunteer}
+    \begin{itemize}
+        \item \textbf{Your job:} Take pictures of blackboards
+    \end{itemize}
+\end{frame}
