@@ -396,7 +396,7 @@ md"""
 
 # ╔═╡ 12967e6f-5cda-4e16-95ab-2b6ae841d7bc
 md"""
-> *Proof* (same as the argument before Theorem [pertubation theory].1).
+> *Proof* (same as the argument before Theorem [perturbation theory].1).
 > Let $z \in \rho(x)$ and $t \in B_{r}(z) \subset \rho(\opA)$. Then
 > ```math
 > \begin{align}
