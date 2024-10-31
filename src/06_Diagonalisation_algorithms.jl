@@ -22,6 +22,7 @@ begin
 	using PlutoTeachingTools
 	using Printf
 	using Plots
+	using LaTeXStrings
 	using HypertextLiteral
 end
 
@@ -258,15 +259,13 @@ Arqi = Diagonal(randn(100));
 # ╔═╡ 1f9b91e3-28f4-4e06-8a3d-70c84432007b
 x0_rqi = randn(100);
 
-# ╔═╡ ce876450-eea7-4088-9aca-ed3ee462cb09
-rayleigh_quotient_iteration(Arqi, x=x0_rqi)
-
 # ╔═╡ 0f7709e7-fec9-4176-bf58-96f2d891e8b4
 md"""Notice, how the convergence in the last few steps is *very fast*, meaning that multiple orders of magnitude in the residual norm are gained in each step.
 
 The RQI has fantastic rates of convergence. However, it has two disadvantages:
 - The main issue is that *at each RQI iteration* the matrix `A - λ*I` is different and needs to be **freshly factorised** in order to compute the `\` operation. In other words we pay a full Gaussian elimination each RQI iteration. This in contrast to the *shift-and-invert* power method, where factorisation was computed once and for all for `A - σ*I` *before* the `power_method` was called.
-- The second point to note is that it is **hard to control to *which* eigenpair** the RQI converges. Try re-running the above a few times by updating the initial guess `u0_rqi`. Moreover, it is possible for the RQI to *not* converge --- albeit the set of possible initial guesses that leads to a non-converging RQI is of measure zero. It is thus most useful if one already has a decent guess for the eigenvector.
+- The second point to note is that it is **hard to control to *which* eigenpair** the RQI converges. Try re-running the above a few times by updating the initial guess `u0_rqi`.
+- Moreover, it is possible for the RQI to *not* converge --- albeit the set of possible initial guesses that leads to a non-converging RQI is of measure zero. It is thus most useful if one already has a decent guess for the eigenvector.
 
 These observations are summarised in the following
 """
@@ -284,6 +283,58 @@ and
 where $(λ^{(i)}_k, x^{(i)}_k)$ is the approximation to $(λ^{(i)}_k, x^{(i)}_k)$ the algorithm produces in iteration $i$. Here we choose $x_k$ among $\pm x_k$, such that $\langle x^{(i)}_k, x_k \rangle > 0$.
 
 """
+
+# ╔═╡ b48af18e-c65b-4ddd-b6d1-6b25e4e4bb80
+md"""
+To illustrate the point about the **target of RQI's convergence being hard to predict** consider the following example. We initialise the RQI using a random starting vector
+"""
+
+# ╔═╡ b8bb7d0b-21c4-4746-9dc7-dc47f76a0736
+xstart = randn(eltype(Arqi), size(Arqi, 2))
+
+# ╔═╡ 009c780c-d1cc-4421-86c7-74e5a99646f9
+md"""
+and allow ourself to select an *initial* shift $σ$,
+which we store in the variable `σD`:
+- `σD = `$(@bind σD Slider(-0.2:0.01:0.2; default=0.01, show_value=true))
+
+Then we define a version of `rayleigh_quotient_iteration`, which starts the procedure based on applying the matrix $(A - σ I)^{-1}$ to this random vector:
+"""
+
+# ╔═╡ 4e208b64-6b88-4430-9bc3-7198c54b00ff
+function rayleigh_quotient_iteration(A, σ::Number, x; kwargs...)
+	x = (A - σ*I) \ x
+	rayleigh_quotient_iteration(A; x, kwargs...)
+end
+
+# ╔═╡ ce876450-eea7-4088-9aca-ed3ee462cb09
+rayleigh_quotient_iteration(Arqi, x=x0_rqi)
+
+# ╔═╡ 8b2f116a-09e6-4bbf-9a83-b7c38fe34680
+let
+	# exact eigenvalues of Arqi
+	λ_rqi = eigvals(Arqi)
+	
+	# The eigenvalue the iteration targets
+	i = argmin(abs.(λ_rqi .- σD))
+	λtarget = λ_rqi[i]
+
+	p = plot(title="Convergence",
+		ylabel="residual", xlabel=L"i", legend=:bottomleft,
+		yaxis=:log, ylims=(1e-10, 3), xlims=(1, 7))
+
+	q = plot(title="History", xlabel=L"i", ylabel=L"λ_k^{(i)}",
+	         legend=:bottomleft, ylims=(-0.2, 0.2), xlims=(1, 7))
+	hline!(q, λ_rqi, ls=:dash, label=L"eigenvalues of $A$", c=2, lw=1.5)
+	hline!(q, [σD], ls=:dash, label=L"initial shift $σ$", c=3, lw=1.5)
+
+	if abs(σD - λtarget) > 1e-10  # Guard to prevent numerical issues
+		results = rayleigh_quotient_iteration(Arqi, σD; x=xstart, maxiter=7)
+		plot!(p, results.residual_norms; mark=:o, label="", lw=1.5)
+		plot!(q, results.eigenvalues, mark=:o, c=1, label="", lw=1.5)
+	end
+	plot(p, q; layout=(1, 2))
+end
 
 # ╔═╡ c3c91935-60f7-4c4a-b43c-973566d58367
 md"""
@@ -311,7 +362,13 @@ function subspace_iteration(A; X=randn(eltype(A), size(A, 2), 2), ortho=ortho_qr
 	residual_norms = Vector{T}[]
 	λ = T[]
 	for i in 1:maxiter
+		# Full orthogonalisation
 		X = ortho(X)
+
+		# Just normalise ... for testing
+		# for c in eachcol(X)
+		# 	normalize!(c)
+		# end
 
 		AX = A * X
 		λ = diag(X'*AX)  # Rayleigh quotient evaluation in all vectors
@@ -335,6 +392,12 @@ end
 
 # ╔═╡ d21b8a45-7129-4038-82ac-250436ff8583
 Asubspace = Diagonal([150., 100. + 10^logsubδ, 100., 50., 40., 30.])
+
+# ╔═╡ 9d5e0e5d-9117-4308-b133-20e3d9e0894e
+md"The method yields the following eigenvalues:"
+
+# ╔═╡ bd576cd6-ee70-43b3-ad05-9307d6eeb05d
+subspace_iteration(Asubspace; X=randn(size(Asubspace, 2), 2), verbose=false, tol=1e-6, maxiter=200).λ
 
 # ╔═╡ 6f81e36d-7892-42ec-aeb6-91fca5b6399a
 let
@@ -1063,6 +1126,7 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 DFTK = "acf6eb54-70d9-11e9-0013-234b7a5f5337"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 LinearMaps = "7a12625a-238d-50fd-b39a-03d52299707e"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
@@ -1073,6 +1137,7 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 [compat]
 DFTK = "~0.6.19"
 HypertextLiteral = "~0.9.5"
+LaTeXStrings = "~1.3.1"
 LinearMaps = "~3.11.3"
 Plots = "~1.40.5"
 PlutoTeachingTools = "~0.2.15"
@@ -1085,7 +1150,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "17a103be27fa29c26ffae5139e3001bf3b2a3139"
+project_hash = "e4fc77d6ab746881bbc020ab6f2d06761b096a48"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -3075,12 +3140,19 @@ version = "1.4.1+1"
 # ╠═ce876450-eea7-4088-9aca-ed3ee462cb09
 # ╟─0f7709e7-fec9-4176-bf58-96f2d891e8b4
 # ╟─73e61d6c-0762-41d9-a0c1-c2a64926a40a
+# ╟─b48af18e-c65b-4ddd-b6d1-6b25e4e4bb80
+# ╠═b8bb7d0b-21c4-4746-9dc7-dc47f76a0736
+# ╟─009c780c-d1cc-4421-86c7-74e5a99646f9
+# ╠═4e208b64-6b88-4430-9bc3-7198c54b00ff
+# ╠═8b2f116a-09e6-4bbf-9a83-b7c38fe34680
 # ╟─c3c91935-60f7-4c4a-b43c-973566d58367
 # ╠═41265945-67e6-4e34-8604-20faa6f475b7
 # ╟─8937b497-99f0-4d8f-998a-e2aad0d5aeb9
 # ╠═f64ab474-86f6-4048-b013-3c8969d2e125
 # ╠═d21b8a45-7129-4038-82ac-250436ff8583
 # ╠═d2ef7881-bd1b-4bd3-aee4-025c7da5ba71
+# ╟─9d5e0e5d-9117-4308-b133-20e3d9e0894e
+# ╠═bd576cd6-ee70-43b3-ad05-9307d6eeb05d
 # ╠═6f81e36d-7892-42ec-aeb6-91fca5b6399a
 # ╟─137f3b99-d031-4df4-868e-9b5e4d342a83
 # ╟─357cd9c6-eb57-48ca-afe5-a752addc6461
