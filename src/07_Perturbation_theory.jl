@@ -18,7 +18,7 @@ end
 
 # ╔═╡ 57032426-2ff0-442d-aa5b-37a7c621d83f
 md"""
-# Matrix Pertubation Theory
+# Matrix Perturbation Theory
 """
 
 # ╔═╡ 25758608-0d58-474e-b6b1-d3463938d1dc
@@ -36,7 +36,7 @@ Our setup is as follows:
 - Clearly the eigenpairs of $A(t)$ are also $t$-dependant with $\lambda_{i}(t=0)=\tilde \lambda_{i}, x_{i}(t=0)=\tilde x_{i}$. 
 - It would be natural to just expand $\lambda_{i}$ and $x_{i}$ in a Maclaurin series of $t$. 
   However, it is not clear *a priori* whether this series converges, what its convergence radius is and thus if this would even make sense.
-- We will thus first study linear pertubations $\tilde A + t\Delta  A$, for which we first need the notion of a resolvent.
+- We will thus first study linear perturbations $\tilde A + t\Delta  A$, for which we first need the notion of a resolvent.
 
 """
 
@@ -314,7 +314,7 @@ This proves that the resolvent and associated spectral projectors contain all th
 md"""
 ## Analyticity
 
-We proceed by considering the setting of our linear pertubation $A=A+t \Delta A$, which we study by considering the associated resolvent
+We proceed by considering the setting of our linear perturbation $A=A+t \Delta A$, which we study by considering the associated resolvent
 ```math
 R_{z}(A(t))=(\tilde{A}+t \Delta A-z I)^{-1}
 ```
@@ -483,7 +483,7 @@ A final nice result is
 
 # ╔═╡ 22fe9a75-06bf-43b3-9cb0-92a9022ae653
 md"""
-## Pertubation theory setting
+## Perturbation theory setting
 
 We return to the question of computing the lowest order variations of $\lambda(t)$ and $x(t)$ for $A(t)=\tilde{A}+t \Delta A$, having $(\tilde{\lambda}, \tilde{x})$ available. 
 We assume $\lambda(t)$ to be simple and isolated with $\Gamma$ a contour around $\tilde{\lambda}$. 

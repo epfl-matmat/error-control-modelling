@@ -403,7 +403,7 @@ A natural characterization of the spectrum is to spit $\sigma (\opA) = \sigma_p 
 	\end{align}
 	```
 
-This classification turns out to be not very useful for considering spectral approximations as small pertubation of $\opA$ can easily mix $\sigma_p$ and $\sigma_{\text{cont}}$.
+This classification turns out to be not very useful for considering spectral approximations as small perturbation of $\opA$ can easily mix $\sigma_p$ and $\sigma_{\text{cont}}$.
 Whe therefore use an alternate :
 
 
