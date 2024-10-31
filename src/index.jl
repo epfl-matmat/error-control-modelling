@@ -81,11 +81,15 @@ md"""
   (such as finite-element methods, finite-difference approaches, plane-wave methods)
 * Exposure to implementing numerical algorithms (e.g. using Python or Julia)
 
+Past participants from materials science found it further useful to take this course after they followed the lectures on [Statistical Mechanics](https://edu.epfl.ch/coursebook/fr/statistical-mechanics-MSE-421) or [Fundamentals of solid state materials](https://edu.epfl.ch/coursebook/en/fundamentals-of-solid-state-materials-MSE-423).
+
 This course delivers a mathematical viewpoint on materials modelling and it is
 explicitly intended for an interdisciplinary student audience. To keep it
 accessible, the key mathematical and physical concepts will both be revised as
 we go along. However, the learning curve will be steep and an interest to learn
-about the respective other discipline is required. The problem sheets and the
+about the respective other discipline is required.
+
+The problem sheets and the
 projects require a substantial amount of work and feature both theoretical
 (proof-oriented) and applied (programming-based and simulation-based) components.
 While there is some freedom for students to select their respective
