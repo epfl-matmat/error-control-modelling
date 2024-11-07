@@ -166,7 +166,7 @@ md"""
 >```
 >since $z'$ is outside of $\contour_{\lambda_i}$ and thus there are no singularities inside $\contour_{\lambda_i}$, and
 >```math
->	\oint_{\contour_{λ_i}^{\prime}} \frac{d_{z^{\prime}}}{z^{\prime}-z}=2 \pi i
+>	\oint_{\contour_{λ_i}^{\prime}} \frac{d z^{\prime}}{z^{\prime}-z}=2 \pi i
 >```
 >since $z$ is inside $\contour_{\lambda_i}'$
 >Therefore,
@@ -211,7 +211,7 @@ md"""
 >```math
 >	P=-\frac{1}{2 \pi i} \sum_{i=1}^{n} \oint_{\contour_{\lambda_{i}}} R_z(A) d z .
 >```
->  $R(z)$ has no poles apart from $\lambda_{i}$, so we can replace the sum over integrals enclosing single eigenvalues by a single integral enclosing all eigenvalues. 
+>  $R_z(A)$ has no poles apart from the eigenvalues $\{\lambda_{i}\}_{i=1}^n$, so we can replace the sum over integrals enclosing single eigenvalues by a single integral enclosing all eigenvalues. 
 >We choose this curve to be a circle $C$ with radius $r$ about the origin. 
 >Thus
 >```math
@@ -219,7 +219,7 @@ md"""
 >```
 >By a change of variables $t=1 / z$ :
 >```math 
->	P=-\frac{1}{2 \pi i} \oint_{\contour_{-}^{\prime}}(A- \frac1{t} I)^{-1}\left(-\frac{d t}{t^{2}}\right)=-\frac{1}{2 \pi i} \oint_{\contour_{+}^{\prime}}(t A-I)^{-1} \frac{d t}{t}
+>	P=-\frac{1}{2 \pi i} \oint_{\contour_{-}^{\prime}}\left(A- \frac1{t} I\right)^{-1}\left(-\frac{d t}{t^{2}}\right)=-\frac{1}{2 \pi i} \oint_{\contour_{+}^{\prime}}(t A-I)^{-1} \frac{d t}{t}
 >```
 >where $\contour_{+/-}^{\prime}$ are the circles about the origin with radius $1/r$ that run counter-clockwise/clockwise. In the second equals we absorb a negative sign into changing the direction of the contour from counter-clockwise to clockwise.
 >Note that $r$ must be larger than the spectral radius of $A$, $\spectralradius(A)$, thus $\spectralradius(t A)<1$.
@@ -253,7 +253,13 @@ md"""
 # ╔═╡ fec3438a-8da1-4d10-9b71-7c7b87d08fdf
 md"""
 > *Proof.*
->Since $R_{z}(A)$ and $A$ commute we get by integration $P_{i} A=A P_{i}$, such that $\im \left(P_{i}\right)$ is invariant under $A$.
+> First note that  $R_{z}(A)$ and $A$ commute since
+> ```math
+> \begin{aligned}
+> R_z(A)\, A &= (A - z I)^{-1} (A^{-1})^{-1} = \left( A^{-1} A - A^{-1}z \right)^{-1} \\ &= \left( A A^{-1} - z A^{-1} \right)^{-1} = A (A - zI)^{-1} = A \, R_z(A)
+> \end{aligned}
+> ```
+> we get by integration $P_{i} A=A P_{i}$, such that $\im \left(P_{i}\right)$ is invariant under $A$.
 >
 >Next we show $\im \left(P_{i}\right) \supseteq \ker\left(A-\lambda_{i} I\right)$.
 >Consider an $x \in \ker\left(A-\lambda_{i} I\right)$ and expand
@@ -261,11 +267,19 @@ md"""
 >	\begin{aligned}
 >	R_{z}(A) x & =(A-z I)^{-1} x \\
 >	& =\left[\left(A-\lambda_{i} I\right)-\left(z-\lambda_{i}\right) I\right]^{-1} x \\
->	& =-\frac{1}{z-\lambda_{i}}\left[I-\left(z-\lambda_{i}\right)^{-1}\left(A-\lambda_{i} I\right)\right]^{-1} x \\
->	& =-\frac{x}{z-\lambda_{i}} .
+>	& =-\frac{1}{z-\lambda_{i}}\left[I-\left(z-\lambda_{i}\right)^{-1}\left(A-\lambda_{i} I\right)\right]^{-1} x.
 >	\end{aligned}
->```
->Therefore
+> ```
+> Now observe that $x \in \ker\left(A-\lambda_{i} I\right)$ implies
+> ```math
+> \left[I-\left(z-\lambda_{i}\right)^{-1}\left(A-\lambda_{i} I\right)\right] x
+> = x - \left(z-\lambda_{i}\right)^{-1} 0 = x
+> ```
+> and therefore that 
+> ```math 
+> R_{z}(A) x = -\frac{x}{z-\lambda_{i}}.
+> ```
+> Based on this
 >```math
 >P_{i} \ x=\left[-\frac{1}{2 \pi i} \oint_{\contour_{i}} R_{z}(A) d z\right] x=\frac{x}{2 \pi i} \oint_{\contour_{i}} \frac{1}{z-\lambda_{i}} d z=x
 >```
@@ -370,17 +384,17 @@ md"""
 > ```
 >We now show that $\spectralradius_{a}>0$. Consider
 >```math
->	\spectralradius (\Delta A R_{z}(\tilde{A}) ) 
->	\leq \|R_{z}(\tilde{A}) \Delta A \| 
->	\leq\|\Delta A\| \cdot \|R_{z}(\tilde{A}) \|.
+>	\spectralradius (R_{z}(\tilde{A})\, \Delta A ) 
+>	\leq \| \Delta A \, R_{z}(\tilde{A})  \| 
+>	\leq\|\Delta A\| \  \|R_{z}(\tilde{A}) \|.
 >```
 > Since $z \mapsto\left\|R_{z}(A)\right\|$ is continuous for $z \in \Gamma$, it reaches a maximum $z_{0}$ (extremal value theorem) for which
 >```math
 >	\begin{aligned}
->	\spectralradius (\Delta A R_{z}(\tilde{A}) ) 
->	& \leq\|\Delta A\| \|R_{z}(\tilde{A}) \| 
+>	\spectralradius (R_{z}(\tilde{A}) \, \Delta A) 
+>	& \leq\|\Delta A\| \ \|R_{z}(\tilde{A}) \| 
 >	\\
->	& \leq\|\Delta A\| \|R_{z_{0}}(\tilde{A}) \| \equiv K
+>	& \leq\|\Delta A\| \ \|R_{z_{0}}(\tilde{A}) \| \equiv K
 >	\end{aligned}
 > ```
 > Hence, $1 / \spectralradius_{a} \leq K \iff  \spectralradius_{a} \geq 1 / K>0$.
@@ -405,18 +419,18 @@ md"""
 !!! tip "Remark"
 	- While individual eigenvalues may not be analytic is $t$, the average
 	  ```math
-	  	\hat{\lambda}(t)=\frac{1}{m} \sum_{i=1}^{m} \lambda_{i}(t)
+	  	\widehat{\lambda}(t)=\frac{1}{m} \sum_{i=1}^{m} \lambda_{i}(t)
 	  ```
 	  of the $m$ eigenvalues of $A(t)$, which are in $\Gamma$, usually is analytic.
 
-	- Another way to obtain $\hat{\lambda}(t)$ is to consider the trace of the restriction of $A(t)$ to the invariant subspace $\im P(t)$, namely
+	- Another way to obtain $\widehat{\lambda}(t)$ is to consider the trace of the restriction of $A(t)$ to the invariant subspace $\im P(t)$, namely
 	  ```math
 	  \begin{align}
 	  \operatorname{tr}\left(\left.A(t)\right|_{\im P(t)}\right) &   =\operatorname{tr}\left[ (P(t) A(t) P(t)) \middle \vert_{\im P(t)}\right] \\
 	  & =\operatorname{tr}(P(t) A(t) P(t)) \\
 	  & =\operatorname{tr}(A(t) P(t)) \\
 	  & =\sum_{i=1}^{m} \lambda_{i}(t) \\
-	  & =m \hat{\lambda}(t)
+	  & =m \widehat{\lambda}(t)
 	  \end{align}
 	  ```
 """
@@ -424,7 +438,7 @@ md"""
 # ╔═╡ 653598ee-c9d7-4731-9c8f-687d5962c0d6
 md"""
 !!! note "Theorem 6"
-	The linear transformation $A(t) P(t)$ and its weighted trace $\hat{\lambda}(t)$ are analytic in the disk $|t|<\spectralradius_{a}$.
+	The linear transformation $A(t) P(t)$ and its weighted trace $\widehat{\lambda}(t)$ are analytic in the disk $|t|<\spectralradius_{a}$.
 
 > *Proof.* 
 > $A(t) P(t)$ is analytic due to previous discussion. 
@@ -435,13 +449,13 @@ md"""
 
 # ╔═╡ bd9f3ea5-4fd8-4155-bc80-5d658b304abe
 md"""
-Because of Theorem 6, a *simple eigenvalue* is analytic around $t=0$ and stays simple. 
-The vector $x_{i}(t)=P_{i}(t) \tilde{x}_{i}$ is an *eigenvector* of $A(t)$ associated to this simple eigenvalue if $\tilde{x}_{i}=x_{i}(t=0)$ is an eigenvector of $\tilde{A}=A(t=0)$. 
-Clearly $x_{i}(t)$ is *analytic too* !
+Because of Theorem 6, a **simple eigenvalue** is **analytic** around $t=0$ and stays simple. 
+The vector $x_{i}(t)=P_{i}(t) \tilde{x}_{i}$ is an *eigenvector* of $A(t)$ associated to this simple eigenvalue if $\tilde{x}_{i}=x_{i}(t=0)$ is an **eigenvector** of $\tilde{A}=A(t=0)$. 
+Clearly $x_{i}(t)$ is **analytic, too** !
 
-For a multiple eigenvalue the situation is more complex. 
+For a **multiple** eigenvalue the situation is more complex. 
 In general if an eigenvalue is of multiplicity $m$ then it will split into $m$ distinct small branches $\lambda_{i}(t)$. 
-Individually these are *not* analytic in $t$, but their average is.
+Individually these are **not analytic** in $t$, but their average is.
 
 This makes it important to identify groups of eigenvalues in practice.
 """
@@ -457,26 +471,28 @@ A final nice result is
 	```
 
 > *Proof.*
-> Due to Theorem 6, 
+> Due to Theorem 2, 
 > $\im (\tilde{P}_{i} ) = \ker (\tilde{A}-\tilde{\lambda}_{i} I )$ 
-> which implies $(\tilde A-\tilde{\lambda}_{i} I ) \tilde{P}_{i}=0$. For an eigenvector $x(t)$ with norm unity associated to $\lambda_{i}(t)$ we thus have
+> which implies $(\tilde A-\tilde{\lambda}_{i} I ) \tilde{P}_{i}=0$. 
+>
+> Let us consider an eigenvector $x_i(t)$ with norm unity associated to $\lambda_{i}(t)$. We thus have
 >```math
 >	\begin{align}
->	\left(A(t)-\tilde{\lambda}_{i} I\right) P(t) u(t) & =\left(A(t)-\tilde{\lambda}_{i} I\right) u(t) \\
->	& =\left(\lambda(t)-\tilde{\lambda}_{i}\right) u(t)
+>	\left(A(t)-\tilde{\lambda}_{i} I\right) P(t) \, x_i(t) & =\left(A(t)-\tilde{\lambda}_{i} I\right) x_i(t) \\
+>	& =\left(\lambda(t)-\tilde{\lambda}_{i}\right) x_i(t)
 >	\end{align}
 > ```
 > Taking norms on both sides :
 >```math
 >\begin{align}
-> |\lambda(t)-\lambda_{i} | & = \| (A(t)-\tilde{\lambda}_{i} I ) P(t) u(t) \| \\
+> |\lambda(t)-\lambda_{i} | & = \| (A(t)-\tilde{\lambda}_{i} I ) P(t) \, x_i(t) \| \\
 >& \leq \| (A(t)-\tilde{\lambda}_{i} I ) P(t) \| \\
 >& = \| (A(t)-\tilde{\lambda}_{i} I ) P(t)-
 > {\color{gray} \underbrace{\color{prooftext} (\tilde{A}- \tilde{\lambda}_{i} I ) \tilde{P}_{i} }_{=0} }  \|  \tag{2} \\
 >& =O(|t|) \tag{3}
 >\end{align}
 >```
-> where we went from (2) to (3) by considering that the (2) is analytic in $t$ and $\tilde A=A(0)$, $\tilde P_{i}= P(0)$, etc.
+> where we went from (2) to (3) by considering that the right-hand side of (2) is analytic in $t$ and $\tilde A=A(0)$, $\tilde P_{i}= P(0)$, etc.
 > $\hspace{10cm} \square$
 
 """
@@ -513,31 +529,33 @@ Further we assume $|t|<\spectralradius_{a}=\inf _{z \in \Gamma} 1 / \spectralrad
 
 # ╔═╡ eb10b66a-c103-4964-83e4-e980fdcaa36b
 md"""
-- Projecting (4) onto $P_{\tilde \lambda}$, we obtain after a rearrangement
+- Projecting (4) with $P_{\tilde \lambda}$ (by left multiplying with this operator),
+  we obtain after a rearrangement
   ```math
   \begin{align}
-  	P_{\tilde{\lambda}} \Delta A \tilde{x}-\lambda^{\prime}(0) {\color{gray} \underbrace{\color{black} P_{\tilde{\lambda}} \tilde{x}}_{= \tilde x}}
-  	= {\color{gray} \underbrace{\color{black} (\tilde{A}-\tilde{\lambda} I) P_{\tilde{\lambda}}}
+  	P_{\tilde{\lambda}} \, \Delta A \, \tilde{x}-\lambda^{\prime}(0) {\color{gray} \underbrace{\color{black} \, P_{\tilde{\lambda}} \, \tilde{x}}_{= \tilde x}}
+  	= {\color{gray} \underbrace{\color{black} (\tilde{A}-\tilde{\lambda} I)  \, P_{\tilde{\lambda}}}
   	_{\substack{= 0 \text{ since} \\ \ker (\tilde A - \tilde \lambda I) = \im P_{\tilde \lambda} }}}
   	x^{\prime}(0) +O(|t|)
   \end{align}
   ```
-  Multiplying by $\tilde x^H$, we obtain
+  Multiplying by $\tilde x^H$ from the left, we obtain
   ```math
-  \lambda^{\prime}(0)=\tilde{x}^{H} \Delta A \tilde{x}=\langle\tilde{x}, \Delta A   \tilde{x}\rangle
+  \lambda^{\prime}(0)=\tilde{x}^{H} \Delta A \, \tilde{x}=\langle\tilde{x}, \Delta A\,    \tilde{x}\rangle
   ```
 
-- Projecting (4) onto $Q_{\tilde \lambda}$, we obtain
+- Projecting (4) with $Q_{\tilde \lambda}$, we obtain
   ```math
-  Q_{\tilde{\lambda}}(\tilde{A}-\hat{\lambda} I) x^{\prime}(0)=-Q_{\tilde{\lambda}} \Delta A \tilde{x}+O(|t|)
+  Q_{\tilde{\lambda}} \, (\tilde{A}-\hat{\lambda} I)\, x^{\prime}(0)=-Q_{\tilde{\lambda}} \, \Delta A\, \tilde{x}+O(|t|)
   ```
   Using the invariance of $Q_{\tilde \lambda}$ with respect to $\tilde A - \tilde \lambda I$, we get
   ```math
   \begin{align}
-   Q_{\tilde{\lambda}}(\tilde{A}-\tilde{\lambda} I) Q_{\tilde{\lambda}} x^{\prime}(0) &=-Q_{\tilde{\lambda}} \Delta A \tilde{x} +O(|t|) 
+   Q_{\tilde{\lambda}}(\tilde{A}-\tilde{\lambda} I)\, Q_{\tilde{\lambda}}\, x^{\prime}(0) &=-Q_{\tilde{\lambda}} \Delta A \, \tilde{x} +O(|t|) 
   \\
-  \Rightarrow Q_{\tilde{\lambda}} x^{\prime}(0) &=-Q_{\tilde{\lambda}}(\tilde{A}-  \tilde{\lambda} I)^{-1} Q_{\tilde \lambda}  \Delta A \tilde{x} \\  
-  &=-R_{\tilde{\lambda}}(\tilde{A}) Q_{\tilde{\lambda}} \Delta A \tilde x
+  \Rightarrow\quad Q_{\tilde{\lambda}}\, x^{\prime}(0) &=-Q_{\tilde{\lambda}}(\tilde{A}-  \tilde{\lambda} I)^{-1} Q_{\tilde \lambda}  \Delta A \, \tilde{x} \\  
+  \tag{$\ast$}
+  &=-R_{\tilde{\lambda}}(\tilde{A}) \, Q_{\tilde{\lambda}}  \Delta A\, \tilde x
   \end{align}
   ```
   which defines the first-order change *orthogonal* to the eigenspace of $\tilde   \lambda$.
@@ -551,14 +569,15 @@ md"""
   ```math
   \begin{aligned}
   1 & =(x(t))^{H} x(t) \\
-  & =\tilde{x}^H \tilde{x}+t \tilde{x}^{H} x^{\prime}(t)+t\left(x^{\prime}(t)\right)^{H} \tilde{x}+O\left(|t|^{2}\right) \\
+  & =\tilde{x}^H \tilde{x}+t\, \tilde{x}^{H} x^{\prime}(t)+t\,\left(x^{\prime}(t)\right)^{H} \tilde{x}+O\left(|t|^{2}\right) \\
   \Rightarrow 0 & =\operatorname{Re} \tilde{x}^{H} x^{\prime}(t)+O(|t|)
   \end{aligned}
   ```
 
-- Additionally, we conventionally *choose* $\im x^H x^{\prime}(t)=0$. 
-  This is *not* necessary, but reasonable to ensure $x(t)$ stays a real vector in case $\tilde{x}$ is real. 
-  As a result $\tilde x$ and $x^{\prime}(t)$ are orthogonal.
+- Additionally, we conventionally **choose** $\im \tilde{x}^H x^{\prime}(t)=0$. 
+  This is **not necessary**, but reasonable to ensure $x(t)$ stays a real vector in case $\tilde{x}$ is real. 
+
+- As a result $\tilde x$ and $x^{\prime}(t)$ are orthogonal and $P_{\tilde{λ}}\, x'(0) = 0$ and ($\ast$) is the only contribution to $x'(t)$ in this convention.
 
 The final first-order changes are
 ```math
@@ -599,7 +618,7 @@ If a modelling error / error is the computation causes us to employ $\tilde A$ i
 md"""
 #### Newton's method
 
-With respect to the exact eigenproblem $A(1)=\tilde{A}+\Delta A$, the term $\Delta A \tilde{x}$ is exactly the residual of $(\tilde \lambda, \tilde{x} )$. 
+With respect to the exact eigenproblem $A(1)=\tilde{A}+\Delta A$, the term $\Delta A \, \tilde{x}$ is exactly the residual of $(\tilde \lambda, \tilde{x} )$. 
 We now consider one step of Newton's method for solving the system of equations:
 
 ```math
@@ -631,12 +650,12 @@ One Newton step goes to
 	0
 	\end{pmatrix}
 ```
-where $r=A \tilde{x} - \tilde{\lambda} \tilde{x}=\Delta A \tilde{x}$. 
+where $r=A\, \tilde{x} - \tilde{\lambda}\, \tilde{x}=\Delta A\, \tilde{x}$. 
 If we replace $A-\lambda I$ by the approximation $\tilde A-\tilde{\lambda} I$ we obtain a Quasi-Newton scheme, which under close inspection turns out to be exactly equivalent to (PT).
 
 Note that the normalisation of $x$ in the correction with respect to $\tilde{x}$ is again enforced by the constraint $\frac{1}{2} x^{H} x-1=0$. 
 
-Typically, $\tilde{x}_{\text {new}}-\tilde{x} \perp \tilde{x}$ is manually enforced by inverting $Q_{\tilde \lambda} (\tilde{A}-\tilde{\lambda} I) Q_{\tilde \lambda}$ instead of $(\tilde A - \tilde \lambda I)$.
+Typically, $\tilde{x}_{\text {new}}-\tilde{x} \perp \tilde{x}$ is manually enforced by inverting $Q_{\tilde \lambda}\, (\tilde{A}-\tilde{\lambda} I)\, Q_{\tilde \lambda}$ instead of $(\tilde A - \tilde \lambda I)$.
 """
 
 # ╔═╡ 1a28c717-c969-4ce9-be55-80b566f6436d
