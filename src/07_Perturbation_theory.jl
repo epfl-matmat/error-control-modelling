@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.0
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
@@ -221,7 +221,7 @@ md"""
 >```math 
 >	P=-\frac{1}{2 \pi i} \oint_{\contour_{-}^{\prime}}\left(A- \frac1{t} I\right)^{-1}\left(-\frac{d t}{t^{2}}\right)=-\frac{1}{2 \pi i} \oint_{\contour_{+}^{\prime}}(t A-I)^{-1} \frac{d t}{t}
 >```
->where $\contour_{+/-}^{\prime}$ are the circles about the origin with radius $1/r$ that run counter-clockwise/clockwise. In the second equals we absorb a negative sign into changing the direction of the contour from counter-clockwise to clockwise.
+>where $\contour_{+/-}^{\prime}$ are the circles about the origin with radius $1/r$ that run counter-clockwise/clockwise. In the second step we have absorbed a negative sign into changing the direction of the contour from counter-clockwise to clockwise.
 >Note that $r$ must be larger than the spectral radius of $A$, $\spectralradius(A)$, thus $\spectralradius(t A)<1$.
 >Therefore, $(I-t A)^{-1}$ can be expanded into a Neumann series
 >```math
@@ -288,7 +288,11 @@ md"""
 >Finally, we show $\im \left(P_{i}\right) \subseteq \ker\left(A-\lambda_{i} I\right)$. 
 >With
 > ```math
->\left(z-\lambda_{i}\right) R_{z}(A)=-I+\left(A-\lambda_{i} I\right) R_{z}(A)
+>   \begin{aligned}
+>\left(z-\lambda_{i}\right) R_{z}(A)
+>    &= (zI - A + A - \lambda_{i}I) R_{z}(A)\\
+>    &=-I+\left(A-\lambda_{i} I\right) R_{z}(A)
+>   \end{aligned}
 >```
 >we deduce
 >```math
