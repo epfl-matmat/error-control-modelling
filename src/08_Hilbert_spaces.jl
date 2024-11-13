@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.43
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
@@ -194,20 +194,20 @@ We must therefore ensure that this quantity is well-defined.
 Since we are only interested in integrating over derivatives, it turns out that we can allow ourselves a weaker notion of differentiability.
 To define this, we first need to introduce two new function spaces :
 -  $C_{0}^{\infty}(\Omega)$ is the space of infinitely differentiable functions $\Omega \rightarrow \mathbb{C}$ with compact support.
-- The space of locally integrable functions $L_{loc}^p$ :  
+- The space of locally integrable functions $L_\text{loc}^p$ :  
 
 !!! note "Definition (Locally integrable functions)"
 	For $\Omega \subset \mathbb{R}^{d}$, we define
 	```math
-		L_{l o c}^{p}(\Omega)=\left \{ 
+		L_\text{loc}^{p}(\Omega)=\left \{ 
 		f : \Omega \rightarrow \mathbb{C} \ \middle \vert  \  
-		f\rvert_K \in L^{p}(K) \quad \forall K \in \Omega, K \text { compact} \right \}
+		f\rvert_K \in L^{p}(K) \quad \forall K \subset \Omega, K \text { compact} \right \}
 	```
 
-We have $L^{p}(\Omega) \subset L_{loc}^{p}(\Omega)$, since this is a less strict criterion : the growth of the function towards the boundary $\partial \Omega$ - or towards $\infty$ - is not limited.
+We have $L^{p}(\Omega) \subset L_\text{loc}^{p}(\Omega)$, since this is a less strict criterion : the growth of the function towards the boundary $\partial \Omega$ - or towards $\infty$ - is not limited.
 
 !!! tip "Remark"
-	Note $L^{p}(\Omega) \subset L_{loc}^{p}(\Omega) \subset L_{loc}^{1}(\Omega)$ for $p \geq 1$ and $\Omega \subset \mathbb{R}^{d}$ potentially unbounded, while $L^p(\Omega) \subset L^{1}(\Omega)$ only if $\Omega \subset \mathbb{R}^{d}$ is open and bounded.
+	Note $L^{p}(\Omega) \subset L_\text{loc}^{p}(\Omega) \subset L_\text{loc}^{1}(\Omega)$ for $p \geq 1$ and $\Omega \subset \mathbb{R}^{d}$ potentially unbounded, while $L^p(\Omega) \subset L^{1}(\Omega)$ only if $\Omega \subset \mathbb{R}^{d}$ is open and bounded.
 
 With this in mind, we can introduce the weak derivative :
 """
@@ -215,7 +215,7 @@ With this in mind, we can introduce the weak derivative :
 # ╔═╡ 374523ab-decb-42e9-88bf-3420f7552d39
 md"""
 !!! note "Definition (Weak derivative)"
-	The function $u \in L_{loc}^{2}(\Omega)$ with $\Omega \in \mathbb{R}^{d}$ open has a **weak derivative** along the coordinate $x_i$ in $L^{2}(\Omega)$ 
+	The function $u \in L_\text{loc}^{2}(\Omega)$ with $\Omega \subset \mathbb{R}^{d}$ open has a **weak derivative** along the coordinate $x_i$ in $L^{2}(\Omega)$ 
 	if there exists a $g_{i} \in L^{2}(\Omega)$ with
 
 	```math
@@ -341,7 +341,7 @@ Separability is also closely related to being able to approximate the infinite-d
 # ╔═╡ a6aafce2-6039-499e-a281-59b0483d8c4b
 md"""
 
-!!! warning "Example 4 (Examples of seperable Hilbert spaces)"
+!!! warning "Example 4 (Examples of separable Hilbert spaces)"
 	Examples of separable Hilbert spaces :
 	-  $L^p(\Omega)$ for $1 \leq p<\infty$ if $\Omega \subset \mathbb{R}^{d}$ is open.
 	-  $H^{n}(\Omega)$ as subspaces of $L^{2}(\Omega)$
