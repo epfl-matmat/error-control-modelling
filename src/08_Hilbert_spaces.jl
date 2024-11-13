@@ -341,7 +341,7 @@ Separability is also closely related to being able to approximate the infinite-d
 # ╔═╡ a6aafce2-6039-499e-a281-59b0483d8c4b
 md"""
 
-!!! warning "Example 4 (Examples of seperable Hilbert spaces)"
+!!! warning "Example 4 (Examples of separable Hilbert spaces)"
 	Examples of separable Hilbert spaces :
 	-  $L^p(\Omega)$ for $1 \leq p<\infty$ if $\Omega \subset \mathbb{R}^{d}$ is open.
 	-  $H^{n}(\Omega)$ as subspaces of $L^{2}(\Omega)$
