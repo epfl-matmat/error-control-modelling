@@ -407,20 +407,17 @@ md"""
 
 # ╔═╡ 2d9827a3-2752-4bac-9c33-c46fa93b52f9
 md"""
-An immediate corollary is that the rank of $P(t)$ stays constant as long as $|t|<\spectralradius_{a}$ :
+An immediate corollary is that the **rank of $P(t)$ stays constant** as long as $|t|<\spectralradius_{a}$ :
 
 !!! note "Corollary 5"
 	The number $m$ of eigenvalues, counted with multiplicity, located in $\Gamma$ is constant given that $|t|<\spectralradius_a$.
-
-Note, that this is usually too strong of a condition. 
-The real condition is that $P(t)$ is analytic.
-
 """
 
 # ╔═╡ 2c1b0372-5232-45bf-95d1-1a6641508ef0
 md"""
-
 !!! tip "Remark"
+    - Note, that $|t| < \spectralradius_a$ is usually too strong of a condition. 
+      The real condition is that $P(t)$ is analytic.
 	- While individual eigenvalues may not be analytic is $t$, the average
 	  ```math
 	  	\widehat{\lambda}(t)=\frac{1}{m} \sum_{i=1}^{m} \lambda_{i}(t)
