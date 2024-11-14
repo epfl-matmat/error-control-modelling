@@ -1,0 +1,1 @@
+- Add the definitions of closed and bounded
