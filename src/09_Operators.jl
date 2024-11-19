@@ -293,7 +293,7 @@ md"""
 !!! note "Definition (Resolvent set)"
 	Let $\hilbert$ be a separable Hilbert space, $\opA : D(\opA) \rightarrow \opA$. The **resolvent set** is
 	```math
-		\resolvent(\opA)=\{z \in \mathbb{C} \mid (A-z) : D(\opA) \rightarrow \hilbert \text{ is invertible } {\color{noteblue} \underbrace{\color{black} \text{with bounded inverse}}_{\text{This is new in $\infty$-dimensions}}} \}
+		\resolvent(\opA)=\{z \in \mathbb{C} \mid (\mathcal{A}-z) : D(\opA) \rightarrow \hilbert \text{ is invertible } {\color{noteblue} \underbrace{\color{black} \text{with bounded inverse}}_{\text{This is new in $\infty$-dimensions}}} \}
 	```	
 	where bounded inverse means that the operator
 	```math
@@ -396,7 +396,7 @@ md"""
 
 # ╔═╡ 12967e6f-5cda-4e16-95ab-2b6ae841d7bc
 md"""
-> *Proof* (same as the argument before Theorem [perturbation theory].1).
+> *Proof* (same as the argument as Proposition 3 of [perturbation theory](https://teaching.matmat.org/error-control/07_Perturbation_theory.html)).
 > Let $z \in \rho(x)$ and $t \in B_{r}(z) \subset \rho(\opA)$. Then
 > ```math
 > \begin{align}
@@ -435,13 +435,23 @@ Without going into all such detail we will now sketch the definition of a self-a
 md"""
 
 We first state the definition of the (Hilbert-)**adjoint operator**. 
-Given $\opA: D(\opA) \rightarrow \hilbert$ with $D(\opA) \subset \hilbert$, the adjoint operator $\opA ^*: D (\opA^{*} ) \rightarrow \hilbert$ is defined by $y \mapsto \opA^{*} y$, where $\opA^{*} y \in \hilbert$ is the unique element satisfying
-```math
-\left\langle x, \opA^{*} y\right\rangle=\langle\opA x, y\rangle \qquad \forall x \in D(\opA^*), \forall y \in D\left(\opA^{*}\right)
-```
-Uniqueness is guaranteed by the Riesz representation theorem.
 
-!!! note "Definition (Symmetry)"
+!!! note "Definition (Adjoint operators)"
+    Given an operator $\opA: D(\opA) \rightarrow \hilbert$ 
+    with $D(\opA) \subset \hilbert$, the adjoint operator
+    $\opA ^*: D (\opA^{*} ) \rightarrow \hilbert$ is defined by $y \mapsto \opA^{*} y$,
+    where $\opA^{*} y \in \hilbert$ is the unique element satisfying
+    ```math
+    \left\langle x, \opA^{*} y\right\rangle=\langle\opA x, y\rangle. \qquad \forall x \in D(\opA), \forall y \in D\left(\opA^{*}\right).
+    ```
+    Notably in this definition $D (\opA^{*} )$ is taken to be the
+    *largest domain possible* for this equality to make sense.
+    Uniqueness of $\opA^{*} y$ given $y$ is than guaranteed
+    by the Riesz representation theorem.
+
+A slightly less strict definition is:
+
+!!! note "Definition (Symmetric operators)"
 	The operator $\opA$ on $\hilbert$ is called **symmetric** if, for all $x, y \in D(\opA) \times D(\opA)$,
 	```math
 		\langle\opA x, y\rangle= \langle x, \opA y\rangle.
@@ -616,7 +626,7 @@ md"""
 
 > *Proof* by contradiction.
 > We assume $\sigma(\opA) \neq \mathbb{C}$ and show that $\opA$ is necessarily closed. 
-> In this case, there exists a $z \notin \sigma(\opA)$, and we consider a sequence $(x_{n}) \subset D(\opA)$ such that $x_{n} \rightarrow x$ and $\op A x_{n} \rightarrow y$. 
+> In this case, there exists a complex $z \notin \sigma(\opA)$, and we consider a sequence $(x_{n}) \subset D(\opA)$ such that $x_{n} \rightarrow x$ and $\op A x_{n} \rightarrow y$. 
 > Since $\opA-z$ is invertible with bounded (and thus continuous) inverse we have
 >```math
 >\begin{aligned}

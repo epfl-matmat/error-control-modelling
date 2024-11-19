@@ -1,17 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.19.43
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
 
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
+    #! format: off
     quote
         local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
+    #! format: on
 end
 
 # ╔═╡ 4004f2e8-5738-47e2-9d3c-8b68b896b9a5
@@ -1005,9 +1007,9 @@ TikzPictures = "~3.5.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.4"
+julia_version = "1.11.1"
 manifest_format = "2.0"
-project_hash = "e9b7c29a9ad0b8604570136cc9ef8ef30f09406b"
+project_hash = "f5c2ef69de7890123961e91037992d30d57d1a90"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]

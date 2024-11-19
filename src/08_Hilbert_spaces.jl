@@ -204,7 +204,7 @@ To define this, we first need to introduce two new function spaces :
 		f\rvert_K \in L^{p}(K) \quad \forall K \subset \Omega, K \text { compact} \right \}
 	```
 
-We have $L^{p}(\Omega) \subset L_\text{loc}^{p}(\Omega)$, since this is a less strict criterion : the growth of the function towards the boundary $\partial \Omega$ - or towards $\infty$ - is not limited.
+We have $L^{p}(\Omega) \subset L_\text{loc}^{p}(\Omega)$, since local integrability is a less strict criterion : the growth of the function towards the boundary $\partial \Omega$ --- or towards $\infty$ --- is not limited.
 
 !!! tip "Remark"
 	Note $L^{p}(\Omega) \subset L_\text{loc}^{p}(\Omega) \subset L_\text{loc}^{1}(\Omega)$ for $p \geq 1$ and $\Omega \subset \mathbb{R}^{d}$ potentially unbounded, while $L^p(\Omega) \subset L^{1}(\Omega)$ only if $\Omega \subset \mathbb{R}^{d}$ is open and bounded.
@@ -369,7 +369,7 @@ md"""
 
 - **Completeness** : Limits of converging sequences remain in normed vector space/Banach space
 - **Compactness** : Bounded sequences of compact normed vector spaces admit a converging subsequence.
-- **Compact subspace of Banach space** : Useful in iterative procedures and optimisation. Roughly, "boundedness $\Rightarrow$ convergence", which is key in proving the existence of eigenvalues in some operators.
+- **Compact subspace of Banach space** : Useful in iterative procedures and optimisation. Roughly in these spaces "boundedness $\Rightarrow$ convergence", which is key in proving the existence of eigenvalues in some operators.
 - **Sobolev spaces** $H^{n}$ : Hilbert space more regular than $L^{2}$, where weak derivatives remain $L^{2}$-integrable.
 - **Separability/dense subspaces** : Approximation by finite dimensional subspaces is possible as it admits a countable basis.
 
