@@ -1162,10 +1162,10 @@ typeof(four_thirds)
 md"""This is a Julia interval, which has two fields `lo` and `hi`, representing the interval [`lo`, `hi`]."""
 
 # ╔═╡ 21495bca-2cb2-458b-a7d0-3c4fd1470d1b
-four_thirds.lo  # The Float64 number smaller than 4/3
+four_thirds.bareinterval.lo  # The Float64 number smaller than 4/3
 
 # ╔═╡ 23d35d53-20a4-42a1-828d-823dbfa14aa2
-four_thirds.hi  # The Float64 number larger than 4/3
+four_thirds.bareinterval.hi  # The Float64 number larger than 4/3
 
 # ╔═╡ 6142c138-d5dc-4e62-8d1a-9df8f8f8c7cd
 md"""On top of this we define our operations on these intervals in a way the *containment property* is guaranteed. For example the difference between two intervals $\mathbf{x}$ and $\mathbf{y}$ is computed, such that it satisfies the following property:
