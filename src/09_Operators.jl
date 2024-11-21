@@ -291,7 +291,7 @@ Having discussed the basic properties of operators, we now turn our attention to
 # ╔═╡ 59c06a2d-d980-458f-bf7a-44bb4f4a8a80
 md"""
 !!! note "Definition (Resolvent set)"
-	Let $\hilbert$ be a separable Hilbert space, $\opA : D(\opA) \rightarrow \opA$. The **resolvent set** is
+	Let $\hilbert$ be a separable Hilbert space, $\opA : D(\opA) \rightarrow \hilbert$. The **resolvent set** is
 	```math
 		\resolvent(\opA)=\{z \in \mathbb{C} \mid (\mathcal{A}-z) : D(\opA) \rightarrow \hilbert \text{ is invertible } {\color{noteblue} \underbrace{\color{black} \text{with bounded inverse}}_{\text{This is new in $\infty$-dimensions}}} \}
 	```	
