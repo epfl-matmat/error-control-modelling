@@ -263,29 +263,39 @@ Having discussed the basic properties of operators, we now turn our attention to
 
 - Generalizing from matrices, an eigenpair $(\lambda, \varphi) \in \mathbb{C} \times \hilbert$ of the operator $\opA$ satisfies
   ```math
+  \tag{$\ast$}
   \begin{align}
   	\opA \varphi=\lambda \varphi & \Leftrightarrow(\opA-\lambda) \varphi=0 
   	\\
-  	&\Leftrightarrow  \varphi \in \color{gray} \underbrace{\color{black} (\opA-\lambda)^{-1}\{0\}}_{\ker(\opA-\lambda)}
+  	&\Leftrightarrow  \varphi \in \ker(\opA-\lambda)
   \end{align}
   ```
-  Where by $\opA-\lambda$ we understand the operator $\opA -\lambda \operatorname{id}_\hilbert$. 
+  where by $\opA-\lambda$ we understand the operator $\opA -\lambda \operatorname{id}_\hilbert$.
 
-  Again, the **resolvent** $R_{z}(\opA)=(\opA-z)^{-1}$ arises naturally, and its study is closely linked to the spectrum of $\opA$.
+- Under a slight abuse of notation we can write
+  $\ker(\opA - \lambda) = (\opA-λ)^{-1} \{0\}$,
+  i.e. the solution set of applying the **resolvent**
+  $R_{z}(\opA)=(\opA-z)^{-1}$ to zero.
 
-
-- First we note that for eigenvalues $(\opA-\lambda)^{-1}$ *cannot be a bounded operator*. 
-  To show this, assume it was bounded, i.e. we had a $C>0$ such that
+- For eigenvalues $\opA-λ$ is clearly not invertible as $(\ast)$
+  shows that $\opA-λ$ is not injective. However, let's assume for a second
+  it was and that a unique non-zero solution $φ = (\opA-λ)^{-1} 0$ existed.
+  Then we had
   ```math
-  	\left\|(\opA-\lambda)^{-1} x \right\| \leq C\|x\| \qquad \forall x \in \hilbert
+  0 < \|φ\| = \left\|(\opA-\lambda)^{-1} 0\right\|.
   ```
-  in particular for one non-zero $\varphi \in \ker(\opA-\lambda) \leq \hilbert$
+  This implies that $(\opA-λ)^{-1}$ *cannot be bounded*, because if it was
+  than there existed a constant $C>0$ such that
   ```math
-  	0<\|\varphi\|=\left\|(\opA-\lambda)^{-1} 0\right\| \leqslant C \| 0 \|=0,
+  	\left\|(\opA-\lambda)^{-1} f \right\| \leq C\|f\| \qquad \forall f \in \hilbert
   ```
-  which is a contradiction.
+  and in particular
+  ```math
+  \left\|(\opA-\lambda)^{-1} 0\right\| = C \, \|0\| = 0,
+  ```
+  which is a contradiction to $φ$ being non-zero.
 
-  This motivates the next definition
+As in the finite-dimensional case we first construct the *resolvent set*, which includes all the points that cannot be eigenvalues, i.e. the ones where the resolvent exists ($\opA-z$ can be inverted) and also the above aspect of a non-bounded $(\opA-λ)^{-1}$ is excluded:
 """
 
 # ╔═╡ 59c06a2d-d980-458f-bf7a-44bb4f4a8a80
@@ -303,23 +313,27 @@ md"""
 	```math
 	\left\|(\opA-z)^{-1} x\right\| \leq C \|x\| \quad \forall x \in \hilbert .
 	```
-	For $z \in \resolvent(x)$ the resolvent $R_{z}(\opA)=(\opA-z)^{-1}$ exists and is bounded.
+	For $z \in \resolvent(x)$ the **resolvent** $R_{z}(\opA)=(\opA-z)^{-1}$ exists and is bounded.
 
 """
 
-# ╔═╡ 10aeb8f3-ecdb-4e7c-baad-caa3e1f8994b
+# ╔═╡ 8db7d0bc-ff6b-4387-8009-d83e74faaad0
 md"""
-By construction the set $\resolvent(A)$ contains all $z \in \mathbb{C}$ for which $(\opA-z) x=y$ admits a unique solution $x \in D(\opA)$ for a given $y \in \hilbert$. 
-Thus, for $(\opA-z) x=0$, only the trivial solution $x=0$ is possible. 
-To obtain eigenvalues we thus have to study the complement. As before
+!!! tip "Remark (Eigenvalues are in the complement of ρ)"
+	By construction the set $\resolvent(A)$ contains all $z \in \mathbb{C}$ for which $(\opA-z) x=y$ admits a unique solution $x \in D(\opA)$ for a given $y \in \hilbert$. 
+	Thus, for $(\opA-z) x=0$, only the trivial solution $x=0$ is possible. 
+	To obtain eigenvalues we thus have to study the complement. As before
+"""
 
+# ╔═╡ 86e5f05a-6562-48c4-80f4-10c7cee0698e
+md"""
 !!! note "Definition (Spectrum)"
 	The **spectrum** is $\sigma (\opA) = \mathbb C \setminus \resolvent(\opA)$.
 """
 
 # ╔═╡ 9823dc80-2adb-4e21-9588-fdd7dc1b3545
 md"""
-From the definition of $\resolvent(\opA)$ there can be three reasons for a value $\lambda \in \mathbb{C}$ to not be in $\rho(\opA)$, namely
+From the definition of $\resolvent(\opA)$ there can be three reasons for a value $\lambda \in \mathbb{C}$ to be in $\sigma(\opA)$, respectively not in $\rho(\opA)$, namely
 
 1.  $(\opA-z)$ not injective.
 
@@ -347,11 +361,11 @@ md"""
 	```
 
 !!! tip "Remark (Spectra in finite dimensions)"
-	For $\hilbert=\mathbb C^{N}$, (3) is always given, and 1. and 2. are equivalent because
+	For $\hilbert=\mathbb C^{N}$, 3. is always given, and 1. and 2. are equivalent because
 	```math
 		\operatorname{dim}(\ker(\opA-\lambda))+\operatorname{dim}(\im (\opA-\lambda))=N .
 	```
-	Therefore $\sigma(\opA)=\sigma_p(\opA) \neq \varnothing$ (see Lemma [Matrix Eigenproblems].3).
+	Therefore $\sigma(\opA)=\sigma_p(\opA) \neq \varnothing$ (see Lemma 3 in [Matrix eigenproblems](https://teaching.matmat.org/error-control/03_Matrix_eigenproblems.html)).
 """
 
 # ╔═╡ 6b9eb655-048a-42f6-b50c-d928071636bb
@@ -1349,7 +1363,8 @@ version = "17.4.0+2"
 # ╟─a2e86a6f-88e7-4cbd-90c6-6d0e20af7869
 # ╟─85df6f49-6935-45f0-9526-0b2b4075f3af
 # ╟─59c06a2d-d980-458f-bf7a-44bb4f4a8a80
-# ╟─10aeb8f3-ecdb-4e7c-baad-caa3e1f8994b
+# ╟─8db7d0bc-ff6b-4387-8009-d83e74faaad0
+# ╟─86e5f05a-6562-48c4-80f4-10c7cee0698e
 # ╟─9823dc80-2adb-4e21-9588-fdd7dc1b3545
 # ╟─5827ce09-7199-4357-a5f4-8ec7ae396fca
 # ╟─6b9eb655-048a-42f6-b50c-d928071636bb
