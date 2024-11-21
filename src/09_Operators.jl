@@ -187,9 +187,9 @@ md"""
 md"""
 > *Proof.*
 > 
->  $\boxed \Rightarrow$ If $\opA$ is bounded then for all $x \in V$ there exists a constant $c$ such that $\| \opA x\left\|_{W}=c \right\| x \|_{V}$. Let $(x_{n})_n \subset V$ be a convergent sequence with limit $x \in V$. Then
+>  $\boxed \Rightarrow$ If $\opA$ is bounded then there exists a constant $c$ such that for all $x \in V$ we have $\| \opA x\left\|_{W} \leq c \right\| x \|_{V}$. Let $(x_{n})_n \subset V$ be a convergent sequence with limit $x \in V$. Then
 > ```math
->  	\| \opA x_{n}- \opA x \|_{W}=c \|x_{n}-x \|_{V}
+>  	\| \opA x_{n}- \opA x \|_{W} \leq c \|x_{n}-x \|_{V}
 > ```
 > by linearity of $\opA$. 
 > Since $\left\|x_{n}-x\right\| \rightarrow 0$ as $n \rightarrow \infty$, $\opA x_{n} \to \opA x$ as $n \rightarrow \infty$, i.e. $\opA$ is continuous.
