@@ -371,8 +371,7 @@ md"""
 - **Compactness** : Bounded sequences of compact normed vector spaces admit a converging subsequence.
 - **Compact subspace of Banach space** : Useful in iterative procedures and optimisation. Roughly in these spaces "boundedness $\Rightarrow$ convergence", which is key in proving the existence of eigenvalues in some operators.
 - **Sobolev spaces** $H^{n}$ : Hilbert space more regular than $L^{2}$, where weak derivatives remain $L^{2}$-integrable.
-- **Separability/dense subspaces** : Approximation by finite dimensional subspaces is possible as it admits a countable basis.
-
+- **Separability/dense subspaces** : Approximations of this Hilbert space by finite-dimensional subspaces is possible. Key ingredient to construct meaningful discretisation techniques and solve physical problems defined on the continuous level.
 """
 
 # ╔═╡ b0b223a5-4b57-4a9f-a525-b0eb3796cd22
