@@ -116,7 +116,7 @@ In what follows we emphasize the use of the resolvent to obtain spectral informa
 md"""
 ## Spectral projectors
 
-Let $\lambda_{i}$ be $a_{n}$ eigenvalue of $A$
+Let $\lambda_{i}$ be an eigenvalue of $A$
 and let $\contour_{\lambda_{i}}$ be a counter-clockwise contour enclosing no other eigenvalues of $A$, as illustrated below.
 """
 
@@ -281,7 +281,8 @@ md"""
 > ```
 > Based on this
 >```math
->P_{i} \ x=\left[-\frac{1}{2 \pi i} \oint_{\contour_{i}} R_{z}(A) d z\right] x=\frac{x}{2 \pi i} \oint_{\contour_{i}} \frac{1}{z-\lambda_{i}} d z=x
+>P_{i} \ x=\left[-\frac{1}{2 \pi i} \oint_{\contour_{i}} R_{z}(A) d z\right] x
+> =\frac{x}{2 \pi i} \oint_{\contour_{i}} \frac{1}{z-\lambda_{i}} d z=x
 >```
 >and $x \in \im \left(P_{i}\right)$.
 >
@@ -299,18 +300,31 @@ md"""
 >	\begin{aligned}
 >	-\frac{1}{2 \pi i} \oint_{\contour_{\lambda_{i}}}\left(z-\lambda_{i}\right) R_{z}(A) d z & =-\frac{1}{2 \pi i}\left(A-\lambda_{i} I\right) \oint_{\contour_{\lambda_i}} R_{z}(A) d z \\
 >	& =\left(A-\lambda_{i} I\right) P_{i}
->	\end{aligned}
+>	\end{aligned}.
 >```
->and more generally
->```math
->	-\frac{1}{2 \pi i} \oint_{\contour_{\lambda_{i}}}\left(z-\lambda_{i}\right)^{k} R_{z}(A) d z=\left(A-\lambda_{i} I\right)^{k} P_{i} . \tag{1}
->```
->Since the resolvent has no essential singularities, there exists a $k>0$ integer for which the left-hand side of (1) is zero. 
->Since $\forall x \in \im \left(P_{i}\right)$, $x=P_{i} \ x$ this shows $x \in \ker\left(A-\lambda_{i} I\right)^{k}.$ 
->For Hermitian, and thus diagonalisable matrices,
->```math
->	\ker\left(A-\lambda_{i} I\right)^{k}=\ker\left(A-\lambda_{i} I\right) \quad \forall k \geq 1
->```
+> Now note, that $A$ is Hermitian and thus admits an eigendecomposition
+> $A = U Λ U^H$ where $Λ = \text{diag}(λ_1, λ_2, \ldots, λ_n)$ and $U$ are
+> the corresponding eigenvectors as columns.
+> Then
+> ```math
+> \begin{aligned}
+> \oint_{\contour_{\lambda_{i}}} \left(z-\lambda_{i}\right) \, R_{z}(A) d z
+> &= \oint_{\contour_{\lambda_{i}}}\left(z-\lambda_{i}\right) \, U (\Lambda-z)^{-1} U^H d z \\
+> &= U\, \text{diag}(k_1, \ldots, k_n)\, U^H
+> \end{aligned}
+> ```
+> where we used $(A-z)^{-1} = U (\Lambda-z)^{-1} U^H$ and pushed the contour integral to the elements of the inner diagonal matrix
+> ```math
+> k_j = \oint_{\contour_{\lambda_{i}}} \left(z-\lambda_{i}\right) (λ_j-z)^{-1} d z = 0.
+> ```
+> These elements are all zero, since only for $j=i$ does the expression $1/(λ_j -z)$
+> even have a singularity inside the contour $\contour_{\lambda_{i}}$,
+> but for this $j$ the singularity is removed by the prefactor.
+> Therefore
+> ```math
+> 0 =\left(A-\lambda_{i} I\right) P_{i}
+> ```
+>Since $\forall x \in \im \left(P_{i}\right)$, $x=P_{i} \ x$ this shows $x \in \ker\left(A-\lambda_{i} I\right),$ 
 > thus $\im \left(P_{i}\right) \subseteq  \ker \left(A-\lambda_{i} I\right)$. $\hspace{9cm} \square$
 """
 
@@ -551,10 +565,23 @@ md"""
   ```
   Using the invariance of $Q_{\tilde \lambda}$ with respect to $\tilde A - \tilde \lambda I$, we get
   ```math
+   Q_{\tilde{\lambda}}(\tilde{A}-\tilde{\lambda} I)\, Q_{\tilde{\lambda}}\, x^{\prime}(0) =-Q_{\tilde{\lambda}} \Delta A \, \tilde{x} +O(|t|),
+  ```
+  which is an equation that can be solved uniquely
+  for $Q_{\tilde{\lambda}}\, x^{\prime}(0)$.
+
+- Note, that in principle $\tilde{A}- \tilde{\lambda} I$ is singular,
+  thus not invertible.
+  However, since our solution $Q_{\tilde{\lambda}}\, x^{\prime}(0)$
+  is orthogonal to the eigenspace of $\tilde{\lambda}$, thus the nullspace
+  of $\tilde{A}- \tilde{\lambda} I$ we can uniquely compute it numerically
+  using a slight generalisation of the matrix inverse such as a
+  [Moore-Penrose pseudoinverse](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse). See the remark below for some practical
+  details how to achieve this.
+  With slight abuse of notation we thus write to first order:
+  ```math
   \begin{align}
-   Q_{\tilde{\lambda}}(\tilde{A}-\tilde{\lambda} I)\, Q_{\tilde{\lambda}}\, x^{\prime}(0) &=-Q_{\tilde{\lambda}} \Delta A \, \tilde{x} +O(|t|) 
-  \\
-  \Rightarrow\quad Q_{\tilde{\lambda}}\, x^{\prime}(0) &=-Q_{\tilde{\lambda}}(\tilde{A}-  \tilde{\lambda} I)^{-1} Q_{\tilde \lambda}  \Delta A \, \tilde{x} \\  
+  Q_{\tilde{\lambda}}\, x^{\prime}(0) &=-Q_{\tilde{\lambda}}(\tilde{A}-  \tilde{\lambda} I)^{-1} Q_{\tilde \lambda}  \Delta A \, \tilde{x} \\  
   \tag{$\ast$}
   &=-R_{\tilde{\lambda}}(\tilde{A}) \, Q_{\tilde{\lambda}}  \Delta A\, \tilde x
   \end{align}
@@ -585,11 +612,56 @@ The final first-order changes are
 \boxed{
 \begin{array}{l}
 \lambda'(0)=\langle\tilde{x}, \Delta A \tilde{x})  \\
-x^{\prime}(0)=-(\tilde{A}-\tilde{\lambda} I)^{-1} Q_{\tilde{\lambda}} \Delta A \tilde{x}
+x^{\prime}(0)=-(\tilde{A}-\tilde{\lambda} I)^{-1} Q_{\tilde{\lambda}} \, \Delta A\, \tilde{x}
 \end{array}}
 \tag{PT}
 ```
 
+"""
+
+# ╔═╡ 9ee8f909-8192-449d-a003-acd15d803052
+md"""
+!!! tip "Numerical computation of x'(0)"
+    We are operating under the assumption that we have access
+    to the eigenpairs of $\tilde{A}$. So let us employ the eigendecomposition 
+    of $\tilde{A}$ to write
+    ```math
+    \tilde{A} = \sum_{i=1}^n \tilde{u}_i \, \tilde{μ}_i \, \tilde{u}_i^H
+    ```
+    where $(\tilde{μ}_i, \tilde{u}_i)$ for $i=1,\ldots,n$ are all eigenpairs of
+    $\tilde{A}$. Without loss of generality let the
+    $\tilde{\lambda}$ and $\tilde{x}$ from above be equal to the first eigenpair,
+    i.e. $\tilde{μ}_1 = \tilde{λ}$ and $\tilde{x} = \tilde{u}_1$.
+    Notably with this convention
+    ```math
+    \tag{5}
+    -(\tilde{A}-\tilde{\lambda} I)^{-1} Q_{\tilde{\lambda}} \,\Delta A\, \tilde{x}
+    = -\sum_{i=\textcolor{red}{2}}^n \tilde{u}_i \, (\tilde{μ}_i-\tilde{λ})^{-1} \, \tilde{u}_i^H\,\Delta A\, \tilde{x}
+    ```
+    since $\tilde{u}_1^H Q_{\tilde{\lambda}} = 0$.
+    Since we take $x'(0) \perp \tilde{u}_1$ we further have
+    ```math
+    x'(0) = \sum_{j=\textcolor{red}{2}}^n c_j \, \tilde{u}_j
+    ```
+    where $c_j = \tilde{u}_j^H x'(0) \in \mathbb{C}$ are expansion coeffients.
+    Clearly inserting into (5)
+    ```math
+	c_j = - \tilde{u}_j \, (\tilde{μ}_j-\tilde{λ})^{-1} \, \tilde{u}_j^H\,\Delta A\, \tilde{x}
+    ```
+    for $j = \textcolor{red}{2}, 3, \ldots n$. Since in this case $\tilde{μ}_j \neq \tilde{λ}$ for all considered $j$ this computable.
+
+	In practice one often uses iterative algorithms (such as [conjugate gradient](https://en.wikipedia.org/wiki/Conjugate_gradient_method))
+    to solve linear systems such as
+    ```math
+    Q_{\tilde{\lambda}}(\tilde{A}-\tilde{\lambda} I)\, Q_{\tilde{\lambda}}\, x^{\prime}(0) =-Q_{\tilde{\lambda}} \Delta A \, \tilde{x}
+    ```
+    for $x^{\prime}(0)$.
+	Since in this setting both the right-hand side
+    $-Q_{\tilde{\lambda}} \Delta A \, \tilde{x}$
+    as well as the solution $x^{\prime}(0)$ have no component along $\tilde{x}$,
+    this can be achieved using the "normal" iterative scheme,
+    just applying the projector $Q_{\tilde{\lambda}}$ whenever orthogonalising
+    the subspace vectors of the iterations.
 """
 
 # ╔═╡ bc34fa94-f155-41fb-92d1-3e51db702f26
@@ -1360,6 +1432,7 @@ version = "0.13.1+0"
 # ╟─22fe9a75-06bf-43b3-9cb0-92a9022ae653
 # ╟─eb10b66a-c103-4964-83e4-e980fdcaa36b
 # ╟─645a99c9-dc40-484d-bfe1-ea5a9745c009
+# ╟─9ee8f909-8192-449d-a003-acd15d803052
 # ╟─bc34fa94-f155-41fb-92d1-3e51db702f26
 # ╟─f3fe5786-f3d9-4c14-9f51-911732a9dfb0
 # ╟─1a28c717-c969-4ce9-be55-80b566f6436d
