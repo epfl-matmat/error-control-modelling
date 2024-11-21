@@ -381,7 +381,7 @@ To conclude we state a generalisation of an earlier statement about the series e
 
 # ╔═╡ 07bf8bf2-d2b1-4ed8-b95c-f6c7d4cc6e45
 md"""
-!!! note "Lemma 2"
+!!! note "Lemma 2 (optional)"
 	Let $\opA : D(\opA) \rightarrow \hilbert$ be a linear operator and $z \in \resolvent(\opA)$.
 	Then, $B_r(z) \subset \resolvent(A)$ with radius
 	```math
