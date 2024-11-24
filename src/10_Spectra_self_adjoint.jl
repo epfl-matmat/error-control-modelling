@@ -44,9 +44,9 @@ begin
 		return A * exp(-((x - π/2)/sigma)^2)
 	end
 
-	#matrix elements
+	# matrix elements
 	function Mij(i,j,V)
-		# I know that this is definitely not the most efficient approach from a computational standpoint, but it works
+		# This is definitely not the most efficient approach from a computational standpoint, but it works
 		quad = quadgk(x -> conj(basis_function(x,i)) * (- laplacian(x,j) / 2 + V(x) * basis_function(x,j)), 0, π, atol=1e-6)
 		return quad[1] 
 	end
@@ -112,184 +112,23 @@ We thus obtain that the familiar result that self-adjoint operators have a real 
 
 """
 
-# ╔═╡ d2b95a1b-5e4c-4e85-8a6e-d893c9c3cbde
+# ╔═╡ b38a53c0-3281-4fef-8366-82f05219fb9b
 md"""
-## Weyl sequences for spectral characterization
+## Spectral characterization
 
-Another important characterisation method is based on the convergence of bounded sequences, where we already noted differences between the finite and infinite dimensional case.
-To fully appreciate the details we need a few more definitions.
-"""
-
-# ╔═╡ 206bf4ec-9bdd-4141-8ee4-570f077c06d0
-md"""
+Not all members of the spectrum have the same mathematical properties. In particular when it comes to approximating the spectrum, some parts of it are easier to obtain numerically than others. We will discuss basic properties of the spectrum of an operator, some examples and develop useful spectral subsets.
 
 
-
-!!! note "Definition 1 (Weak Convergence)"
-	Let $\hilbert$ be a Hilbert
-	space. A sequence $(\phi_n) \in \hilbert$ is said to *converge weakly*
-	against a $\varphi \in \hilbert$ if 
-	```math 
-	\begin{align}
-	    \lim_{n \to \infty} \langle \phi_n , f \rangle &= \langle \varphi , f \rangle  && \forall f \in \mathcal \hilbert.
-	\end{align}
-	```
-	 In this case we also write
-	$\phi_n \rightharpoonup \varphi$.
-
-
-!!! tip "Remark (Strong convergence implies weak convergence)"
-	Let
-	$\phi_n \to \varphi$ strongly in $\hilbert$.
-	Then, it holds
-	$\| \phi_n - \varphi \| \to 0$ as $n \to \infty$. 
-	Let further $f \in \hilbert$. We obtain 
-	```math 
-	\lim_{n \to \infty} | \langle \phi_n - \varphi, f \rangle | \leq \lim_{n \to \infty} \| \phi_n - \varphi \| \cdot \| f \| = 0
-	```
-	Hence, strong convergence implies weak convergence.
-
-
-!!! tip "Remark"
-	If $\phi_n \rightharpoonup \varphi$ weakly and
-	$\| \phi_n \| \to \| \varphi \|$ strongly, then $\phi_n \to \varphi$ strongly
-	because 
-	```math 
-	\begin{align}
-	        \| \phi_n - \varphi \| ^2 &= \| \phi_n \| ^2 - 2 \langle \varphi, \phi_n \rangle + \| \varphi \|^2
-	    
-	\end{align}
-	```
-	 Which gives, as $n \to \infty$ 
-	```math 
-	\begin{align}
-	        2 \| \varphi \| ^2 - 2 \langle \varphi, \varphi \rangle & = 0
-	    
-	\end{align}
-	```
-
-
-
-
-"""
-
-# ╔═╡ 390974fb-36d3-44e1-8543-24a16e400512
-md"""
-In infinite dimensions closed and bounded sets are no longer necessarily compact.
-Thus bounded sequences may not have strongly converging subsequences.
-However,
-
-!!! note "Theorem 2" 
-	Let $\hilbert$ be a Hilbert space and
-	$(\phi_n) \subset \hilbert$ a bounded sequence. Then, there always exists a
-	*weakly* convergent subsequence.
-
-
-!!! warning "Example 1"
-	Consider the sequence $(e_i) = (0,0,\dots,0,1,0,0,\dots)$, the
-	sequence of unit vectors in $\ell^2 (\mathbb R)$.   
-	The
-	sequence is bounded, as each element is inside the infinite dimensional unit ball ($\| e_i \| = 1$), and no strongly convergent subsequence exists. 
-	However,
-	$e_i \rightharpoonup 0$.
-
-With this in mind we return to the characterization of the spectra of self-adjoint operators.
-
-!!! note "Definition 2 (Weyl Sequence)"
-	A sequence $(\phi_n) \subset D(\opA)$
-	with $\| \phi_n \| = 1$, which satisfies
-	$\| (\opA - \lambda) \phi_n \| \to 0$ for a $\lambda \in \mathbb R$ is called a
-	*Weyl sequence*.
-
-
-
-"""
-
-# ╔═╡ 95acb6bd-42d7-4ede-b425-a91ed9640d9a
-md"""
-!!! note "Theorem 3"
+!!! note "Theorem 3 (short version)"
 	Let $\opA$ be self-adjoint with $D(\opA) \subset \hilbert$ and
 	$\lambda \in \mathbb R$. The following are equivalent
 
 	1.  $\lambda \in \sigma(\opA)$
 	
 	2.  $\inf_{\varphi \in D(\opA), \| \varphi \| = 1} \| (\opA - \lambda) \varphi \| = 0$
-	
-	3.  There exists a Weyl sequence for $\lambda$.
 
-
-!!! tip "Remark"
-	The third statement explains nicely a key difference between finite and infinite dimensions.
-
-	- **In finite dimensions**, the unit sphere is compact, since it is closed and bounded. 
-	  Therefore, for each Weyl sequence $\phi_n$ with $\| \phi_n \| = 1$, we can extract a convergent subsequence
-	  $\phi_{n_k} \to \varphi \in \hilbert$.
-
-	  Since all operators are bounded / continuous in finite dimensions, $\opA \phi_{n_k} \to \opA \varphi$. 
-	  Thus, $\| (\opA-\lambda) \phi_{n_k} \| \to 0$ implies $\opA \varphi = \lambda \varphi$.
-	
-	  Furthermore, from the triangle inequality 
-	  ```math 
-	  \begin{align}
-	  		\bigl \vert \| \phi_{n_k} \| - \| \phi_{n_k} - \varphi \| \bigr | \leq \| \varphi \| \leq \| \phi_{n_k} \| + \| \phi_{n_k} - \varphi \|
-	  	
-	  \end{align}
-	  ```
-	  In addition, since $\phi_{n_k} \to \varphi$ strongly and $\| \phi_n \| = 1$ these three statements imply $\| \varphi \| = 1$. 
-
-	  A Weyl sequence for $\lambda$ thus always yields an eigenpair and $\sigma(\opA)$ consists only of eigenvalues.
-	  Moreover *Weyl sequences converge (strongly) to eigenvalues.*
-
-
-	- **In infinite dimensions**, $\| \phi_n \| = 1$ implies that we have a bounded sequence. 
-	  Because of Theorem 2, there exists a bounded subsequence $\phi_{n_k}$ with $\phi_{n_k} \rightharpoonup \varphi$ weakly.
-	  Further, the strong convergence $\| (\opA - \lambda) \phi_n \| \to 0$ implies weak convergence. Thus, for any $f \in D(\opA)$, it holds
-	
-	  ```math 
-	  \begin{align}
-	          0 &= \lim_{n\to \infty} \langle f, (\opA - \lambda) \phi_n \rangle \\
-	          &= \lim_{n \to \infty} \langle (\opA - \lambda) f , \phi_n \rangle \\
-	          &= \langle (\opA - \lambda) f, \varphi \rangle
-	    
-	  \end{align}
-	  ```
-	  where we used the symmetry of $\opA - \lambda$ and the weak convergence of $\phi_n$. 
-	  Therefore, 
-	  ```math 
-	  \begin{align}
-	        \tag{1}
-	        \langle \opA f , \varphi \rangle &= \lambda \langle f, \varphi \rangle &&   \forall f \in D(\opA)
-	  \end{align}
-	  ```
-	
-	  Next, we argue based on the graph of $\opA$
-	  ```math 
-	  \begin{align}
-	        G(\opA) &= \{ ( \varphi, \opA \varphi ) \in \hilbert \times \hilbert \mid   \varphi \in D(\opA) \}
-	  \end{align}
-	  ```
-	  and the graph of the adjoint, which can be written
-	
-	  ```math 
-	  \begin{align}
-	          G(\opA^*) &= \{ ( g, \opA^* g ) \in \hilbert \times \hilbert \mid g \in D(\opA^*) = D(\opA) \} \\
-	        &= \{ (g,h) \in \hilbert \times \hilbert \mid \langle \opA f, g \rangle = \langle f, h \rangle \ \forall f \in D(\opA) \}.
-	  \end{align}
-	  ```
-	  Employing (1), we deduce by comparing the expressions that $( \varphi, \lambda \varphi ) \in G(\opA^*)$. 
-	  The only element for which this is possible is $(g , \opA ^* g ) = ( \varphi, \lambda \varphi )$. 
-
-	  Hence,
-	  ```math 
-	  \begin{align}
-	  	\lambda \varphi = \opA^* \varphi = \opA \varphi
-	  \end{align}
-	  ```
-	   using the self-adjointness of $\opA$.
-
-	  Consider the case where $\lambda \in \sigma(\opA)$, but $\lambda$ is *not* an eigenvalue. 
-	  Then $\mathop{\mathrm{Ker}}(\opA - \lambda) = \{ 0 \}$ and it must hold $\phi_n \rightharpoonup \varphi = 0$. 
-	  *Weyl sequences converge weakly to zero.*
+The appendix provides an extended version of this theorem discussing
+and discussing the noticon of Weyl sequences, which are a often useful tool in spectral theory.
 
 """
 
@@ -323,15 +162,17 @@ Similarly, upper semi-bounded operators satisfy $\langle \varphi, \op B  \varphi
 
 """
 
-# ╔═╡ 2f377ee6-e23e-432f-aeb6-9097fa260027
+# ╔═╡ ac4c686a-0448-43b7-aa93-44b314d014ae
 md"""
 Beforehand, let us pause for a second and use this result to deduce the spectra for a few self-adjoint operators on $\hilbert = L^2(\mathbb R ^d)$ 
 
 !!! warning "Example 2 (Identity operator)"
 	 $\mathop{\mathrm{id}}: \hilbert \to \hilbert$ (i.e. $D(\mathop{\mathrm{id}}) = \hilbert$) is clearly bounded from above and below by 1. 
 	Thus, $\sigma(\mathop{\mathrm{id}}) = \{ 1\}$
-	
+"""
 
+# ╔═╡ f937dc9e-c9d1-408b-884f-81835d06e0d7
+md"""
 !!! warning "Example 3 (Multiplication by a continuous function)"
 	Let
 	$V : \mathbb R^d \to \mathbb R, \op V : D(\op V) \to \hilbert$ where $D(\op V) = \{ f \in L^2 (\mathbb R^2) \mid Vf \in L^2 (\mathbb R^2) \}$.
@@ -343,9 +184,11 @@ Beforehand, let us pause for a second and use this result to deduce the spectra 
 	    
 	\end{align}
 	```
+"""
 
-
-!!! warning "Example 4 (Laplace operator - Δ)"
+# ╔═╡ d4e70554-6197-41ca-94fa-7fcceca73ccd
+md"""
+!!! warning "Example 4 (Laplace operator - Δ, part 1)"
 	We want to show explicitly that $\sigma ( - \laplacian) = [ 0 , \infty )$ for the Laplace operator $- \laplacian$ with
 	$D(- \laplacian) = H^2 (\mathbb R^d)$. 
 	We already stated this operator to be self-adjoint.
@@ -356,31 +199,9 @@ Beforehand, let us pause for a second and use this result to deduce the spectra 
 	\end{align}
 	```
 	Thus $\sigma(- \laplacian) \subset [0, \infty)$.
-	
-	Now, we take $k_0 \in \mathbb R^d, f \in H^2(\mathbb R^d)$ and define a Weyl sequence 
-	```math
-		f_n(x) = n^{-d/2} f(x/n) e^{i x \cdot k_0}
-	```
-	with Fourier transform 
-	```math
-		\hat f_n(k) = n^{d/2} \hat f (n (k - k_0)).
-	```
-	Using $| \cdot |$ to denote norms in $\mathbb R^d$ :
-	```math
-	\begin{align}
-	\| (- \laplacian - |k_0| )^2 f_n \| ^2 &= \int_{\mathbb R^d} \bigl | |k|^2 - |k_0|^2 \bigr | ^2 |\hat f_n (k) |^2 dk 
-	\\
-	&= \int_{\mathbb R^d} \left | \left | k_0 + \frac{p}{n} \right |^2 - |k_0|^2 \right  |^2 |\hat f (p) |^2 dp
-	\\
-	&=\frac1{n} \int_{\mathbb R^d} \left | 2 p \cdot k_0 + \frac{|p|^2}{n} \right |^2 |\hat f (p) |^2 dp
-	\end{align}
-	```
-	which converges to 0 as $n \to \infty$.
-	Therefore (Theorem 3) $|k_0|^2 \in \sigma(- \laplacian).$
-	As $k_0$ spans $\mathbb R^d$, $|k_0|^2$ spans $[0, \infty)$, so $[0, \infty) \subset \sigma(- \laplacian)$. 
 
-	Therefore, we have $[0,\infty) \subset \sigma(-\laplacian) \subset [0, \infty)$.
-	Hence, $[0, \infty) = \sigma(-\laplacian)$
+    The inverse direction $[0, \infty) \subset \sigma(- \laplacian)$ is easy to show
+    using Weyl sequences (see the discussion in the appendix.)
 """
 
 # ╔═╡ d2bf63fb-6035-49b2-9182-c606bb3643af
@@ -513,22 +334,9 @@ md"""
 Notice how eigenvalues (members of $\sigma_p$) may be embedded inside the continuous spectrum.
 These are very unstable to perturbations (so-called resonance states) and, as we will see now, hard to approximate.
 
-Notice that, unlike $\sigma_{\text{cont}}$, $\sigma_{ess}$ is always closed for a self-adjoint operator.
+Notice that, unlike $\sigma_{\text{cont}}$, the essential spectrum $\sigma_{ess}$ is always closed for a self-adjoint operator.
 
 
-"""
-
-# ╔═╡ e60a51b3-88ed-4e03-9937-4c86773e33e8
-md"""
-Overall, Weyl sequences turn out to yield a useful characterization of the spectra of self-adjoint operators, and overview of which is shown here :
-
-Spectrum | Weyl sequence for spectral characterization
----|:---
-$\lambda \in \sigma(\opA)$ | $\exists \text{ a Weyl sequence } (\phi_n) \subset D(\opA) \text{ s.t. } \| \phi_n \| = 1 \text{ and } \| (\opA - \lambda) \phi_n \| \to 0$
-$\lambda \in \sigma_{\text{ess}} (\opA)$ | $\exists \text{ a Weyl sequence s.t. } \phi_n \rightharpoonup 0 \text{ (weakly)}$
-$\lambda \in \sigma_{\text{disc}} (\opA)$ | $\text{\emph{All} Weyl sequences have subsequences } \phi_{n_k} \to \varphi \text{ (strongly)}$
-$\lambda \in \sigma_{\text{cont}} (\opA)$ | $\text{\emph{All} Weyl sequences verify } \phi_n \rightharpoonup 0 \text{ (weakly)}$
-$\lambda \in \sigma_{\text{p}}(\opA)$ | $\exists \text{ a Weyl sequence with a weak limit different from 0, i.e. } \mathop{\mathrm{Ker}}(\opA - \lambda) \neq 0.$
 """
 
 # ╔═╡ 1b178edd-98f9-4533-b3df-38efcd026333
@@ -597,9 +405,10 @@ The importance of the form domain is that is allows for a weak formulation :
 
 """
 
-# ╔═╡ 68f786f1-45a4-475b-a0bb-37636819ddf2
+# ╔═╡ b8a09478-92d3-49b1-996e-73200a2dd4cc
 md"""
-Based on this formulation we obtain, again based on Weyl sequences :
+Based on the weak formulation (and using techniques based on Weyl sequences)
+we obtain:
 
 !!! note "Theorem 6"
 	Let $\opA$ be a self-adjoint operator with form domain $Q(\opA) \subset \hilbert$, then
@@ -612,7 +421,10 @@ Based on this formulation we obtain, again based on Weyl sequences :
 	\end{align}
 	```
 	with the convention $\Sigma(\opA) = \infty$ if and only if $\sigma_{\text{ess}}(\opA) = \varnothing$.
+"""
 
+# ╔═╡ 82a18241-bd56-4482-899b-2dbb15d05818
+md"""
 !!! tip "Remark"
 	Typical form domains use again Sobolev spaces. For example 
 	```math
@@ -901,7 +713,7 @@ Now, we want to write something similar for $\opA$ in infinite dimensions.
 
 # ╔═╡ 66c953ac-d572-469a-94f1-67cc473c5704
 md"""
-##### Infinite dimensions
+##### Infinite dimensions (optional)
 
 We fix $v \in D(\opA)$. 
 Now the function
@@ -966,8 +778,238 @@ md"""
 > $\hspace{8cm} \square$
 """
 
-# ╔═╡ 4d4d6fa7-99c5-4cb7-8d3e-830634a37daf
+# ╔═╡ d2b95a1b-5e4c-4e85-8a6e-d893c9c3cbde
+md"""
+## Appendix: Weyl sequences for spectral characterization
 
+Another important characterisation method is based on the convergence of bounded sequences, where we already noted differences between the finite and infinite dimensional case.
+To fully appreciate the details we need a few more definitions.
+"""
+
+# ╔═╡ 206bf4ec-9bdd-4141-8ee4-570f077c06d0
+md"""
+
+
+
+!!! note "Definition 1 (Weak Convergence)"
+	Let $\hilbert$ be a Hilbert
+	space. A sequence $(\phi_n) \in \hilbert$ is said to *converge weakly*
+	against a $\varphi \in \hilbert$ if 
+	```math 
+	\begin{align}
+	    \lim_{n \to \infty} \langle \phi_n , f \rangle &= \langle \varphi , f \rangle  && \forall f \in \mathcal \hilbert.
+	\end{align}
+	```
+	 In this case we also write
+	$\phi_n \rightharpoonup \varphi$.
+
+
+!!! tip "Remark (Strong convergence implies weak convergence)"
+	Let
+	$\phi_n \to \varphi$ strongly in $\hilbert$.
+	Then, it holds
+	$\| \phi_n - \varphi \| \to 0$ as $n \to \infty$. 
+	Let further $f \in \hilbert$. We obtain 
+	```math 
+	\lim_{n \to \infty} | \langle \phi_n - \varphi, f \rangle | \leq \lim_{n \to \infty} \| \phi_n - \varphi \| \cdot \| f \| = 0
+	```
+	Hence, strong convergence implies weak convergence.
+
+
+!!! tip "Remark"
+	If $\phi_n \rightharpoonup \varphi$ weakly and
+	$\| \phi_n \| \to \| \varphi \|$ strongly, then $\phi_n \to \varphi$ strongly
+	because 
+	```math 
+	\begin{align}
+	        \| \phi_n - \varphi \| ^2 &= \| \phi_n \| ^2 - 2 \langle \varphi, \phi_n \rangle + \| \varphi \|^2
+	    
+	\end{align}
+	```
+	 Which gives, as $n \to \infty$ 
+	```math 
+	\begin{align}
+	        2 \| \varphi \| ^2 - 2 \langle \varphi, \varphi \rangle & = 0
+	    
+	\end{align}
+	```
+
+
+
+
+"""
+
+# ╔═╡ 390974fb-36d3-44e1-8543-24a16e400512
+md"""
+In infinite dimensions closed and bounded sets are no longer necessarily compact.
+Thus bounded sequences may not have strongly converging subsequences.
+However,
+
+!!! note "Theorem 2" 
+	Let $\hilbert$ be a Hilbert space and
+	$(\phi_n) \subset \hilbert$ a bounded sequence. Then, there always exists a
+	*weakly* convergent subsequence.
+
+
+!!! warning "Example 1"
+	Consider the sequence $(e_i) = (0,0,\dots,0,1,0,0,\dots)$, the
+	sequence of unit vectors in $\ell^2 (\mathbb R)$.   
+	The
+	sequence is bounded, as each element is inside the infinite dimensional unit ball ($\| e_i \| = 1$), and no strongly convergent subsequence exists. 
+	However,
+	$e_i \rightharpoonup 0$.
+
+With this in mind we return to the characterization of the spectra of self-adjoint operators.
+
+!!! note "Definition 2 (Weyl Sequence)"
+	A sequence $(\phi_n) \subset D(\opA)$
+	with $\| \phi_n \| = 1$, which satisfies
+	$\| (\opA - \lambda) \phi_n \| \to 0$ for a $\lambda \in \mathbb R$ is called a
+	*Weyl sequence*.
+
+
+
+"""
+
+# ╔═╡ b1a122aa-1e73-432c-8341-cf11e36522e4
+md"""
+!!! note "Theorem 3"
+	Let $\opA$ be self-adjoint with $D(\opA) \subset \hilbert$ and
+	$\lambda \in \mathbb R$. The following are equivalent
+
+	1.  $\lambda \in \sigma(\opA)$
+	
+	2.  $\inf_{\varphi \in D(\opA), \| \varphi \| = 1} \| (\opA - \lambda) \varphi \| = 0$
+	
+	3.  There exists a Weyl sequence for $\lambda$.
+"""
+
+# ╔═╡ fbad0115-d25e-429c-886a-8b5d26b875d9
+md"""
+!!! tip "Remark"
+	The third statement explains nicely a key difference between finite and infinite dimensions.
+
+	- **In finite dimensions**, the unit sphere is compact, since it is closed and bounded. 
+	  Therefore, for each Weyl sequence $\phi_n$ with $\| \phi_n \| = 1$, we can extract a convergent subsequence
+	  $\phi_{n_k} \to \varphi \in \hilbert$.
+
+	  Since all operators are bounded / continuous in finite dimensions, $\opA \phi_{n_k} \to \opA \varphi$. 
+	  Thus, $\| (\opA-\lambda) \phi_{n_k} \| \to 0$ implies $\opA \varphi = \lambda \varphi$.
+	
+	  Furthermore, from the triangle inequality 
+	  ```math 
+	  \begin{align}
+	  		\bigl \vert \| \phi_{n_k} \| - \| \phi_{n_k} - \varphi \| \bigr | \leq \| \varphi \| \leq \| \phi_{n_k} \| + \| \phi_{n_k} - \varphi \|
+	  	
+	  \end{align}
+	  ```
+	  In addition, since $\phi_{n_k} \to \varphi$ strongly and $\| \phi_n \| = 1$ these three statements imply $\| \varphi \| = 1$. 
+
+	  A Weyl sequence for $\lambda$ thus always yields an eigenpair and $\sigma(\opA)$ consists only of eigenvalues.
+	  Moreover *Weyl sequences converge (strongly) to eigenvalues.*
+
+
+	- **In infinite dimensions**, $\| \phi_n \| = 1$ implies that we have a bounded sequence. 
+	  Because of Theorem 2, there exists a bounded subsequence $\phi_{n_k}$ with $\phi_{n_k} \rightharpoonup \varphi$ weakly.
+	  Further, the strong convergence $\| (\opA - \lambda) \phi_n \| \to 0$ implies weak convergence. Thus, for any $f \in D(\opA)$, it holds
+	
+	  ```math 
+	  \begin{align}
+	          0 &= \lim_{n\to \infty} \langle f, (\opA - \lambda) \phi_n \rangle \\
+	          &= \lim_{n \to \infty} \langle (\opA - \lambda) f , \phi_n \rangle \\
+	          &= \langle (\opA - \lambda) f, \varphi \rangle
+	    
+	  \end{align}
+	  ```
+	  where we used the symmetry of $\opA - \lambda$ and the weak convergence of $\phi_n$. 
+	  Therefore, 
+	  ```math 
+	  \begin{align}
+	        \tag{1}
+	        \langle \opA f , \varphi \rangle &= \lambda \langle f, \varphi \rangle &&   \forall f \in D(\opA)
+	  \end{align}
+	  ```
+	
+	  Next, we argue based on the graph of $\opA$
+	  ```math 
+	  \begin{align}
+	        G(\opA) &= \{ ( \varphi, \opA \varphi ) \in \hilbert \times \hilbert \mid   \varphi \in D(\opA) \}
+	  \end{align}
+	  ```
+	  and the graph of the adjoint, which can be written
+	
+	  ```math 
+	  \begin{align}
+	          G(\opA^*) &= \{ ( g, \opA^* g ) \in \hilbert \times \hilbert \mid g \in D(\opA^*) = D(\opA) \} \\
+	        &= \{ (g,h) \in \hilbert \times \hilbert \mid \langle \opA f, g \rangle = \langle f, h \rangle \ \forall f \in D(\opA) \}.
+	  \end{align}
+	  ```
+	  Employing (1), we deduce by comparing the expressions that $( \varphi, \lambda \varphi ) \in G(\opA^*)$. 
+	  The only element for which this is possible is $(g , \opA ^* g ) = ( \varphi, \lambda \varphi )$. 
+
+	  Hence,
+	  ```math 
+	  \begin{align}
+	  	\lambda \varphi = \opA^* \varphi = \opA \varphi
+	  \end{align}
+	  ```
+	   using the self-adjointness of $\opA$.
+
+	  Consider the case where $\lambda \in \sigma(\opA)$, but $\lambda$ is *not* an eigenvalue. 
+	  Then $\mathop{\mathrm{Ker}}(\opA - \lambda) = \{ 0 \}$ and it must hold $\phi_n \rightharpoonup \varphi = 0$. 
+	  *Weyl sequences converge weakly to zero.*
+
+"""
+
+# ╔═╡ 3efba9d4-6ad9-433d-8fe1-bc7d56c01a30
+md"With this in place we can easily continue our discussion of Exapmle 4:"
+
+# ╔═╡ b0132078-9dfc-48ad-aa37-5b35596c6283
+md"""
+!!! warning "Example 4 (Laplace operator - Δ, part 2)"
+    We want to show explicitly that $\sigma ( - \laplacian) = [ 0 , \infty )$
+    for the Laplace operator $- \laplacian$ with
+	$D(- \laplacian) = H^2 (\mathbb R^d)$. 
+    In part 1 we already showed $\sigma(- \laplacian) \subset [0, \infty)$.
+    
+	To show the reverse we take $k_0 \in \mathbb R^d, f \in H^2(\mathbb R^d)$ and define a Weyl sequence 
+	```math
+		f_n(x) = n^{-d/2} f(x/n) e^{i x \cdot k_0}
+	```
+	with Fourier transform 
+	```math
+		\hat f_n(k) = n^{d/2} \hat f (n (k - k_0)).
+	```
+	Using $| \cdot |$ to denote norms in $\mathbb R^d$ :
+	```math
+	\begin{align}
+	\| (- \laplacian - |k_0| )^2 f_n \| ^2 &= \int_{\mathbb R^d} \bigl | |k|^2 - |k_0|^2 \bigr | ^2 |\hat f_n (k) |^2 dk 
+	\\
+	&= \int_{\mathbb R^d} \left | \left | k_0 + \frac{p}{n} \right |^2 - |k_0|^2 \right  |^2 |\hat f (p) |^2 dp
+	\\
+	&=\frac1{n} \int_{\mathbb R^d} \left | 2 p \cdot k_0 + \frac{|p|^2}{n} \right |^2 |\hat f (p) |^2 dp
+	\end{align}
+	```
+	which converges to 0 as $n \to \infty$.
+	Therefore (Theorem 3) $|k_0|^2 \in \sigma(- \laplacian).$
+	As $k_0$ spans $\mathbb R^d$, $|k_0|^2$ spans $[0, \infty)$, so $[0, \infty) \subset \sigma(- \laplacian)$. 
+
+	Therefore, we have $[0,\infty) \subset \sigma(-\laplacian) \subset [0, \infty)$.
+	Hence, $[0, \infty) = \sigma(-\laplacian)$
+"""
+
+# ╔═╡ e60a51b3-88ed-4e03-9937-4c86773e33e8
+md"""
+Weyl sequences turn out to yield a useful characterization of the spectra of self-adjoint operators, and overview of which is shown here :
+
+Spectrum | Weyl sequence for spectral characterization
+---|:---
+$\lambda \in \sigma(\opA)$ | $\exists \text{ a Weyl sequence } (\phi_n) \subset D(\opA) \text{ s.t. } \| \phi_n \| = 1 \text{ and } \| (\opA - \lambda) \phi_n \| \to 0$
+$\lambda \in \sigma_{\text{ess}} (\opA)$ | $\exists \text{ a Weyl sequence s.t. } \phi_n \rightharpoonup 0 \text{ (weakly)}$
+$\lambda \in \sigma_{\text{disc}} (\opA)$ | $\text{\emph{All} Weyl sequences have subsequences } \phi_{n_k} \to \varphi \text{ (strongly)}$
+$\lambda \in \sigma_{\text{cont}} (\opA)$ | $\text{\emph{All} Weyl sequences verify } \phi_n \rightharpoonup 0 \text{ (weakly)}$
+$\lambda \in \sigma_{\text{p}}(\opA)$ | $\exists \text{ a Weyl sequence with a weak limit different from 0, i.e. } \mathop{\mathrm{Ker}}(\opA - \lambda) \neq 0.$
+"""
 
 # ╔═╡ e1d81761-c3c4-4bef-9e14-96bdcf5c8eba
 TableOfContents()
@@ -1019,13 +1061,15 @@ version = "1.3.2"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+version = "1.11.0"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+version = "1.11.0"
 
 [[deps.BitFlags]]
 git-tree-sha1 = "0691e34b3bb8be9307330f88d1a3c3f25466c24d"
@@ -1034,33 +1078,33 @@ version = "0.1.9"
 
 [[deps.Bzip2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "9e2a6b69137e6969bab0152632dcb3bc108c8bdd"
+git-tree-sha1 = "8873e196c2eb87962a2048b3b8e08946535864a1"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
-version = "1.0.8+1"
+version = "1.0.8+2"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "a2f1c8c668c8e3cb4cca4e57a8efdb09067bb3fd"
+git-tree-sha1 = "009060c9a6168704143100f36ab08f06c2af4642"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
-version = "1.18.0+2"
+version = "1.18.2+1"
 
 [[deps.CodeTracking]]
 deps = ["InteractiveUtils", "UUIDs"]
-git-tree-sha1 = "c0216e792f518b39b22212127d4a84dc31e4e386"
+git-tree-sha1 = "7eee164f122511d3e4e1ebadb7956939ea7e1c77"
 uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
-version = "1.3.5"
+version = "1.3.6"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
-git-tree-sha1 = "b8fe8546d52ca154ac556809e10c75e6e7430ac8"
+git-tree-sha1 = "bce6804e5e6044c6daab27bb533d1295e4a2e759"
 uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
-version = "0.7.5"
+version = "0.7.6"
 
 [[deps.ColorSchemes]]
 deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "PrecompileTools", "Random"]
-git-tree-sha1 = "b5278586822443594ff615963b0c09755771b3e0"
+git-tree-sha1 = "c785dfb1b3bfddd1da557e861b919819b82bbe5b"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.26.0"
+version = "3.27.1"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
@@ -1082,15 +1126,15 @@ version = "0.10.0"
 
 [[deps.Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
-git-tree-sha1 = "362a287c3aa50601b0bc359053d5c2468f0e7ce0"
+git-tree-sha1 = "64e15186f0aa277e174aa81798f7eb8598e0157e"
 uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
-version = "0.12.11"
+version = "0.13.0"
 
 [[deps.Compat]]
 deps = ["TOML", "UUIDs"]
-git-tree-sha1 = "b1c55339b7c6c350ee89f2c1604299660525b248"
+git-tree-sha1 = "8ae8d32e09f0dcf42a36b90d4e17f5dd2e4c4215"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.15.0"
+version = "4.16.0"
 weakdeps = ["Dates", "LinearAlgebra"]
 
     [deps.Compat.extensions]
@@ -1126,6 +1170,13 @@ version = "0.18.20"
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+version = "1.11.0"
+
+[[deps.Dbus_jll]]
+deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "fc173b380865f70627d7dd1190dc2fce6cc105af"
+uuid = "ee1fde0b-3d02-5ea6-8484-8dfef6360eab"
+version = "1.14.10+0"
 
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
@@ -1136,6 +1187,7 @@ version = "1.9.1"
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+version = "1.11.0"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -1156,21 +1208,21 @@ version = "0.0.20230411+0"
 
 [[deps.ExceptionUnwrapping]]
 deps = ["Test"]
-git-tree-sha1 = "dcb08a0d93ec0b1cdc4af184b26b591e9695423a"
+git-tree-sha1 = "d36f682e590a83d63d1c7dbd287573764682d12a"
 uuid = "460bff9d-24e4-43bc-9d9f-a8973cb893f4"
-version = "0.1.10"
+version = "0.1.11"
 
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "1c6317308b9dc757616f0b5cb379db10494443a7"
+git-tree-sha1 = "cc5231d52eb1771251fbd37171dbc408bcc8a1b6"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.6.2+0"
+version = "2.6.4+0"
 
 [[deps.FFMPEG]]
 deps = ["FFMPEG_jll"]
-git-tree-sha1 = "b57e3acbe22f8484b4b5ff66a7499717fe1a9cc8"
+git-tree-sha1 = "53ebe7511fa11d33bec688a9178fac4e49eeee00"
 uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
-version = "0.4.1"
+version = "0.4.2"
 
 [[deps.FFMPEG_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "PCRE2_jll", "Pkg", "Zlib_jll", "libaom_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
@@ -1180,6 +1232,7 @@ version = "4.4.2+2"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
+version = "1.11.0"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -1211,10 +1264,10 @@ uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.14+0"
 
 [[deps.GLFW_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "xkbcommon_jll"]
-git-tree-sha1 = "3f74912a156096bd8fdbef211eff66ab446e7297"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "libdecor_jll", "xkbcommon_jll"]
+git-tree-sha1 = "532f9126ad901533af1d4f5c198867227a7bb077"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
-version = "3.4.0+0"
+version = "3.4.0+1"
 
 [[deps.GR]]
 deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
@@ -1236,9 +1289,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Zlib_jll"]
-git-tree-sha1 = "7c82e6a6cd34e9d935e9aa4051b66c6ff3af59ba"
+git-tree-sha1 = "674ff0db93fffcd11a3573986e550d66cd4fd71f"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.80.2+0"
+version = "2.80.5+0"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1253,9 +1306,9 @@ version = "1.0.2"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "d1d712be3164d61d1fb98e7ce9bcbc6cc06b45ed"
+git-tree-sha1 = "1336e07ba2eb75614c99496501a8f4b233e9fafe"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.10.8"
+version = "1.10.10"
 
 [[deps.HarfBuzz_ICU_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "HarfBuzz_jll", "ICU_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -1296,6 +1349,7 @@ version = "0.2.5"
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+version = "1.11.0"
 
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "630b497eafcc20001bba38a4651b327dcfc491d2"
@@ -1304,15 +1358,15 @@ version = "0.2.2"
 
 [[deps.JLFzf]]
 deps = ["Pipe", "REPL", "Random", "fzf_jll"]
-git-tree-sha1 = "a53ebe394b71470c7f97c2e7e170d51df21b17af"
+git-tree-sha1 = "39d64b09147620f5ffbf6b2d3255be3c901bec63"
 uuid = "1019f520-868f-41f5-a6de-eb00f4b6a39c"
-version = "0.1.7"
+version = "0.1.8"
 
 [[deps.JLLWrappers]]
 deps = ["Artifacts", "Preferences"]
-git-tree-sha1 = "7e5d6779a1e09a36db2a7b6cff50942a0a7d0fca"
+git-tree-sha1 = "be3dc50a92e5a386872a493a10050136d4703f9b"
 uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
-version = "1.5.0"
+version = "1.6.1"
 
 [[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
@@ -1322,15 +1376,15 @@ version = "0.21.4"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "c84a835e1a09b289ffcd2271bf2a337bbdda6637"
+git-tree-sha1 = "25ee0be4d43d0269027024d75a24c24d6c6e590c"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
-version = "3.0.3+0"
+version = "3.0.4+0"
 
 [[deps.JuliaInterpreter]]
 deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
-git-tree-sha1 = "5d3a5a206297af3868151bb4a2cf27ebce46f16d"
+git-tree-sha1 = "10da5154188682e5c0726823c2b5125957ec3778"
 uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
-version = "0.9.33"
+version = "0.9.38"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1346,15 +1400,15 @@ version = "3.0.0+1"
 
 [[deps.LLVMOpenMP_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "d986ce2d884d49126836ea94ed5bfb0f12679713"
+git-tree-sha1 = "78211fb6cbc872f77cad3fc0b6cf647d923f4929"
 uuid = "1d63c593-3942-5779-bab2-d838dc0a180e"
-version = "15.0.7+0"
+version = "18.1.7+0"
 
 [[deps.LZO_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "70c5da094887fd2cae843b8db33920bac4b6f07d"
+git-tree-sha1 = "854a9c268c43b77b0a27f22d7fab8d33cdb3a731"
 uuid = "dd4b983a-f0e5-5f8d-a1b7-129d4a5fb1ac"
-version = "2.10.2+0"
+version = "2.10.2+1"
 
 [[deps.LaTeXStrings]]
 git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
@@ -1363,16 +1417,18 @@ version = "1.3.1"
 
 [[deps.Latexify]]
 deps = ["Format", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Requires"]
-git-tree-sha1 = "5b0d630f3020b82c0775a51d05895852f8506f50"
+git-tree-sha1 = "ce5f5621cac23a86011836badfedf664a612cee4"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.16.4"
+version = "0.16.5"
 
     [deps.Latexify.extensions]
     DataFramesExt = "DataFrames"
+    SparseArraysExt = "SparseArrays"
     SymEngineExt = "SymEngine"
 
     [deps.Latexify.weakdeps]
     DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+    SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
     SymEngine = "123dc426-2d89-5057-bbad-38513e3affd8"
 
 [[deps.LibCURL]]
@@ -1383,16 +1439,17 @@ version = "0.6.4"
 [[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
-version = "8.4.0+0"
+version = "8.6.0+0"
 
 [[deps.LibGit2]]
 deps = ["Base64", "LibGit2_jll", "NetworkOptions", "Printf", "SHA"]
 uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+version = "1.11.0"
 
 [[deps.LibGit2_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll"]
 uuid = "e37daf67-58a4-590a-8e99-b0245dd2ffc5"
-version = "1.6.4+0"
+version = "1.7.2+0"
 
 [[deps.LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
@@ -1401,6 +1458,7 @@ version = "1.11.0+1"
 
 [[deps.Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+version = "1.11.0"
 
 [[deps.Libffi_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1410,9 +1468,9 @@ version = "3.2.2+1"
 
 [[deps.Libgcrypt_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgpg_error_jll"]
-git-tree-sha1 = "9fd170c4bbfd8b935fdc5f8b7aa33532c991a673"
+git-tree-sha1 = "8be878062e0ffa2c3f67bb58a595375eda5de80b"
 uuid = "d4300ac3-e22c-5743-9152-c294e39db1e4"
-version = "1.8.11+0"
+version = "1.11.0+0"
 
 [[deps.Libglvnd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libX11_jll", "Xorg_libXext_jll"]
@@ -1422,15 +1480,15 @@ version = "1.6.0+0"
 
 [[deps.Libgpg_error_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "fbb1f2bef882392312feb1ede3615ddc1e9b99ed"
+git-tree-sha1 = "c6ce1e19f3aec9b59186bdf06cdf3c4fc5f5f3e6"
 uuid = "7add5ba3-2f88-524e-9cd5-f83b8a55f7b8"
-version = "1.49.0+0"
+version = "1.50.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "f9557a255370125b405568f9767d6d195822a175"
+git-tree-sha1 = "61dfdba58e585066d8bce214c5a51eaa0539f269"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.17.0+0"
+version = "1.17.0+1"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1453,6 +1511,7 @@ version = "2.40.1+0"
 [[deps.LinearAlgebra]]
 deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+version = "1.11.0"
 
 [[deps.LittleCMS_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg"]
@@ -1478,18 +1537,19 @@ version = "0.3.28"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+version = "1.11.0"
 
 [[deps.LoggingExtras]]
 deps = ["Dates", "Logging"]
-git-tree-sha1 = "c1dd6d7978c12545b4179fb6153b9250c96b0075"
+git-tree-sha1 = "f02b56007b064fbfddb4c9cd60161b6dd0f40df3"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
-version = "1.0.3"
+version = "1.1.0"
 
 [[deps.LoweredCodeUtils]]
 deps = ["JuliaInterpreter"]
-git-tree-sha1 = "0b898aba6cb0b01fb96245fa5375accb651a241a"
+git-tree-sha1 = "688d6d9e098109051ae33d126fcfc88c4ce4a021"
 uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
-version = "3.0.0"
+version = "3.1.0"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
@@ -1505,6 +1565,7 @@ version = "0.5.13"
 [[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+version = "1.11.0"
 
 [[deps.MbedTLS]]
 deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "NetworkOptions", "Random", "Sockets"]
@@ -1515,7 +1576,7 @@ version = "1.1.9"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.2+1"
+version = "2.28.6+0"
 
 [[deps.Measures]]
 git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
@@ -1530,10 +1591,11 @@ version = "1.2.0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+version = "1.11.0"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
-version = "2023.1.10"
+version = "2023.12.12"
 
 [[deps.NaNMath]]
 deps = ["OpenLibm_jll"]
@@ -1554,7 +1616,7 @@ version = "1.3.5+1"
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.23+4"
+version = "0.3.27+1"
 
 [[deps.OpenJpeg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libtiff_jll", "LittleCMS_jll", "Pkg", "libpng_jll"]
@@ -1575,15 +1637,15 @@ version = "1.4.3"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "a12e56c72edee3ce6b96667745e6cbbe5498f200"
+git-tree-sha1 = "ad31332567b189f508a3ea8957a2640b1147ab00"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.23+0"
+version = "1.1.23+1"
 
 [[deps.Opus_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "51a08fb14ec28da2ec7a927c4337e4332c2a4720"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "6703a85cb3781bd5909d48730a67205f3f31a575"
 uuid = "91d4177d-7536-5919-b921-800302f37372"
-version = "1.3.2+0"
+version = "1.3.3+0"
 
 [[deps.OrderedCollections]]
 git-tree-sha1 = "dfdf5519f235516220579f949664f1bf44e741c5"
@@ -1594,6 +1656,12 @@ version = "1.6.3"
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
 version = "10.42.0+1"
+
+[[deps.Pango_jll]]
+deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "FriBidi_jll", "Glib_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "9dd97171646850ee607593965ce1f55063d8d3f9"
+uuid = "36c8627f-9965-5494-a995-c6b170f724f3"
+version = "1.54.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
@@ -1613,27 +1681,31 @@ uuid = "30392449-352a-5448-841d-b1acce4e97dc"
 version = "0.43.4+0"
 
 [[deps.Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "Random", "SHA", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.10.0"
+version = "1.11.0"
+weakdeps = ["REPL"]
+
+    [deps.Pkg.extensions]
+    REPLExt = "REPL"
 
 [[deps.PlotThemes]]
 deps = ["PlotUtils", "Statistics"]
-git-tree-sha1 = "6e55c6841ce3411ccb3457ee52fc48cb698d6fb0"
+git-tree-sha1 = "41031ef3a1be6f5bbbf3e8073f210556daeae5ca"
 uuid = "ccf2f8ad-2431-5c83-bf29-c5338b663b6a"
-version = "3.2.0"
+version = "3.3.0"
 
 [[deps.PlotUtils]]
-deps = ["ColorSchemes", "Colors", "Dates", "PrecompileTools", "Printf", "Random", "Reexport", "Statistics"]
-git-tree-sha1 = "7b1a9df27f072ac4c9c7cbe5efb198489258d1f5"
+deps = ["ColorSchemes", "Colors", "Dates", "PrecompileTools", "Printf", "Random", "Reexport", "StableRNGs", "Statistics"]
+git-tree-sha1 = "3ca9a356cd2e113c420f2c13bea19f8d3fb1cb18"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.4.1"
+version = "1.4.3"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "TOML", "UUIDs", "UnicodeFun", "UnitfulLatexify", "Unzip"]
-git-tree-sha1 = "082f0c4b70c202c37784ce4bfbc33c9f437685bf"
+git-tree-sha1 = "f202a1ca4f6e165238d8175df63a7e26a51e04dc"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.40.5"
+version = "1.40.7"
 
     [deps.Plots.extensions]
     FileIOExt = "FileIO"
@@ -1669,9 +1741,9 @@ version = "0.2.15"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
-git-tree-sha1 = "ab55ee1510ad2af0ff674dbcced5e94921f867a9"
+git-tree-sha1 = "eba4810d5e6a01f612b948c9fa94f905b49087b0"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.59"
+version = "0.7.60"
 
 [[deps.Poppler_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "OpenJpeg_jll", "Pkg", "libpng_jll"]
@@ -1694,6 +1766,7 @@ version = "1.4.3"
 [[deps.Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+version = "1.11.0"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
@@ -1708,12 +1781,14 @@ uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
 version = "2.9.4"
 
 [[deps.REPL]]
-deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
+deps = ["InteractiveUtils", "Markdown", "Sockets", "StyledStrings", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+version = "1.11.0"
 
 [[deps.Random]]
 deps = ["SHA"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+version = "1.11.0"
 
 [[deps.RecipesBase]]
 deps = ["PrecompileTools"]
@@ -1745,10 +1820,10 @@ uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
 
 [[deps.Revise]]
-deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "Pkg", "REPL", "Requires", "UUIDs", "Unicode"]
-git-tree-sha1 = "677b65e17aeb6b4a0be1982e281ec03b0f55155c"
+deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "REPL", "Requires", "UUIDs", "Unicode"]
+git-tree-sha1 = "470f48c9c4ea2170fd4d0f8eb5118327aada22f5"
 uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
-version = "3.5.16"
+version = "3.6.4"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -1762,6 +1837,7 @@ version = "1.2.1"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+version = "1.11.0"
 
 [[deps.Showoff]]
 deps = ["Dates", "Grisu"]
@@ -1770,12 +1846,13 @@ uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
 
 [[deps.SimpleBufferStream]]
-git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
+git-tree-sha1 = "f305871d2f381d21527c770d4788c06c097c9bc1"
 uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
-version = "1.1.0"
+version = "1.2.0"
 
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
+version = "1.11.0"
 
 [[deps.SortingAlgorithms]]
 deps = ["DataStructures"]
@@ -1786,12 +1863,23 @@ version = "1.2.1"
 [[deps.SparseArrays]]
 deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
-version = "1.10.0"
+version = "1.11.0"
+
+[[deps.StableRNGs]]
+deps = ["Random"]
+git-tree-sha1 = "83e6cce8324d49dfaf9ef059227f91ed4441a8e5"
+uuid = "860ef19b-820b-49d6-a774-d7a799459cd3"
+version = "1.0.2"
 
 [[deps.Statistics]]
-deps = ["LinearAlgebra", "SparseArrays"]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "ae3bb1eb3bba077cd276bc5cfc337cc65c3075c0"
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
-version = "1.10.0"
+version = "1.11.1"
+weakdeps = ["SparseArrays"]
+
+    [deps.Statistics.extensions]
+    SparseArraysExt = ["SparseArrays"]
 
 [[deps.StatsAPI]]
 deps = ["LinearAlgebra"]
@@ -1805,10 +1893,14 @@ git-tree-sha1 = "5cf7606d6cef84b543b483848d4ae08ad9832b21"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.34.3"
 
+[[deps.StyledStrings]]
+uuid = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
+version = "1.11.0"
+
 [[deps.SuiteSparse_jll]]
 deps = ["Artifacts", "Libdl", "libblastrampoline_jll"]
 uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
-version = "7.2.1+1"
+version = "7.7.0+0"
 
 [[deps.TOML]]
 deps = ["Dates"]
@@ -1829,6 +1921,7 @@ version = "0.1.1"
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+version = "1.11.0"
 
 [[deps.TikzPictures]]
 deps = ["LaTeXStrings", "Poppler_jll", "Requires", "tectonic_jll"]
@@ -1837,18 +1930,14 @@ uuid = "37f6aa50-8035-52d0-81c2-5a1d08754b2d"
 version = "3.5.0"
 
 [[deps.TranscodingStreams]]
-git-tree-sha1 = "96612ac5365777520c3c5396314c8cf7408f436a"
+git-tree-sha1 = "0c45878dcfdcfa8480052b6ab162cdd138781742"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.11.1"
-weakdeps = ["Random", "Test"]
-
-    [deps.TranscodingStreams.extensions]
-    TestExt = ["Test", "Random"]
+version = "0.11.3"
 
 [[deps.Tricks]]
-git-tree-sha1 = "eae1bb484cd63b36999ee58be2de6c178105112f"
+git-tree-sha1 = "7822b97e99a1672bfb1b49b668a6d46d58d8cbcb"
 uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
-version = "0.1.8"
+version = "0.1.9"
 
 [[deps.URIs]]
 git-tree-sha1 = "67db6cc7b3821e19ebe75791a9dd19c9b1188f2b"
@@ -1858,9 +1947,11 @@ version = "1.5.1"
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+version = "1.11.0"
 
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+version = "1.11.0"
 
 [[deps.UnicodeFun]]
 deps = ["REPL"]
@@ -1907,9 +1998,9 @@ version = "1.31.0+0"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
-git-tree-sha1 = "d9717ce3518dc68a99e6b96300813760d887a01d"
+git-tree-sha1 = "a2fccc6559132927d4c5dc183e3e01048c6dcbd6"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.13.1+0"
+version = "2.13.5+0"
 
 [[deps.XSLT_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "XML2_jll", "Zlib_jll"]
@@ -2050,15 +2141,15 @@ version = "1.2.13+1"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "e678132f07ddb5bfa46857f0d7620fb9be675d3b"
+git-tree-sha1 = "555d1076590a6cc2fdee2ef1469451f872d8b41b"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.6+0"
+version = "1.5.6+1"
 
 [[deps.fzf_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "a68c9655fbe6dfcab3d972808f1aafec151ce3f8"
+git-tree-sha1 = "936081b536ae4aa65415d869287d43ef3cb576b2"
 uuid = "214eeab7-80f7-51ab-84ad-2988db7cef09"
-version = "0.43.0+0"
+version = "0.53.0+0"
 
 [[deps.libaom_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -2075,19 +2166,25 @@ version = "0.15.1+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.8.0+1"
+version = "5.11.0+0"
+
+[[deps.libdecor_jll]]
+deps = ["Artifacts", "Dbus_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pango_jll", "Wayland_jll", "xkbcommon_jll"]
+git-tree-sha1 = "9bf7903af251d2050b467f76bdbe57ce541f7f4f"
+uuid = "1183f4f0-6f2a-5f1a-908b-139f9cdfea6f"
+version = "0.2.2+0"
 
 [[deps.libfdk_aac_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "daacc84a041563f965be61859a36e17c4e4fcd55"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "8a22cf860a7d27e4f3498a0fe0811a7957badb38"
 uuid = "f638f0a6-7fb0-5443-88ba-1cc74229b280"
-version = "2.0.2+0"
+version = "2.0.3+0"
 
 [[deps.libpng_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Zlib_jll"]
-git-tree-sha1 = "d7015d2e18a5fd9a4f47de711837e980519781a4"
+git-tree-sha1 = "b70c870239dc3d7bc094eb2d6be9b73d27bef280"
 uuid = "b53b4c65-9356-5827-b1ea-8c7a1a84506f"
-version = "1.6.43+1"
+version = "1.6.44+0"
 
 [[deps.libvorbis_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Ogg_jll", "Pkg"]
@@ -2098,7 +2195,7 @@ version = "1.3.7+2"
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
-version = "1.52.0+1"
+version = "1.59.0+0"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -2134,21 +2231,20 @@ version = "1.4.1+1"
 # ╟─1478c459-0933-4c3f-8e84-86d051bea4b3
 # ╟─4004f2e8-5738-47e2-9d3c-8b68b896b9a5
 # ╟─21814beb-9d27-44c7-a41f-1191d856d1b7
-# ╟─d2b95a1b-5e4c-4e85-8a6e-d893c9c3cbde
-# ╟─206bf4ec-9bdd-4141-8ee4-570f077c06d0
-# ╟─390974fb-36d3-44e1-8543-24a16e400512
-# ╟─95acb6bd-42d7-4ede-b425-a91ed9640d9a
+# ╟─b38a53c0-3281-4fef-8366-82f05219fb9b
 # ╟─20958c09-7372-4c0b-bd3a-3011758cba2e
-# ╟─2f377ee6-e23e-432f-aeb6-9097fa260027
+# ╟─ac4c686a-0448-43b7-aa93-44b314d014ae
+# ╟─f937dc9e-c9d1-408b-884f-81835d06e0d7
+# ╟─d4e70554-6197-41ca-94fa-7fcceca73ccd
 # ╟─d2bf63fb-6035-49b2-9182-c606bb3643af
 # ╟─a803317a-07c5-4f95-bc45-4c24f3971385
 # ╟─f2b8a3ba-71e9-48a9-b77d-91aa844f3da3
 # ╟─dda55c4f-1a71-477b-b460-0c67629c2904
 # ╟─8e5dd330-181a-4279-b54b-47be263e13a9
-# ╟─e60a51b3-88ed-4e03-9937-4c86773e33e8
 # ╟─1b178edd-98f9-4533-b3df-38efcd026333
 # ╟─819cccb8-fe5b-4bf6-9998-33ce4ab30819
-# ╟─68f786f1-45a4-475b-a0bb-37636819ddf2
+# ╟─b8a09478-92d3-49b1-996e-73200a2dd4cc
+# ╟─82a18241-bd56-4482-899b-2dbb15d05818
 # ╟─f9f9e20a-0beb-46c6-863b-789d04d0b2af
 # ╟─9ccec1c6-55e8-4db6-aa70-18dabc87eca8
 # ╟─f743838b-4204-432e-a81e-77af58737cba
@@ -2166,7 +2262,14 @@ version = "1.4.1+1"
 # ╟─66c953ac-d572-469a-94f1-67cc473c5704
 # ╟─2de385c1-8ad1-4cbf-a997-473daf2bcc33
 # ╟─85c4f6c2-23dc-45b8-b733-f267b03cdde5
-# ╟─4d4d6fa7-99c5-4cb7-8d3e-830634a37daf
+# ╟─d2b95a1b-5e4c-4e85-8a6e-d893c9c3cbde
+# ╟─206bf4ec-9bdd-4141-8ee4-570f077c06d0
+# ╟─390974fb-36d3-44e1-8543-24a16e400512
+# ╟─b1a122aa-1e73-432c-8341-cf11e36522e4
+# ╟─fbad0115-d25e-429c-886a-8b5d26b875d9
+# ╟─3efba9d4-6ad9-433d-8fe1-bc7d56c01a30
+# ╟─b0132078-9dfc-48ad-aa37-5b35596c6283
+# ╟─e60a51b3-88ed-4e03-9937-4c86773e33e8
 # ╟─e1d81761-c3c4-4bef-9e14-96bdcf5c8eba
 # ╟─5c5e2ead-9487-42a4-b049-ce7b90cc97d2
 # ╟─00000000-0000-0000-0000-000000000001
