@@ -537,7 +537,6 @@ y axis limits (slide to zoom in/out) $\qquad$ $(@bind ylim PlutoUI.Slider([2000,
 """
 
 # ╔═╡ f41ef893-8910-4e6b-9f08-cccba464bac1
-#plotting 
 begin
 	using Plots
 	
