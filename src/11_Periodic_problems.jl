@@ -271,16 +271,30 @@ not all eigenfunctions of $\opH$ are $\mathbb L$-periodic.
 
 """
 
-# ╔═╡ 3a8ff44a-c150-483a-b2f1-4fa085dd9075
+# ╔═╡ 6092a639-f4ba-4833-9f2a-b9a513e30bb1
 md"""
 ## Bloch-Floquet theory
 
+This section is essentially a re-formulation of the introductory section of the [DFTK documentation on periodic problems](https://docs.dftk.org/stable/guide/periodic_problems/). Notably the key outcome of this documentation is that the Bloch transformation is the right kind of transformation to exploit the symmetry of periodic functions. As explained in the linked document the Bloch transform pictorially transforms a periodic operator $\opA$ into something like a block-diagonal form 
+```math
+     \opH \stackrel{\bloch}{\longrightarrow} \left( \begin{array}{cccc} \opH_1&&&0 \\ &\opH_2\\&&\opH_3\\0&&&\ddots \end{array} \right). .
+```
+This can be numerically exploited when computing the spectrum of $\opA$ since indeed
+```math
+  	\sigma(\opH) = \bigcup_{k} \sigma(\opH_k).
+```
+In the following discussion we will now develop the theory to understand a little better the structure of these blocks $\opH_k$ and the space over which $k$ will run.
+"""
+
+# ╔═╡ 6bd7bc71-b827-4f33-8302-83520ba7cd7b
+md"""
+We start by considering the relationship between the Laplacian and the Fourier transform.
 Since $\widehat{\laplacian
  f} (p) = - |p|^2 \hat f (p)$, the Fourier
 transform 
 ```math
 \begin{align}
-    \hat f(p) = \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R} f(x) e^{-i p \cdot x} dx
+    \hat f(p) = \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R^3} f(x) e^{-i p \cdot x} dx
 \end{align}
 ```
  provides exactly the unitary transformation required to
@@ -324,11 +338,18 @@ md"""
 - From this, we introduce the **Bloch transform** $\bloch$ 
   ```math
   \begin{align}
-      (\bloch f) (x) = f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (G+k) e^{i G\cdot x}
+      (\bloch f) (x) &= \Big(k \mapsto f_k(x)\Big)
+  \end{align}
+  ```
+  where
+  ```math
+  \begin{align}
+   f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (G+k) e^{i G\cdot x}
      \\
     &= \sum_{G \in \mathbb L^*} \hat f (k+G) e_G(x).
   \end{align}
   ```
+  In other words the Bloch transform maps $f(x)$ to another function $k \mapsto f_k(x)$.
   We arrive at the reconstruction formula by considering the second step of the inverse Fourier transform
   ```math
   \begin{align}
@@ -351,9 +372,9 @@ md"""
 
   ```math
   \begin{align}
-  f_k(x+R) &= f_k(x) \tag{Periodicity}
+  f_k(x+R) &= f_k(x) && \text{(Periodicity)}
   \\
-  f_{k+G} (x) &= e^{- i G \cdot x} f_k(x). \tag{Born-von Karman condition}
+  f_{k+G} (x) &= e^{- i G \cdot x} f_k(x). &&\text{(Born-von Karman condition)}
   \end{align}
   ```
   
@@ -470,6 +491,9 @@ The reconstruction formula then gives
 ```
 which is just a scaled form of the commonly quoted representation.
 """
+
+# ╔═╡ dede1f95-42ac-4325-ad20-07f884b58e2e
+md"-----"
 
 # ╔═╡ 21523a64-b1a9-422d-8dc0-ebb324f35380
 #check the formula
@@ -1350,7 +1374,8 @@ version = "0.13.1+0"
 # ╟─6ba1ce9a-6ced-4a82-9b5a-6b07a25c534b
 # ╟─6c5c1231-9e16-4a43-8dec-68df585d78b9
 # ╟─32086662-d60d-47cd-acb6-0f1a4f18e351
-# ╟─3a8ff44a-c150-483a-b2f1-4fa085dd9075
+# ╟─6092a639-f4ba-4833-9f2a-b9a513e30bb1
+# ╟─6bd7bc71-b827-4f33-8302-83520ba7cd7b
 # ╟─083e1f7a-e09e-479a-9cd9-83203e8c23dc
 # ╟─f8c35c68-0e60-45d7-ab93-5aace2bd1589
 # ╟─db338525-379e-44e5-b3eb-8d98e33d171b
@@ -1358,6 +1383,7 @@ version = "0.13.1+0"
 # ╟─17d99340-383a-4b29-a1a2-244024c71155
 # ╟─fcf275be-b4c2-4d06-b502-a0c52e74b533
 # ╟─9d4a8178-52f4-4846-94d6-74b8d68abbb4
+# ╟─dede1f95-42ac-4325-ad20-07f884b58e2e
 # ╟─21523a64-b1a9-422d-8dc0-ebb324f35380
 # ╟─62e5c394-dad2-4a62-a7ae-d4999f741505
 # ╟─6da749bc-0181-49c2-8a7a-9c180930dce6

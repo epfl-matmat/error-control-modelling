@@ -233,7 +233,7 @@ Whe therefore use an alternate :
 
 """
 
-# ╔═╡ a803317a-07c5-4f95-bc45-4c24f3971385
+# ╔═╡ 227a73ac-be3a-42a6-8cbe-2c13a78c2a86
 md"""
 !!! note "Definition 4 (Isolated point)"
 	Let $\opA : D(\opA) \to \hilbert$ be a self-adjoint operator.
@@ -245,14 +245,19 @@ md"""
 	\end{align}
 	```
 
-One can show that every isolated point of $\sigma(\opA)$ is an eigenvalue.
+!!! tip "Isolated points are eigenvalues"
+    One can show that every isolated point of $\sigma(\opA)$ is an eigenvalue.
+
+
 They are thus interesting entries, motivating the following spectrum :
+"""
 
-
+# ╔═╡ 13ae49fe-f711-4cc4-a603-adaee31dd09d
+md"""
 !!! note "Definition 5 (Discrete and essential spectrum)"
 	Let $\opA : D(\opA) \to \hilbert$ be a self-adjoint operator.
 	```math
-		\sigma_{\text{disc}} = \{ \lambda \in \sigma(\opA) \mid \lambda \text{ is an isolated point and has finite multiplicity} \}
+		\sigma_{\text{disc}} = \{ \lambda \in \sigma(\opA) \mid \lambda \text{ is an eigenvalue and has finite multiplicity} \}
 	```
 	is called the *discrete spectrum*.
 
@@ -405,24 +410,6 @@ The importance of the form domain is that is allows for a weak formulation :
 
 """
 
-# ╔═╡ b8a09478-92d3-49b1-996e-73200a2dd4cc
-md"""
-Based on the weak formulation (and using techniques based on Weyl sequences)
-we obtain:
-
-!!! note "Theorem 6"
-	Let $\opA$ be a self-adjoint operator with form domain $Q(\opA) \subset \hilbert$, then
-	the *bottom of the essential
-	spectrum* $\Sigma(\opA)$ is uniquely defined by 
-	```math 
-	\begin{align}
-	        \Sigma(\opA) \coloneqq \min \sigma_{\text{ess}} (\opA) = \min_{\substack{(v_n) \in Q(\opA)^\mathbb N \\ \| v_n \| = 1 \\ v_n \rightharpoonup 0}} \liminf_{n \to \infty} q_A(v_n)
-	    
-	\end{align}
-	```
-	with the convention $\Sigma(\opA) = \infty$ if and only if $\sigma_{\text{ess}}(\opA) = \varnothing$.
-"""
-
 # ╔═╡ 82a18241-bd56-4482-899b-2dbb15d05818
 md"""
 !!! tip "Remark"
@@ -437,7 +424,7 @@ md"""
 
 """
 
-# ╔═╡ f9f9e20a-0beb-46c6-863b-789d04d0b2af
+# ╔═╡ 475cd6c5-74f2-4c7f-a34e-174d5e1107aa
 md"""
 Finally, we can state the equivalent the min-max principle that we already saw for matrices, extended to the case of operators. 
 
@@ -458,11 +445,21 @@ Finally, we can state the equivalent the min-max principle that we already saw f
 	
 	2.  Otherwise, $\mu_k(\opA) = \Sigma(\opA)$.
 
-	We re-introduced the *Rayleigh quotient*, this time for operators 
+    In this we used the *bottom of the essential spectrum*
+    ```math
+    \Sigma(\opA) \coloneqq \left\{ \begin{array}{ll}
+		\infty & \text{if } \sigma_{\text{ess}}(\opA) = \varnothing \\
+		\min \sigma_{\text{ess}} (\opA) &  \text{else}
+	\end{array}\right.
+    ```
+	and re-introduced the *Rayleigh quotient*, this time for operators 
 	```math
-		R_\opA (\varphi ) \coloneqq \frac{q_\opA (\varphi)}{\| \varphi \|^2_\hilbert }
+		R_\opA (\varphi ) \coloneqq \frac{q_\opA (\varphi)}{\| \varphi \|^2_\hilbert }.
 	```
+"""
 
+# ╔═╡ a94b107c-7d1e-4b61-a6bd-18e7b8d2b400
+md"""
 One way to check for the existence of $k$ eigenvalues below $\Sigma(\opA)$ is :
 
 !!! tip ""
@@ -609,147 +606,19 @@ Note that this results follows automatically if we can prove the following :
 	```
 """
 
-# ╔═╡ 5731ef65-9c89-4859-b891-f5c2606c5772
+# ╔═╡ 27feea09-d793-4518-a8f8-a7571041a9d0
 md"""
 
 To prove this, we need a bit of spectral calculus.
-Like in the finite-dimensional case, we have :
+In particular we will need the result
 
-!!! note "Theorem 10 (Cauchy's Formula)"
-	Let $\opA$ with
-	$D(\opA) \leq \hilbert$ be a self-adjoint operator. Let $a,b \in \resolvent(\opA) \cap \mathbb R$
-	with $a<b$. Then 
-	```math 
-	\begin{align}
-	        \mathbf 1 _{(a,b)} (\opA) = \mathbf 1 _{[a,b]} (\opA) = - \frac1{2 \pi i} \oint_C (\opA-z)^{-1} dz
-	    
-	\end{align}
-	```
-	 For all positively oriented (counter-clockwise) contours $C$
-	enclosing $[a,b]$ and crossing the real axis at $a$ and $b$.
-
----
-"""
-
-# ╔═╡ 6739d23c-1d13-4cad-93e9-b370b6da3270
-TikzPicture(L"""
-        %real line
-        \draw[>=latex,->] (-5,0) -- (5,0) node[above right,blue]{$\sigma(A)$} ;
-        \draw (5,0) node[right]{$\mathbb{R}$};
-
-    
-        %sigma_p
-
-    
-        \foreach \energy  in {-4,-1,2,2.5,3.5}{
-            \draw[blue] (\energy,0) node{$\times$};
-            }   
-    
-        \draw[ultra thick,color=blue] (-3,0) -- (-2,0);
-        \draw[ultra thick,color=blue] (0,0) -- (1.5,0);
-
-		\draw[rounded corners,purple] (-0.5,0.5) rectangle (2.25,-0.5) {};
-
-
-        \draw[purple]  -- (0.875,0.5) node{$<$} -- (2.25,0.5) -- (2.25,-0.5) 		node[below]{$b$} --  (0.875,-0.5) node{$>$} -- (-0.5,-0.5) node[below]{$a$};
-
-""",width="20cm",options="scale=1",preamble=raw"\usepackage{amsfonts}")
-
-# ╔═╡ 8c52943d-a2d6-4fa7-bae5-2c7c6fe54140
-md"""
-
-Illustration of Cauchy's formula.
-
----
-
-!!! tip "Remarks"
-	*  $a,b \notin \sigma(\opA)$
-	* Similar to our discussion in the finite-dimensional case $\mathbf 1_{[a,b]} (\opA)$ is a projector.
-
-
-Of special importance are the *spectral projectors*
-```math 
-\begin{align}
-    P^\opA (\lambda) = \mathbf 1 _{(-\infty , \lambda ]} (\opA)
-\end{align}.
-```
-
-To gather some understanding, we first study the finite-dimensional case :
-
-"""
-
-# ╔═╡ 06fc9dd1-601c-4d4c-9f86-ddb9be7fc13f
-md"""
-##### Finite dimensions
-
-We study the finite dimensional case with a matrix
-$M \in \mathbb R^{d \times d}$ with distinct eigenvalues
-$\lambda_1 < \dots < \lambda_m ( m \leq d)$.
-Note that we assume single eigenvalues for simplicity.
-In this setting
-```math 
-\begin{align}
-    P^M(\lambda) = \mathbf 1 _{(-\infty,\lambda]} (M) = \bigoplus_{\lambda_i \leq \lambda} \mathop{\mathrm{Ker}}(M - \lambda_i)
-\end{align}
-```
-where $\text{Ker}(M - \lambda_i)$ is th eigenspace of eigenvalue $\lambda_i$.
-We notice that $P^M (\lambda)$ is piecewise constant, and $P^M (\lambda) \in \mathbb R^{d \times d}$. 
-Therefore, we can compute
-its derivatives with respect to $\lambda$ (in the distributional sense) :
-```math 
-\begin{align}
-    \frac{dP^M(\lambda)}{d \lambda} = \sum_{i=1}^d \delta (\lambda_i - \lambda_j) \mathbf 1 _{\{ \lambda_j \}} (M)
-\end{align}
-```
-where $\mathbf 1 _{\{ \lambda_j \}} (M)$ is the eigenspace of eigenvalue $\lambda_j$.
-By integration, we obtain in particular
-```math
-\int_\mathbb R \lambda dP^M(\lambda) = \int_\mathbb R \lambda \frac{dP^M(\lambda)}{d \lambda} d\lambda = \sum_{i=1}^d  \lambda_j \mathbf 1 _{\{ \lambda_j \}} (M) = M.
-```
-
-Now, we want to write something similar for $\opA$ in infinite dimensions.
-"""
-
-# ╔═╡ 66c953ac-d572-469a-94f1-67cc473c5704
-md"""
-##### Infinite dimensions (optional)
-
-We fix $v \in D(\opA)$. 
-Now the function
-```math 
-\begin{align}
-    P_v(\lambda) = \langle v, \mathbf 1 _{(-\infty, \lambda]} (\opA) v \rangle = \langle v, P^\opA(\lambda) v \rangle
-\end{align}
-```
-turns out to be bounded and increasing, making its
-distributional derivative a measure, called the *spectral measure*. With
-this, we can write 
-```math 
-\begin{align}
-    \langle v, Av \rangle = \int_\mathbb R \lambda \ d \langle v, P^\opA (\lambda) v \rangle.
-\end{align}
-```
-which is the infinite dimensional form of spectral resolution.
-More generally, for any (measurable) function $f$
-and $v,w \in D(\opA)$ 
-```math 
-\begin{align}
-    \langle v , f(\opA) w \rangle = \int_\mathbb R f(\lambda) \ d \langle v, P^\opA (\lambda) v \rangle.
-\end{align}
-```
-which can in turn be used to define a self-adjoint operator $f(\opA)$ (functional calculus).
-Without going into details with this the following result is plausible :
-"""
-
-# ╔═╡ 2de385c1-8ad1-4cbf-a997-473daf2bcc33
-md"""
-!!! note "Lemma 11" 
+!!! note "Lemma 10" 
 	If $f$ is a polynomial and $\opA$ is self-adjoint, then 
 	```math
 		\sigma(f(\opA)) = \{ f(\lambda) \mid \lambda \in \sigma(\opA) \}.
 	```
 
-With this result, we can finally prove
+which for simplicity we will just accept without proof. A rationalisation is given as an appendix below.
 """
 
 # ╔═╡ 85c4f6c2-23dc-45b8-b733-f267b03cdde5
@@ -759,7 +628,7 @@ md"""
 > Therefore 
 > ```math
 > \begin{align}
-> 	0 &\geq \langle \tilde \varphi, (\opA - \beta) (\opA - \lambda) \tilde \varphi \rangle
+> 	0 &\leq \langle \tilde \varphi, (\opA - \beta) (\opA - \lambda) \tilde \varphi \rangle
 > 	\\
 > 	&= \langle \tilde \varphi, (A - \tilde \lambda  + \tilde \lambda - \beta) (\opA - \tilde \lambda + \tilde \lambda - \lambda) \tilde \varphi \rangle
 > 	\\
@@ -1010,6 +879,178 @@ $\lambda \in \sigma_{\text{cont}} (\opA)$ | $\text{\emph{All} Weyl sequences ver
 $\lambda \in \sigma_{\text{p}}(\opA)$ | $\exists \text{ a Weyl sequence with a weak limit different from 0, i.e. } \mathop{\mathrm{Ker}}(\opA - \lambda) \neq 0.$
 """
 
+# ╔═╡ 6a2da75f-17dd-4540-8e5c-1c3906cabce1
+md"""
+Based on the Weyl sequences we can also obtain the alternative definition for the bottom of the essential spectrum:
+"""
+
+# ╔═╡ 9957308c-33b1-4546-a15b-e1c2a0eb5ccb
+md"""
+!!! note "Theorem 6"
+	Let $\opA$ be a self-adjoint operator with form domain $Q(\opA) \subset \hilbert$, then
+	the *bottom of the essential
+	spectrum* $\Sigma(\opA)$ is uniquely defined by 
+	```math 
+	\begin{align}
+	        \Sigma(\opA) \coloneqq \min \sigma_{\text{ess}} (\opA) = \min_{\substack{(v_n) \in Q(\opA)^\mathbb N \\ \| v_n \| = 1 \\ v_n \rightharpoonup 0}} \liminf_{n \to \infty} q_A(v_n)
+	    
+	\end{align}
+	```
+	with the convention $\Sigma(\opA) = \infty$ if and only if $\sigma_{\text{ess}}(\opA) = \varnothing$.
+"""
+
+# ╔═╡ adef185d-fb50-4744-ade6-6213b665b87d
+md"""
+## Appendix: Rationalisation of Lemma 10
+
+To rationalise Lemma 10 we need a bit of spectral calculus.
+Like in the finite-dimensional case, we have :
+"""
+
+# ╔═╡ 2a5aa6b1-e919-4a79-a571-8cb179205225
+md"""
+!!! note "Theorem 11 (Cauchy's Formula)"
+	Let $\opA$ with
+	$D(\opA) \leq \hilbert$ be a self-adjoint operator. Let $a,b \in \resolvent(\opA) \cap \mathbb R$
+	with $a<b$. Then 
+	```math 
+	\begin{align}
+	        \mathbf 1 _{(a,b)} (\opA) = \mathbf 1 _{[a,b]} (\opA) = - \frac1{2 \pi i} \oint_C (\opA-z)^{-1} dz
+	    
+	\end{align}
+	```
+	 For all positively oriented (counter-clockwise) contours $C$
+	enclosing $[a,b]$ and crossing the real axis at $a$ and $b$.
+
+---
+"""
+
+# ╔═╡ 6739d23c-1d13-4cad-93e9-b370b6da3270
+TikzPicture(L"""
+        %real line
+        \draw[>=latex,->] (-5,0) -- (5,0) node[above right,blue]{$\sigma(A)$} ;
+        \draw (5,0) node[right]{$\mathbb{R}$};
+
+    
+        %sigma_p
+
+    
+        \foreach \energy  in {-4,-1,2,2.5,3.5}{
+            \draw[blue] (\energy,0) node{$\times$};
+            }   
+    
+        \draw[ultra thick,color=blue] (-3,0) -- (-2,0);
+        \draw[ultra thick,color=blue] (0,0) -- (1.5,0);
+
+		\draw[rounded corners,purple] (-0.5,0.5) rectangle (2.25,-0.5) {};
+
+
+        \draw[purple]  -- (0.875,0.5) node{$<$} -- (2.25,0.5) -- (2.25,-0.5) 		node[below]{$b$} --  (0.875,-0.5) node{$>$} -- (-0.5,-0.5) node[below]{$a$};
+
+""",width="20cm",options="scale=1",preamble=raw"\usepackage{amsfonts}")
+
+# ╔═╡ 8c52943d-a2d6-4fa7-bae5-2c7c6fe54140
+md"""
+
+Illustration of Cauchy's formula.
+
+---
+
+!!! tip "Remarks"
+	*  $a,b \notin \sigma(\opA)$
+	* Similar to our discussion in the finite-dimensional case $\mathbf 1_{[a,b]} (\opA)$ is a projector.
+
+
+Of special importance are the *spectral projectors*
+```math 
+\begin{align}
+    P^\opA (\lambda) = \mathbf 1 _{(-\infty , \lambda ]} (\opA)
+\end{align}.
+```
+
+To gather some understanding, we first study the finite-dimensional case :
+
+"""
+
+# ╔═╡ 06fc9dd1-601c-4d4c-9f86-ddb9be7fc13f
+md"""
+##### Finite dimensions
+
+We study the finite dimensional case with a matrix
+$M \in \mathbb R^{d \times d}$ with distinct eigenvalues
+$\lambda_1 < \dots < \lambda_m ( m \leq d)$.
+Note that we assume single eigenvalues for simplicity.
+In this setting
+```math 
+\begin{align}
+    P^M(\lambda) = \mathbf 1 _{(-\infty,\lambda]} (M) = \bigoplus_{\lambda_i \leq \lambda} \mathbf 1 _{\{λ_i\}} (M)
+\end{align}
+```
+where
+```math
+\im\Big(\mathbf 1 _{\{λ_i\}} (M)\Big) = \mathop{\mathrm{Ker}}(M - \lambda_i)
+```
+is the the eigenspace of eigenvalue $\lambda_i$
+and $\mathbf 1 _{\{λ_i\}} (M)$ is the projector into the eigenspace
+of $λ_i$.
+
+We notice that $P^M (\lambda)$ is piecewise constant, and $P^M (\lambda) \in \mathbb R^{d \times d}$. 
+Therefore, we can compute
+its derivatives with respect to $\lambda$ (in the distributional sense) :
+```math 
+\begin{align}
+    \frac{dP^M(\lambda)}{d \lambda} = \sum_{i=1}^d \delta (\lambda_i - \lambda_j) \mathbf 1 _{\{ \lambda_j \}} (M)
+\end{align}
+```
+where $\mathbf 1 _{\{ \lambda_j \}} (M)$ is the eigenspace of eigenvalue $\lambda_j$.
+By integration, we obtain in particular
+```math
+\int_\mathbb R \lambda dP^M(\lambda) = \int_\mathbb R \lambda \frac{dP^M(\lambda)}{d \lambda} d\lambda = \sum_{i=1}^d  \lambda_j \mathbf 1 _{\{ \lambda_j \}} (M) = M.
+```
+
+Now, we want to write something similar for $\opA$ in infinite dimensions.
+"""
+
+# ╔═╡ 66c953ac-d572-469a-94f1-67cc473c5704
+md"""
+##### Infinite dimensions
+
+We fix $v \in D(\opA)$. 
+Now the function
+```math 
+\begin{align}
+    P_v(\lambda) = \langle v, \mathbf 1 _{(-\infty, \lambda]} (\opA) v \rangle = \langle v, P^\opA(\lambda) v \rangle
+\end{align}
+```
+turns out to be bounded and increasing, making its
+distributional derivative a measure, called the *spectral measure*. With
+this, we can write 
+```math 
+\begin{align}
+    \langle v, Av \rangle = \int_\mathbb R \lambda \ d \langle v, P^\opA (\lambda) v \rangle.
+\end{align}
+```
+which is the infinite dimensional form of spectral resolution.
+More generally, for any (measurable) function $f$
+and $v,w \in D(\opA)$ 
+```math 
+\begin{align}
+    \langle v , f(\opA) w \rangle = \int_\mathbb R f(\lambda) \ d \langle v, P^\opA (\lambda) v \rangle.
+\end{align}
+```
+which can in turn be used to define a self-adjoint operator $f(\opA)$ (functional calculus).
+Without going into details with this the following result is plausible :
+"""
+
+# ╔═╡ 2de385c1-8ad1-4cbf-a997-473daf2bcc33
+md"""
+!!! note "Lemma 10" 
+	If $f$ is a polynomial and $\opA$ is self-adjoint, then 
+	```math
+		\sigma(f(\opA)) = \{ f(\lambda) \mid \lambda \in \sigma(\opA) \}.
+	```
+"""
+
 # ╔═╡ e1d81761-c3c4-4bef-9e14-96bdcf5c8eba
 TableOfContents()
 
@@ -1019,7 +1060,7 @@ let
 	Sidebar(toc, ypos) = @htl("""<aside class="plutoui-toc aside indent"
 		style='top:$(ypos)px; max-height: calc(100vh - $(ypos)px - 55px);' >$toc</aside>""")
 	
-	Sidebar(Markdown.parse(read("sidebar.md", String)), 305)
+	Sidebar(Markdown.parse(read("sidebar.md", String)), 330)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -2236,15 +2277,16 @@ version = "1.4.1+1"
 # ╟─f937dc9e-c9d1-408b-884f-81835d06e0d7
 # ╟─d4e70554-6197-41ca-94fa-7fcceca73ccd
 # ╟─d2bf63fb-6035-49b2-9182-c606bb3643af
-# ╟─a803317a-07c5-4f95-bc45-4c24f3971385
+# ╟─227a73ac-be3a-42a6-8cbe-2c13a78c2a86
+# ╟─13ae49fe-f711-4cc4-a603-adaee31dd09d
 # ╟─f2b8a3ba-71e9-48a9-b77d-91aa844f3da3
 # ╟─dda55c4f-1a71-477b-b460-0c67629c2904
 # ╟─8e5dd330-181a-4279-b54b-47be263e13a9
 # ╟─1b178edd-98f9-4533-b3df-38efcd026333
 # ╟─819cccb8-fe5b-4bf6-9998-33ce4ab30819
-# ╟─b8a09478-92d3-49b1-996e-73200a2dd4cc
 # ╟─82a18241-bd56-4482-899b-2dbb15d05818
-# ╟─f9f9e20a-0beb-46c6-863b-789d04d0b2af
+# ╟─475cd6c5-74f2-4c7f-a34e-174d5e1107aa
+# ╟─a94b107c-7d1e-4b61-a6bd-18e7b8d2b400
 # ╟─9ccec1c6-55e8-4db6-aa70-18dabc87eca8
 # ╟─f743838b-4204-432e-a81e-77af58737cba
 # ╟─e80b1728-592a-4a97-b4ab-20b3ef8604c4
@@ -2254,12 +2296,7 @@ version = "1.4.1+1"
 # ╟─59832711-e53c-405c-b83d-3dc4fc05fa53
 # ╟─f950d40e-6ec7-4ee5-81c3-95314b52d029
 # ╟─3bee37f2-ec13-4799-b61e-af6879e3b7cc
-# ╟─5731ef65-9c89-4859-b891-f5c2606c5772
-# ╟─6739d23c-1d13-4cad-93e9-b370b6da3270
-# ╟─8c52943d-a2d6-4fa7-bae5-2c7c6fe54140
-# ╟─06fc9dd1-601c-4d4c-9f86-ddb9be7fc13f
-# ╟─66c953ac-d572-469a-94f1-67cc473c5704
-# ╟─2de385c1-8ad1-4cbf-a997-473daf2bcc33
+# ╟─27feea09-d793-4518-a8f8-a7571041a9d0
 # ╟─85c4f6c2-23dc-45b8-b733-f267b03cdde5
 # ╟─d2b95a1b-5e4c-4e85-8a6e-d893c9c3cbde
 # ╟─206bf4ec-9bdd-4141-8ee4-570f077c06d0
@@ -2269,6 +2306,15 @@ version = "1.4.1+1"
 # ╟─3efba9d4-6ad9-433d-8fe1-bc7d56c01a30
 # ╟─b0132078-9dfc-48ad-aa37-5b35596c6283
 # ╟─e60a51b3-88ed-4e03-9937-4c86773e33e8
+# ╟─6a2da75f-17dd-4540-8e5c-1c3906cabce1
+# ╟─9957308c-33b1-4546-a15b-e1c2a0eb5ccb
+# ╟─adef185d-fb50-4744-ade6-6213b665b87d
+# ╟─2a5aa6b1-e919-4a79-a571-8cb179205225
+# ╟─6739d23c-1d13-4cad-93e9-b370b6da3270
+# ╟─8c52943d-a2d6-4fa7-bae5-2c7c6fe54140
+# ╟─06fc9dd1-601c-4d4c-9f86-ddb9be7fc13f
+# ╟─66c953ac-d572-469a-94f1-67cc473c5704
+# ╟─2de385c1-8ad1-4cbf-a997-473daf2bcc33
 # ╟─e1d81761-c3c4-4bef-9e14-96bdcf5c8eba
 # ╟─5c5e2ead-9487-42a4-b049-ce7b90cc97d2
 # ╟─00000000-0000-0000-0000-000000000001
