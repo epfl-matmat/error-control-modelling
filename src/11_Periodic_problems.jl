@@ -255,7 +255,7 @@ md"""
 
 
 !!! note "Theorem 1"
-	Let $V \in L^{3/2}_\text{per} (\Omega)$ for $\Omega \subset \mathbb R^3$. The
+	Let $V \in L^{3/2}_\text{per} (\Omega)$ for $\Omega \in \mathbb R^3$. The
 	operator 
 	```math
 		\opH = - \frac1{2} \laplacian + V
@@ -387,7 +387,7 @@ md"""
 - An explicit construction of $f_k$ from $f$ is available via **Poisson's formula** : 
   ```math
   \begin{align}
-    f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (k + G) e^{i G \cdot x} 
+    f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (G + k) e^{i G \cdot x} 
     \\
     &= \frac1{\sqrt{|\Omega^*|}} \sum_{R \in \mathbb L} f(x+R) e^{- i k \cdot (x +R)}
   \end{align}
@@ -395,7 +395,7 @@ md"""
   This can be seen from 
   ```math
   \begin{align}
-    \hat f(G+k) &= \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R^3} f(x) e^{-i (k + G) \cdot x} dx
+    \hat f(G+k) &= \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R^3} f(x) e^{-i (G + k) \cdot x} dx
     \\
     &= \frac1{(2 \pi)^{\frac{3}{2}}} \sum_{R \in \mathbb L} \int_\Omega f(R+y) e^{-i (G+k) \cdot (R+y)} dy
     \\
@@ -444,7 +444,7 @@ We summarize our findings in a Theorem :
 	        L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega)) = 
 	         \left \{ \mathbb R^d \ni k \mapsto u_k \in L^2_\text{per}(\Omega) \middle \vert \int_{\Omega^*} \| u_k \|^2_{L^2_\text{per}(\Omega)} \ dk < \infty \right .
 	        \\
-	        \text{where } u_{k+G}(x) = u_k e^{-i G \cdot x}  \text{ for all } G \in\mathbb L^*
+	        \text{where } u_{k+G} = u_k e^{-i G \cdot x}  \text{ for all } G \in\mathbb L^*
 	\\
 		\text{and almost every } k \in \mathbb R^d \bigg \}.
 	    
@@ -553,7 +553,7 @@ Denoting $\mathscr L (V) = \{ f : V \to V | f \text{ linear} \}$ the space of li
 	The Bloch decomposition can be extended to unbounded operators on $L^2(\mathbb R^3)$, in which case $\opA_k$ are unbounded as well.
 
 !!! warning "Example 1 (Laplace operator)"
-	For $\opA = - \laplacian$, the Bloch fibers aro $\opA_k = \lvert - i \nabla_x + k|^2$.
+	For $\opA = - \laplacian$, the Bloch fibers are $\opA_k = \lvert - i \nabla_x + k|^2$.
 """
 
 # ╔═╡ 6da749bc-0181-49c2-8a7a-9c180930dce6
