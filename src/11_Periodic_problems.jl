@@ -149,7 +149,7 @@ md"""
 - Further we introduce the function space 
   ```math
   \begin{align}
-    L^2_\text{per} (\Omega) = \{ f \in L^2_{loc} (\mathbb R^3) \mid f \text{ is } \mathbb L \text{ periodic} \}
+    L^2_\text{per} (\Omega) = \{ f \in L^2_\text{loc} (\mathbb R^3) \mid f \text{ is } \mathbb L \text{ periodic} \}
   \end{align}
   ```
   with inner product 
@@ -255,7 +255,7 @@ md"""
 
 
 !!! note "Theorem 1"
-	Let $V \in L^{3/2}_\text{per} (\Omega)$ for $\Omega \in \mathbb R^3$. The
+	Let $V \in L^{3/2}_\text{per} (\Omega)$ for $\Omega \subset \mathbb R^3$. The
 	operator 
 	```math
 		\opH = - \frac1{2} \laplacian + V
@@ -671,7 +671,7 @@ TikzPicture(L"""
 md"""
 ---
 
-## Numerical treatment of periodic treatments
+## Numerical treatment of periodic operators
 
 From our treatment it is clear that the lower end of the spectrum of $\sigma(\opH)$ for periodic potentials can be approximated by considering the lowest few bands via computing the lowest few eigenpairs of the fibers $\opH_k, k \in \overline{\Omega^*}$.
 
@@ -685,7 +685,7 @@ From our treatment it is clear that the lower end of the spectrum of $\sigma(\op
 
 - A popular basis for discretizing $\opH_k$ and solving for its lowest-energy eigenstates using a Ritz-Galerkin projection method are the *k-adapted plane waves*
   ```math
-  	\mathbb B^{E_\text{cut}}_{k} = \left  \{ e_G \middle \vert G \in \mathbb L^* , \frac1{2} |G+k|^2 < E_\text{cut} \right \}
+  	\mathbb B^{E_\text{cut}}_{k} = \left  \{ e_G \middle \vert G \in \mathbb L^* , \tfrac1{2} |G+k|^2 \leq E_\text{cut} \right \}
   ```
   Note that thus a **different basis set** for each $k \in \mathbb K$ is employed.
 """
