@@ -229,11 +229,11 @@ md"""
 - Employing a Fourier basis, *periodic Sobolev spaces* can be easily characterized as 
   ```math
   \begin{align}
-      H^S_\text{per} (\Omega) = \left \{ f \in L^2_\text{per} (\Omega)  \middle | \sum_{G \in   \mathbb L^*} (1 + |G|^2)^S 
+      H^s_\text{per} (\Omega) = \left \{ f \in L^2_\text{per} (\Omega)  \middle | \sum_{G \in   \mathbb L^*} (1 + |G|^2)^s 
     |\hat f_G|^2 < \infty \right  \} 
   \end{align}
   ```
-  where $S>0$.
+  where $s>0$.
 """
 
 # ╔═╡ 32086662-d60d-47cd-acb6-0f1a4f18e351
