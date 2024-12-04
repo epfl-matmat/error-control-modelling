@@ -149,18 +149,18 @@ md"""
 - Further we introduce the function space 
   ```math
   \begin{align}
-    L^2_{per} (\Omega) = \{ f \in L^2_{loc} (\mathbb R^3) \mid f \text{ is } \mathbb L \text{ periodic} \}
+    L^2_\text{per} (\Omega) = \{ f \in L^2_\text{loc} (\mathbb R^3) \mid f \text{ is } \mathbb L \text{ periodic} \}
   \end{align}
   ```
   with inner product 
   ```math
   \begin{align}
-    \langle f, g \rangle _{L_{per}^2 (\Omega)} = \int_{\Omega} \overline{f(x)} g(x) dx.
+    \langle f, g \rangle _{L_\text{per}^2 (\Omega)} = \int_{\Omega} \overline{f(x)} g(x) dx.
   \end{align}
   ```
 
 
-- A convenient basis for $L^2_{per} (\Omega)$ is the plane wave or Fourier basis 
+- A convenient basis for $L^2_\text{per} (\Omega)$ is the plane wave or Fourier basis 
   ```math
   \begin{align}
       \mathbb B = \left \{ e_G(x) \equiv \frac1{\sqrt{\Omega}} e^{i G x} \middle \vert G \in \mathbb L ^* \right \} 
@@ -203,7 +203,7 @@ md"""
 # ╔═╡ 6ba1ce9a-6ced-4a82-9b5a-6b07a25c534b
 md"""
 - Finally, we introduce some concepts from Fourier analysis.
-  For a function $f \in L^2_{per} (\Omega)$ the following expressions are frequently encountered :
+  For a function $f \in L^2_\text{per} (\Omega)$ the following expressions are frequently encountered :
   ```math
   \begin{align}
       f = \sum_{G \in L^*} \hat f_G e_G \tag{Fourier Series Expansion}
@@ -218,7 +218,7 @@ md"""
   and 
 ```math
 \begin{align}
-      \| f \|_{L^2_{per} (\Omega)} = \int_\Omega | f |^2 dx = \sum_{G \in \mathbb L^*} |\hat f_G|^2 < \infty. \tag{Parseval's Identity}
+      \| f \|_{L^2_\text{per} (\Omega)} = \int_\Omega | f |^2 dx = \sum_{G \in \mathbb L^*} |\hat f_G|^2 < \infty. \tag{Parseval's Identity}
 \end{align}
 ```
 
@@ -229,11 +229,11 @@ md"""
 - Employing a Fourier basis, *periodic Sobolev spaces* can be easily characterized as 
   ```math
   \begin{align}
-      H^S_{per} (\Omega) = \left \{ f \in L^2_{per} (\Omega)  \middle | \sum_{G \in   \mathbb L^*} (1 + |G|^2)^S 
+      H^s_\text{per} (\Omega) = \left \{ f \in L^2_\text{per} (\Omega)  \middle | \sum_{G \in   \mathbb L^*} (1 + |G|^2)^s 
     |\hat f_G|^2 < \infty \right  \} 
   \end{align}
   ```
-  where $S>0$.
+  where $s>0$.
 """
 
 # ╔═╡ 32086662-d60d-47cd-acb6-0f1a4f18e351
@@ -255,7 +255,7 @@ md"""
 
 
 !!! note "Theorem 1"
-	Let $V \in L^{3/2}_{per} (\Omega)$ for $\Omega \in \mathbb R^3$. The
+	Let $V \in L^{3/2}_\text{per} (\Omega)$ for $\Omega \subset \mathbb R^3$. The
 	operator 
 	```math
 		\opH = - \frac1{2} \laplacian + V
@@ -431,18 +431,18 @@ We summarize our findings in a Theorem :
 !!! note "Theorem 2 (Bloch-Floquet transform)"
 	The Bloch-Floquet transform $\bloch$ is the unitary mapping from
 	$L^2(\mathbb R^d)$ to the vector space
-	$L^2_{qp} (\Omega^*, L^2_{per}(\Omega))$ (defined below)
+	$L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega))$ (defined below)
 	with the property that each $f \in C_0^\infty (\mathbb R^d)$ is mapped to 
 	```math
-	\Omega^* \ni K \mapsto f_k = \sum_{R \in \mathbb L } u(\bullet + R) e^{- k \cdot (\bullet + R)} \in L^2_{per}(\Omega).
+	\Omega^* \ni K \mapsto f_k = \sum_{R \in \mathbb L } u(\bullet + R) e^{- k \cdot (\bullet + R)} \in L^2_\text{per}(\Omega).
 	```
 	The extension to $L^2(\mathbb R^d)$ follows by density of $C_0^\infty$ in $L^2$.
 
-	In this $L^2_{qp} (\Omega^*, L^2_{per}(\Omega))$ is the space of $\mathbb L^*$-*quasiperiodic* functions which are $L^2_{per}(\Omega)$-valued :
+	In this $L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega))$ is the space of $\mathbb L^*$-*quasiperiodic* functions which are $L^2_\text{per}(\Omega)$-valued :
 	```math
 	\begin{align}
-	        L^2_{qp} (\Omega^*, L^2_{per}(\Omega)) = 
-	         \left \{ \mathbb R^d \ni k \mapsto u_k \in L^2_{per}(\Omega) \middle \vert \int_{\Omega^*} \| u_k \|^2_{L^2_{per}(\Omega)} \ dk < \infty \right .
+	        L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega)) = 
+	         \left \{ \mathbb R^d \ni k \mapsto u_k \in L^2_\text{per}(\Omega) \middle \vert \int_{\Omega^*} \| u_k \|^2_{L^2_\text{per}(\Omega)} \ dk < \infty \right .
 	        \\
 	        \text{where } u_{k+G} = u_k e^{-i G \cdot x}  \text{ for all } G \in\mathbb L^*
 	\\
@@ -452,19 +452,19 @@ We summarize our findings in a Theorem :
 	```
 	On this vector space we have the inner product 
 	```math
-	\langle f,g \rangle_{L^2_{qp} (\Omega^*, L^2_{per}(\Omega))} = \frac1{|\Omega^*|} \int_{\Omega^*} \langle f_k, g_k \rangle_{L^2_{per}(\Omega)} dk.
+	\langle f,g \rangle_{L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega))} = \frac1{|\Omega^*|} \int_{\Omega^*} \langle f_k, g_k \rangle_{L^2_\text{per}(\Omega)} dk.
 	```
 """
 
 # ╔═╡ fcf275be-b4c2-4d06-b502-a0c52e74b533
 md"""
 !!! tip "Remark"
-	By way of Parceval's identity we can also understand $L^2_{qp} (\Omega^*, L^2_{per}(\Omega)) \equiv L^2(\Omega^* \times \Omega)$, i.e. $\bloch$ maps single variable functions of $y \in \mathbb R^d$ to functions of two variables : $k \in \Omega^*$ and $x \in \Omega$.
+	By way of Parceval's identity we can also understand $L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega)) \equiv L^2(\Omega^* \times \Omega)$, i.e. $\bloch$ maps single variable functions of $y \in \mathbb R^d$ to functions of two variables : $k \in \Omega^*$ and $x \in \Omega$.
 
 	We can illustrate it as
 	```math
 	\begin{align}
-		L^2(\mathbb R^d) && \stackrel{\bloch}{\longrightarrow} && L^2_{qp} (\Omega^*, L^2_{per}(\Omega)) = L^2(\Omega^* \times \Omega)
+		L^2(\mathbb R^d) && \stackrel{\bloch}{\longrightarrow} && L^2_\text{qp} (\Omega^*, L^2_\text{per}(\Omega)) = L^2(\Omega^* \times \Omega)
 	\\
 		\mathbb R^d \ni x \mapsto  f(x) \in \mathbb C &&&&
 		\Omega^* \times \Omega \ni (k,y) \mapsto f_k(y) \in \mathbb C
@@ -516,7 +516,7 @@ we obtain
 This is clearly true if $f \in C_0^\infty (\mathbb R^3)$.
 Again by density arguments this shows 
 ```math
-\bloch H^1(\mathbb R^3) = L^2_{qp} (\Omega^*, H^1_{per}(\Omega)).
+\bloch H^1(\mathbb R^3) = L^2_\text{qp} (\Omega^*, H^1_\text{per}(\Omega)).
 ```
 Similarly
 ```math
@@ -524,7 +524,7 @@ Similarly
 ```
 suggesting
 ```math
-\bloch H^2(\mathbb R^3) = L^2_{qp} (\Omega^*, H^2_{per} (\Omega))
+\bloch H^2(\mathbb R^3) = L^2_\text{qp} (\Omega^*, H^2_\text{per} (\Omega))
 ```
 i.e. that regularity in $f$ induces equal regularity in $f_k$ for all $k \in \Omega^*$.
 
@@ -532,7 +532,7 @@ Notably, this also suggests the Bloch transform of the kinetic energy operator $
 ```math
 \bloch (- \laplacian_x) \bloch^{-1} = \lvert - i ∇_x + k|^2
 ```
-interpreted in the sense of distributions and defined on the Hilbert space $L^2_{qp} (\Omega^*, L^2_{per} (\Omega))$ with domain $D( \bloch (- \laplacian_x) \bloch^{-1} ) = L^2_{qp} (\Omega^*, H^2_{per} (\Omega))$.
+interpreted in the sense of distributions and defined on the Hilbert space $L^2_\text{qp} (\Omega^*, L^2_\text{per} (\Omega))$ with domain $D( \bloch (- \laplacian_x) \bloch^{-1} ) = L^2_\text{qp} (\Omega^*, H^2_\text{per} (\Omega))$.
 
 This result is formalized in the following theorem.
 """
@@ -542,30 +542,30 @@ md"""
 Denoting $\mathscr L (V) = \{ f : V \to V | f \text{ linear} \}$ the space of linear maps between a function space and itself, we have :
 
 !!! note "Theorem 3 (Bloch fibers)"
-	Any bounded $\mathbb L$-periodic operator $\opA$ on $L^2(\mathbb R^3)$ is decomposed by the Bloch-Floquet transform in the following sense : there exists a function $k \mapsto \opA_k$ in $L^\infty_{qp} (\mathbb R^3, \mathscr L(L^2_{per} (\Omega))$ such that for any $u \in L^2(\mathbb R^3)$, any $G \in \mathbb L^*$, and almost any $k \in \Omega^*$ is holds that 
+	Any bounded $\mathbb L$-periodic operator $\opA$ on $L^2(\mathbb R^3)$ is decomposed by the Bloch-Floquet transform in the following sense : there exists a function $k \mapsto \opA_k$ in $L^\infty_\text{qp} (\mathbb R^3, \mathscr L(L^2_\text{per} (\Omega))$ such that for any $u \in L^2(\mathbb R^3)$, any $G \in \mathbb L^*$, and almost any $k \in \Omega^*$ is holds that 
 	```math
 	\begin{align}
 	(\opA u)_k = \opA_k u_k && \opA_{k+G} = e^{-i G \cdot x} \opA_k e^{i G \cdot x}
 	\end{align}
 	```
-	where the operators $(\opA_k)_{k \in \Omega^*}$ on $\hilbert = L^2_{per} (\Omega)$ are called the *Bloch fibers* of $\opA$.
+	where the operators $(\opA_k)_{k \in \Omega^*}$ on $\hilbert = L^2_\text{per} (\Omega)$ are called the *Bloch fibers* of $\opA$.
 
 	The Bloch decomposition can be extended to unbounded operators on $L^2(\mathbb R^3)$, in which case $\opA_k$ are unbounded as well.
 
 !!! warning "Example 1 (Laplace operator)"
-	For $\opA = - \laplacian$, the Bloch fibers aro $\opA_k = \lvert - i \nabla_x + k|^2$.
+	For $\opA = - \laplacian$, the Bloch fibers are $\opA_k = \lvert - i \nabla_x + k|^2$.
 """
 
 # ╔═╡ 6da749bc-0181-49c2-8a7a-9c180930dce6
 md"""
 ## Fibers of periodic Schrödinger operators
 
-We consider $\opH = - \frac1{2} \laplacian + V$ on $L^2(\mathbb R^3)$ with domain $D(\opH) = H^2(\mathbb R^3)$ and $V \in L^2_{per} (\mathbb R^3)$ such that $\opH$ is $\mathbb L$-periodic.
+We consider $\opH = - \frac1{2} \laplacian + V$ on $L^2(\mathbb R^3)$ with domain $D(\opH) = H^2(\mathbb R^3)$ and $V \in L^2_\text{per} (\mathbb R^3)$ such that $\opH$ is $\mathbb L$-periodic.
 Recall this operator is self-adjoint and as *no* eigenvalues.
 
 - The fibers of $\opH$ are $\opH_k = \lvert - i \nabla_x + k|^2 + V$, where we note
-  -  $\opH_k$ is a self-adjoint and bounded from below operator on $L^2_{per}(\Omega)$ with domain $H^2_{per}(\Omega)$ and form domain $H^1_{per}(\Omega)$
-  -  $\opH_k$ has a compact resolvent $\resolvent(\opH_k)$, such that each $\opH_k$ has a purely discrete spectrum with eigenvalues accumulating at $+ \infty$ and eigenfunctions forming an orthonormal basis for $L^2_{per}(\Omega)$.
+  -  $\opH_k$ is a self-adjoint and bounded from below operator on $L^2_\text{per}(\Omega)$ with domain $H^2_\text{per}(\Omega)$ and form domain $H^1_\text{per}(\Omega)$
+  -  $\opH_k$ has a compact resolvent $\resolvent(\opH_k)$, such that each $\opH_k$ has a purely discrete spectrum with eigenvalues accumulating at $+ \infty$ and eigenfunctions forming an orthonormal basis for $L^2_\text{per}(\Omega)$.
 
 
 - To understand the spectrum of $\opH$, it suffices completely to study the spectrum of all $\opH_k$. 
@@ -575,12 +575,12 @@ Recall this operator is self-adjoint and as *no* eigenvalues.
   ```
 
 
-- We thus seek an $L^2_{per} (\Omega)$ orthonormal basis $\{ (λ_{k,n}, \phi_{k,n} )\}_{n \in \mathbb N} \subset (\mathbb R \times L^2_{per}(\Omega))^{\mathbb N}$ of eigenstates of $\opH_k$ :
+- We thus seek an $L^2_\text{per} (\Omega)$ orthonormal basis $\{ (λ_{k,n}, \phi_{k,n} )\}_{n \in \mathbb N} \subset (\mathbb R \times L^2_\text{per}(\Omega))^{\mathbb N}$ of eigenstates of $\opH_k$ :
   ```math
   \begin{align}
   	\opH_k \phi_{k,n} &= λ_{k,n} \phi_{k,n}
   	\\
-  	\langle \phi_{k,n} , \phi_{k,m} \rangle_{L^2_{per}(\Omega)} &= \delta_{mn} && \forall n,m \in \mathbb N.
+  	\langle \phi_{k,n} , \phi_{k,m} \rangle_{L^2_\text{per}(\Omega)} &= \delta_{mn} && \forall n,m \in \mathbb N.
   \end{align}
   ```
 
@@ -671,7 +671,7 @@ TikzPicture(L"""
 md"""
 ---
 
-## Numerical treatment of periodic treatments
+## Numerical treatment of periodic operators
 
 From our treatment it is clear that the lower end of the spectrum of $\sigma(\opH)$ for periodic potentials can be approximated by considering the lowest few bands via computing the lowest few eigenpairs of the fibers $\opH_k, k \in \overline{\Omega^*}$.
 
@@ -685,7 +685,7 @@ From our treatment it is clear that the lower end of the spectrum of $\sigma(\op
 
 - A popular basis for discretizing $\opH_k$ and solving for its lowest-energy eigenstates using a Ritz-Galerkin projection method are the *k-adapted plane waves*
   ```math
-  	\mathbb B^{E_{crit}}_{k} = \left  \{ e_G \middle \vert G \in \mathbb L^* , \frac1{2} |G+k|^2 < E_{crit} \right \}
+  	\mathbb B^{E_\text{cut}}_{k} = \left  \{ e_G \middle \vert G \in \mathbb L^* , \tfrac1{2} |G+k|^2 \leq E_\text{cut} \right \}
   ```
   Note that thus a **different basis set** for each $k \in \mathbb K$ is employed.
 """
