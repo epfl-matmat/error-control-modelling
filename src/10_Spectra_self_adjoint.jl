@@ -624,7 +624,7 @@ which for simplicity we will just accept without proof. A rationalisation is giv
 # ╔═╡ 85c4f6c2-23dc-45b8-b733-f267b03cdde5
 md"""
 > **Proof of Theorem 9.** 
-> We note that our assumptions imply $(\lambda , \beta) \cap \sigma(\opA) = \varnothing$ such that, using Lemma 11 and the polynomial $f(x) = (x - \beta) (x - \lambda)$, we obtain that $(\opA - \beta) (\opA - \lambda) \geq 0$, i.e. that the operator $(\opA - \beta) (\opA - \lambda)$ only has non-negative spectrum.
+> We note that our assumptions imply $(\lambda , \beta) \cap \sigma(\opA) = \varnothing$ such that, using Lemma 10 and the polynomial $f(x) = (x - \beta) (x - \lambda)$, we obtain that $(\opA - \beta) (\opA - \lambda) \geq 0$, i.e. that the operator $(\opA - \beta) (\opA - \lambda)$ only has non-negative spectrum.
 > Therefore 
 > ```math
 > \begin{align}
