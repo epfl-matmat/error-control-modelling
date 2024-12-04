@@ -595,7 +595,7 @@ Note that this results follows automatically if we can prove the following :
 !!! note "Theorem 9 (Temple's Inequality)"
 	Let
 	$\opA, \tilde \varphi, \tilde \lambda, r$ as in
-	Theorem 1. Suppose $\alpha, \beta \in \mathbb R$ with
+	Theorem 8. Suppose $\alpha, \beta \in \mathbb R$ with
 	$\alpha < \tilde \lambda < \beta$ and
 	$(\alpha, \beta ) \cap \sigma(\opA) = \{\lambda \}$. Then 
 	```math 
@@ -1035,7 +1035,7 @@ More generally, for any (measurable) function $f$
 and $v,w \in D(\opA)$ 
 ```math 
 \begin{align}
-    \langle v , f(\opA) w \rangle = \int_\mathbb R f(\lambda) \ d \langle v, P^\opA (\lambda) v \rangle.
+    \langle v , f(\opA) w \rangle = \int_\mathbb R f(\lambda) \ d \langle v, P^\opA (\lambda) w \rangle.
 \end{align}
 ```
 which can in turn be used to define a self-adjoint operator $f(\opA)$ (functional calculus).
