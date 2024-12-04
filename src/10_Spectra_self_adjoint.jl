@@ -364,7 +364,7 @@ However, in the following paragraph we introduce the *form domain* $Q(\opA)$, an
 
 If $\opA$ is bounded from below then there exists $\alpha > -\infty$ such that
 ```math
-	q_A (u) \geq \alpha \| u \| ^2
+	q_\opA (u) \geq \alpha \| u \| ^2
 ```
 Note that is the case for all Schrödinger operators we consider.
 For simplicity, we take $\alpha > 0$ (otherwise consider a shifted operator $\tilde \opA = \opA - \alpha + \varepsilon$ with $\varepsilon >0$).
@@ -377,7 +377,7 @@ Then
 is an inner product with induced norm
 ```math 
 \begin{align}
-    \| u \|_A \equiv q_A(u) > 0 && u \in D(\opA) \tag{Energy norm}
+    \| u \|_A \equiv q_\opA(u) > 0 && u \in D(\opA) \tag{Energy norm}
 \end{align}
 ```
  $D(\opA)$ is not complete with respect to $\| \cdot \|_\opA$.
@@ -434,7 +434,7 @@ Finally, we can state the equivalent the min-max principle that we already saw f
 	Then
 	```math 
 	\begin{align}
-	        \mu_k (\opA) \coloneqq \inf_{\substack{W \subset Q(\opA) \\ \dim (W) = k}} \max_{\substack{\varphi \in W \\ \| \varphi \|_\hilbert = 1}} q_A(\varphi) = \inf_{\substack{W \subset Q(\opA) \\ \dim (W) = k}} \max_{0 \neq \varphi \in W} R_A(\varphi)
+	        \mu_k (\opA) \coloneqq \inf_{\substack{W \subset Q(\opA) \\ \dim (W) = k}} \max_{\substack{\varphi \in W \\ \| \varphi \|_\hilbert = 1}} q_\opA(\varphi) = \inf_{\substack{W \subset Q(\opA) \\ \dim (W) = k}} \max_{0 \neq \varphi \in W} R_A(\varphi)
 	    
 	\end{align}
 	```
@@ -495,7 +495,7 @@ The idea is the same as we discussed in the context of diagonalization algorithm
 - Assuming $S$ to be $d$-dimensional, and taking a basis $\mathbb B = (\chi_1, \dots, \chi_d)$, we realize that the right-hand side of (2) to be nothing else than the $k$-th eigenvalue of the matrix
   ```math 
   \begin{align}
-      (M_S^\opA)_{ij} = q_A(\chi_i, \chi_j) \cong \langle \chi_i , \opA \chi_j \rangle
+      (M_S^\opA)_{ij} = q_\opA(\chi_i, \chi_j) \cong \langle \chi_i , \opA \chi_j \rangle
   \end{align}
   ```
   Note that the second equality is only fully correct for $S \subset D(\opA)$. In other words 
@@ -567,7 +567,7 @@ We restate :
 md"""
 !!! note "Theorem 8 (Kato-Temple bound)"
 	Let $\opA$ be a self-adjoint operator,
-	$\tilde \varphi \in D(\opA)$ with $\| \tilde \varphi \| = 1$, $\tilde \lambda = q_A(\tilde \varphi)$,
+	$\tilde \varphi \in D(\opA)$ with $\| \tilde \varphi \| = 1$, $\tilde \lambda = q_\opA(\tilde \varphi)$,
 	and $r = \opA \tilde \varphi - \tilde \lambda \tilde \varphi$. Let $\lambda$ be
 	the eigenvalue closest to $\tilde \lambda$ and 
 	```math 
@@ -892,7 +892,7 @@ md"""
 	spectrum* $\Sigma(\opA)$ is uniquely defined by 
 	```math 
 	\begin{align}
-	        \Sigma(\opA) \coloneqq \min \sigma_{\text{ess}} (\opA) = \min_{\substack{(v_n) \in Q(\opA)^\mathbb N \\ \| v_n \| = 1 \\ v_n \rightharpoonup 0}} \liminf_{n \to \infty} q_A(v_n)
+	        \Sigma(\opA) \coloneqq \min \sigma_{\text{ess}} (\opA) = \min_{\substack{(v_n) \in Q(\opA)^\mathbb N \\ \| v_n \| = 1 \\ v_n \rightharpoonup 0}} \liminf_{n \to \infty} q_\opA(v_n)
 	    
 	\end{align}
 	```
