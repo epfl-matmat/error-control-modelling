@@ -206,13 +206,13 @@ md"""
   For a function $f \in L^2_\text{per} (\Omega)$ the following expressions are frequently encountered :
   ```math
   \begin{align}
-      f = \sum_{G \in L^*} \hat f_G e_G \tag{Fourier Series Expansion}
+      f = \sum_{G \in \mathbb{L}^*} \hat f_G e_G \tag{Fourier Series Expansion}
   \end{align}
   ```
   with 
   ```math
   \begin{align}
-      \hat f_G \equiv \langle f | e_G \rangle = \int_{\Omega} f e^{- i G x} dx    \tag{Fourier Coefficients}
+      \hat f_G \equiv \langle e_G, f \rangle = \int_{\Omega} f(x) \overline{e_G(x)} dx    \tag{Fourier Coefficients}
   \end{align}
   ```
   and 
@@ -325,7 +325,7 @@ md"""
   \begin{align}
       f(x) &= \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R^3} \hat f (p) e^{i p \cdot x}
     \\
-    &= \frac1{(2 \pi)^{\frac{3}{2}}} \sum_{G \in \mathbb L^*} \int_{\Omega^*} \hat f(G+k) e^{i (k+G)\cdot x} dk
+    &= \frac1{(2 \pi)^{\frac{3}{2}}} \sum_{G \in \mathbb L^*} \int_{\Omega^*} \hat f(k + G) e^{i (k+G)\cdot x} dk
   \end{align}
   ```
   where we take an $f \in C_0^\infty (\mathbb R^3)$. 
@@ -344,7 +344,7 @@ md"""
   where
   ```math
   \begin{align}
-   f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (G+k) e^{i G\cdot x}
+   f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (k + G) e^{i G\cdot x}
      \\
     &= \sum_{G \in \mathbb L^*} \hat f (k+G) e_G(x).
   \end{align}
@@ -387,7 +387,7 @@ md"""
 - An explicit construction of $f_k$ from $f$ is available via **Poisson's formula** : 
   ```math
   \begin{align}
-    f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (G + k) e^{i G \cdot x} 
+    f_k(x) &= \frac1{\sqrt{|\Omega|}} \sum_{G \in \mathbb L^*} \hat f (k + G) e^{i G \cdot x} 
     \\
     &= \frac1{\sqrt{|\Omega^*|}} \sum_{R \in \mathbb L} f(x+R) e^{- i k \cdot (x +R)}
   \end{align}
@@ -395,9 +395,9 @@ md"""
   This can be seen from 
   ```math
   \begin{align}
-    \hat f(G+k) &= \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R^3} f(x) e^{-i (G + k) \cdot x} dx
+    \hat f(k+G) &= \frac1{(2 \pi)^{\frac{3}{2}}} \int_{\mathbb R^3} f(x) e^{-i (k + G) \cdot x} dx
     \\
-    &= \frac1{(2 \pi)^{\frac{3}{2}}} \sum_{R \in \mathbb L} \int_\Omega f(R+y) e^{-i (G+k) \cdot (R+y)} dy
+    &= \frac1{(2 \pi)^{\frac{3}{2}}} \sum_{R \in \mathbb L} \int_\Omega f(R+y) e^{-i (k+G) \cdot (R+y)} dy
     \\
     &= \frac1{\sqrt{|\Omega^*|}} \int_\Omega \left ( \sum_{R \in \mathbb L} f(R+y) e^{-i k \cdot  (R+y)} \right ) \frac{e^{-i G \cdot y}}{\sqrt{|\Omega|}} dy
   \end{align}
