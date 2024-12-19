@@ -152,7 +152,7 @@ In particular, $\sigma(\opA) \subset [a, \infty )$ with
 $a > - \infty$ if and only if
 $\langle \varphi, \opA \varphi \rangle \geq a \| \varphi \| ^2$ for all $\varphi \in D(\opA)$.
 Such operators are called *bounded from below*.
-Similarly, upper semi-bounded operators satisfy $\langle \varphi, \op B  \varphi \rangle \leq b$ and satisfy $\sigma (\op B) \subset (- \infty , b]$
+Similarly, upper semi-bounded operators satisfy $\langle \varphi, \op B  \varphi \rangle \leq b \| \varphi \| ^2$ and satisfy $\sigma (\op B) \subset (- \infty , b]$
 
 !!! tip "Remark"
 	The striking similarity with Courant-Fisher for matrices already points to a possible generalization of the min-max statement statements for operators. 
