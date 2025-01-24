@@ -690,8 +690,8 @@ From our treatment it is clear that the lower end of the spectrum of $\sigma(\op
   Note that thus a **different basis set** for each $k \in \mathbb K$ is employed.
 """
 
-# ╔═╡ 9b7c42b4-9592-4ae3-8a86-41b6013885f3
-
+# ╔═╡ e245415b-7877-443d-a8c9-41b9aca40b1c
+TODO(md"Add a nice plot which shows the disconuity of the bands if one does not use a $k$- point specific basis.")
 
 # ╔═╡ e59d4d62-8ceb-43ad-ab86-159eac59500f
 TableOfContents()
@@ -1389,7 +1389,7 @@ version = "0.13.1+0"
 # ╟─6da749bc-0181-49c2-8a7a-9c180930dce6
 # ╟─08b20ea7-f3c3-4302-bfc3-a13bbd57930a
 # ╟─41c0f837-055c-4077-b7f8-966e84ee709f
-# ╟─9b7c42b4-9592-4ae3-8a86-41b6013885f3
+# ╟─e245415b-7877-443d-a8c9-41b9aca40b1c
 # ╟─e59d4d62-8ceb-43ad-ab86-159eac59500f
 # ╟─7a952990-b524-43b6-a01b-cf6b6c6eaa14
 # ╟─00000000-0000-0000-0000-000000000001

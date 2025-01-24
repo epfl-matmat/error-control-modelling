@@ -688,48 +688,7 @@ If a modelling error / error is the computation causes us to employ $\tilde A$ i
 """
 
 # ╔═╡ f3fe5786-f3d9-4c14-9f51-911732a9dfb0
-md"""
-#### Newton's method
-
-With respect to the exact eigenproblem $A(1)=\tilde{A}+\Delta A$, the term $\Delta A \, \tilde{x}$ is exactly the residual of $(\tilde \lambda, \tilde{x} )$. 
-We now consider one step of Newton's method for solving the system of equations:
-
-```math
-\begin{align}
-(A-\lambda I) x &= 0 \\
-\frac{1}{2} x^{H} x-1 &= 0
-\end{align}
-```
-
-with $A=A(1), \lambda=\lambda(1), x=x(1)$, where we desire the unknown eigenpair $(\lambda, x)$ while having the approximation $(\tilde \lambda, \tilde{x} )$. 
-One Newton step goes to
-```math
-	\begin{pmatrix}
-		\tilde{x}_{\text {new}} \\
-		\tilde{\lambda}_{\text {new}}
-	\end{pmatrix} 
-	=
-	\begin{pmatrix}
-		\tilde{x} \\
-		\tilde{\lambda}
-	\end{pmatrix}
-	-
-	\begin{pmatrix}
-	A-\lambda I & -\tilde{x} \\
-	\tilde{x}^H & 0
-	\end{pmatrix}^{-1}
-	\begin{pmatrix}
-	r \\
-	0
-	\end{pmatrix}
-```
-where $r=A\, \tilde{x} - \tilde{\lambda}\, \tilde{x}=\Delta A\, \tilde{x}$. 
-If we replace $A-\lambda I$ by the approximation $\tilde A-\tilde{\lambda} I$ we obtain a Quasi-Newton scheme, which under close inspection turns out to be exactly equivalent to (PT).
-
-Note that the normalisation of $x$ in the correction with respect to $\tilde{x}$ is again enforced by the constraint $\frac{1}{2} x^{H} x-1=0$. 
-
-Typically, $\tilde{x}_{\text {new}}-\tilde{x} \perp \tilde{x}$ is manually enforced by inverting $Q_{\tilde \lambda}\, (\tilde{A}-\tilde{\lambda} I)\, Q_{\tilde \lambda}$ instead of $(\tilde A - \tilde \lambda I)$.
-"""
+TODO("Explain this for relative forward and relative backward errors instead")
 
 # ╔═╡ 1a28c717-c969-4ce9-be55-80b566f6436d
 
