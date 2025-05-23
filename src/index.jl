@@ -112,6 +112,8 @@ where further information can be found.
   A PDF is available from
   [Peter Arbenz' website](https://people.inf.ethz.ch/arbenz/ewp/Lnotes/lsevp.pdf).
 - Mathieu Lewin. *Théorie spectrale et mécanique quantique*, Springer (2022).
+  A PDF for EPFL students is available from
+  [Springer Link]([https://link.springer.com/book/10.1007/978-3-030-93436-1).
 """
 
 # ╔═╡ 4e1fa8a0-ad16-417f-ba58-5cb0ccff45a3
