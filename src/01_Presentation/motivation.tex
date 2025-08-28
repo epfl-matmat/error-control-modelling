@@ -108,6 +108,11 @@
     }
 \end{frame}
 
+
+%
+% MatMat motivation
+%
+
 \begin{frame}{Motivation in the \matmat group}
     \begin{itemize}
         \item \alert{21st century challenges}:
@@ -145,104 +150,119 @@
        K. Alberi \textit{et. al.} J. Phys. D, \textbf{52}, 013001 (2019).}}
 \end{frame}
 
-\begin{frame}{Sketch of high-throughput workflows}
-    \widenframe[4em]{
-        \vspace{-0.2em}
-        \begin{columns}
-        \begin{column}{0.45\textwidth}
-        \begin{lpic}[r(2.5cm)]{./img/intro/funnel.png(.125)}
-        \lbl[l]{232,153;$\Big\}$\smaller[2.5] DFT PBE stability}
-        \lbl[l]{203, 95;\smaller[2.5]DFT PBE band gap}
-        \lbl[l]{187, 60;\smaller[2.5]Hybrid-DFT band gap}
-        \lbl[l]{175, 25;\smaller[2.5]Beyond DFT}
-        \end{lpic}\\[-0.7em]
-        {\smaller[2.5] Design funnel for photovoltaic materials}
-        \end{column}
-        \begin{column}{0.55\textwidth}
-        \includegraphics[width=5.0cm]{./img/intro/workflow_edit_parameters.png}%
-        \\[-0.5em]
-        {\smaller[2.5] Workflow for computing elasticity tensors}
-        \end{column}
-        \end{columns}
-    }
-    \vspace{-0.1em}
-    \begin{itemize}
+
+\begin{frame}{Does everything need to be equally accurate ?}
+    %\vspace{-0.5cm}
+    \begin{center}
+       \definecolor{oldorange}{HTML}{ee6322}
+       \colorlet{myorange}{MfhGreen!65!MfhDarkGreen}
+        \begin{tikzpicture}[inner sep=0cm]
+            \node at (-5, 0.3) {
+                \begin{lpic}[r(2.5cm)]{img/intro/funnel.png(.1)}
+                    \lbl[l]{232,153;$\Big\}$\smaller[3] lowest-cost filter}
+                    \lbl[l]{203, 95;\smaller[3]progressively...}
+                    \lbl[l]{187, 60;\smaller[3]more...}
+                    \lbl[l]{175, 25;\smaller[3]computational expense...}
+                \end{lpic}
+            };
+            \node at (-4.86, -1.3) (new) {\smaller[2.5] \textcolor{myorange}{\textbf{\ New material candidates}}};
+            \draw [->,myorange,thick] (new.west) ++ (1, 3.5) .. controls +(-1,-1) .. (new.west);
+            \draw [->,myorange,thick] (new.west) ++ (-1, 3.5) .. controls +(1,-1) .. (new.west);
+            \draw [->,myorange,thick] (new.west) ++ (-0.5, 3.5) .. controls +(0.5,-1) .. (new.west);
+            \draw [->,myorange,thick] (new.west) ++ (0.5, 3.5) .. controls +(-0.5,-1) .. (new.west);
+            \draw [->,myorange,thick] (new.west) ++ (-1.5, 3.5) .. controls +(1.5,-1) .. (new.west);
+            \draw [->,myorange,thick] (new.west) ++ (1.5, 3.5) .. controls +(-1.5,-1) .. (new.west);
+            \node at (-5.5, -1.9) {\smaller[3.5] Computational materials design funnel};
+            \node at (-5.5, -2.17)
+            {\smaller[3.5] \textcolor{grey5}{Involved data-driven multi-physics workflows}};
+
+
+            \begin{scope}[xshift=-0.3cm]
+            \node at (0, 0.3) {\includegraphics[width=3.7cm]{img/intro/error_flavours_9.pdf}};
+            \node at (0, -1.9) {\smaller[3.5] Multitude of modelling choices};
+            \node at (0, -2.2)
+            {\smaller[3.5] \textcolor{grey5}{How should we spent our efforts best ?}};
+            % \node at (0, -2.5)
+            % {\smaller[3.5] \textcolor{grey5}{Can we make some computations less accurate ?}};
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+    % \vspace{0.1em}
+    \visible<2>{
+        \begin{block}{\textcolor{black}{\textbf{Goal} in \matmat group:} \alert{Error-controled robust algorithms}}
+        \begin{itemize}
+        \smaller[0.5]
         \item Many parameters to choose \textcolor{grey5}{(algorithms, tolerances, models)}
-            \begin{itemize}
-                \vspace{-0.4em}
-                \item Elaborate heuristics: \alert{Failure rate $\simeq 1\%$}
-                \vspace{-0.4em}
-                \item Still: \alert{Thousands} of failed calculations
-                \vspace{-0.4em}
-                \item[$\Rightarrow$] \alert{Wasted resources} \& increased human attention
-                    \textcolor{grey5}{\smaller (limits througput)}
-            \end{itemize}
-        % \vspace{0.1em}
-        % \item Carbon footprint? More complex design spaces?
-        \vspace{0.2em}
-        \item \textbf{Goal} in \matmat group: \alert{Self-adapting black-box algorithms}
-            \begin{itemize}
-                \vspace{-0.4em}
-                \item Transform \alert{empirical wisdom} to built-in \alert{convergence guarantees}
-                \vspace{-0.4em}
-                \item Requires: Uncertainty quantification \& error estimation
-                \vspace{-0.4em}
-                \item[$\Rightarrow$] Understand \alert{where and how} to spend efforts best
-            \end{itemize}
-   \end{itemize}
-   \vspace{-0.8em}
-   \rule{4.5cm}{0.5pt}\\[-0.5em]
-   {\tiny G.~Hautier Comput. Mater. Sci. \textbf{164}, 108 (2019);
-       L.~Himanen \textit{et. al.} Adv. Science \textbf{6}, 1900808 (2019).}
+        \item Need balance: Too expensive $\leftrightarrow$ Insufficient reliability
+        \item[$\Rightarrow$] \alert{Trial and error process !}
+        \vspace{0.8em}
+        \item Transform \alert{empirical wisdom} to built-in \alert{convergence guarantees}
+        \item Requires: Uncertainty quantification \& error estimation
+        \item[$\Rightarrow$] Understand \alert{where and how} to spend efforts best
+        \end{itemize}
+        \vspace{-0.2em}
+    \end{block}
+    }
 \end{frame}
 
-\begin{frame}{Broader vision: Robust \& error-controlled simulations}
-\begin{itemize}
-    \item Error control $=$ \alert{Track simulation uncertainties}:
-        \begin{itemize}
-            \vspace{-0.30em}
-            \item Self-adapting simulations with mathematical guarantees
-            \vspace{-0.30em}
-            \item Integrate with error propagation efforts for surrogates%
-                \footnote{F.~Musil, A.~Grisafi \emph{et. al.} J. Chem. Theo. Comput. \textbf{15}, 2 (2019).}
-            \vspace{-0.30em}
-            \item [$\Rightarrow$] Byproducts: Data quality control,
-                accelerated design%
-                % \footnote{G.~Houchins and V.~Viswanathan MRS Bulletin \textbf{44}, 204 (2019).}
-        \end{itemize}
+\begin{frame}{\matmat Advances in error estimation for materials models}
+    \begin{center}
+        \begin{tikzpicture}[inner sep=0cm]
+            \node (bands) at (0, 0) {
+            \includegraphics[width=4cm]{img/si_band_errors.pdf}
+        };
+        \node [below=0.1cm of bands] {\smaller[3.5] Band structure with \alert{guaranteed error bars}\footnotemark[1]};
 
-    \vspace{0.3em}
-    \item Error control $=$ \alert{Learn missing physics}:
-        \begin{itemize}
-            \vspace{-0.30em}
-            \item Data-enhanced models, active learning
-            \vspace{-0.30em}
-            \item Integration with experiment {\color{grey5} (autonomous discovery)}
-            \vspace{-0.30em}
-            \item [$\Rightarrow$] Exploit high-fidelity experimental, beyond-DFT data
-        \end{itemize}
+        \node [right=5cm of bands.south, anchor=south,yshift=0.5cm] (uq) {
+            \includegraphics[width=4cm,trim=0 10 0 70,clip]{%
+            img/Si_lattice_const_uncertainty_beef.pdf}
+        };
+        \node [below=0.1cm of uq] {\smaller[3.5] DFT lattice constant \alert{error distribution}\footnotemark[2]};
 
-    \vspace{0.3em}
-    \item Error control $=$ \alert{Leverage inexactness}:
-        \begin{itemize}
-            \vspace{-0.30em}
-            \item Error balancing: Optimal adaptive parameter selection
-            \vspace{-0.30em}
-            \item Randomised methods, selective precision {\color{grey5} (16-bit, FPGA)}
-                % Error control and multi-fidelity approaches pretty much unexplored
-                % in practical setting
-            \vspace{-0.30em}
-            \item Multi-fidelity approaches {\color{grey5} (reduced basis, surrogates)}
-        \end{itemize}
+        \node [below=4.6cm of bands.south, anchor=south] (force) {
+            \includegraphics[width=4cm]{img/pw_error_estimation_force.pdf}
+        };
+        \node [below=-0.15cm of force] {\smaller[3.5] Plane-wave \alert{basis error estimates} at 20Ha\textsuperscript{2,3}};
 
-    \vspace{0.3em}
-    \item[$\Rightarrow$] Understand \alert{where and how} to spend efforts best
-    \vspace{-0.3em}
-    \item[$\Rightarrow$] Realm of mathematical research
-\end{itemize}
-\vspace{1em}
+        \node [right=5cm of force.south, anchor=south,yshift=0.25cm] (combin) {
+            \includegraphics[width=4.5cm]{img/silicon_Ecut30_kgrid4_combined_density_forces_bands.pdf}
+        };
+        \node [below=0.1cm of combin] {\smaller[3.5] DFT quantity vs.~\alert{parameter sensitivities}\footnotemark[2]};
+        \end{tikzpicture}
+    \end{center}
+    \visible<2>{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node [anchor=center,fill=grey9,rounded corners,inner sep=3mm] at (current page.center) {
+            \begin{minipage}{\textwidth}
+                Towards \textbf{inexact computation without harm}:
+                \begin{itemize}
+                    \vspace{0.1em}
+                    \item Error remains controllable
+                    \vspace{0.1em}
+                    \item Challenge:
+                        Turning \alert{mathematical analysis
+                        into practical tool}
+                        \begin{itemize}
+                            \item Needs performance tuning, heuristics, best practices, \ldots
+                        \end{itemize}
+                    \vspace{0.6em}
+                    \item \alert{Opportunities:} %High-level overview of current state
+                        \begin{itemize}
+                            \item Track simulation uncertainties
+                            \item Learn missing physics
+                            \item Leverage inexactness
+                        \end{itemize}
+                \end{itemize}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+    }%
+    \vspace{-1em}
+    \footnotetext[1]{\papererror}
+    \footnotetext[2]{\paperdftkad}
+    \footnotetext[3]{\href{https://doi.org/10.1137/21M1456224}{%
+         E. Cancès, G.~Dusson, G.~Kemlin \textit{et. al.} SIAM J. Sci. Comp., \textbf{44}, B1312 (2022).}}
 \end{frame}
-
 
 \begin{frame}{Questions ?}
     \begin{center}
