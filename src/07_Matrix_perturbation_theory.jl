@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.3
+# v0.20.9
 
 using Markdown
 using InteractiveUtils
@@ -688,7 +688,26 @@ If a modelling error / error is the computation causes us to employ $\tilde A$ i
 """
 
 # ╔═╡ f3fe5786-f3d9-4c14-9f51-911732a9dfb0
-TODO("Explain this for relative forward and relative backward errors instead")
+TODO("""Explain this for relative forward and relative backward errors instead
+
+	Antoine:
+That's just wrong (I mean he writes this as a definition so he can do
+what he wants, but it's not the right definition). The conditioning of a
+nonlinear mapping F(x) is defined as the smallest κ such that
+|δF|/|F| ≤ κ |δ x|/|x|
+for all infinitesimal δx, so it's dimensionless.
+
+In our case, x -> A, F -> v and δv = - (A-λ)^+ δA v with + the
+pseudoinverse. So
+|δv|/|v| = |δv| ≤ 1/gap |δA| ≤ |A|/gap |δA|/|A|
+so κ = |A|/gap, not 1/gap.
+
+Now if you compute the conditioning of the map A -> P, where P = vv^*,
+then you get a slightly different answer (if the eigenvalues are
+positive, it's (λN-λ1)/gap), which is what I had in mind for the
+conditioning and that was confusing me on the whiteboard before.
+	 
+""")
 
 # ╔═╡ 1a28c717-c969-4ce9-be55-80b566f6436d
 
@@ -726,7 +745,7 @@ TikzPictures = "~3.5.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.1"
+julia_version = "1.11.5"
 manifest_format = "2.0"
 project_hash = "e25e821c507f57f0fc5ebf84cc0727e23f2f9688"
 
@@ -1393,7 +1412,7 @@ version = "0.13.1+0"
 # ╟─645a99c9-dc40-484d-bfe1-ea5a9745c009
 # ╟─9ee8f909-8192-449d-a003-acd15d803052
 # ╟─bc34fa94-f155-41fb-92d1-3e51db702f26
-# ╟─f3fe5786-f3d9-4c14-9f51-911732a9dfb0
+# ╠═f3fe5786-f3d9-4c14-9f51-911732a9dfb0
 # ╟─1a28c717-c969-4ce9-be55-80b566f6436d
 # ╟─ed155363-2f4a-4aa8-9b41-79a5fa28c058
 # ╟─e5b16293-ca61-4fc6-b89e-82100792efc7

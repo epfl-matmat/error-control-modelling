@@ -410,7 +410,7 @@ md"""
 
 # ╔═╡ 12967e6f-5cda-4e16-95ab-2b6ae841d7bc
 md"""
-> *Proof* (same as the argument as Proposition 3 of [perturbation theory](https://teaching.matmat.org/error-control/07_Perturbation_theory.html)).
+> *Proof* (same as the argument as Proposition 3 of [perturbation theory](https://teaching.matmat.org/error-control/07_Matrix_perturbation_theory.html)).
 > Let $z \in \rho(x)$ and $t \in B_{r}(z) \subset \rho(\opA)$. Then
 > ```math
 > \begin{align}
