@@ -1,17 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.20.0
+# v0.20.17
 
 using Markdown
 using InteractiveUtils
 
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
-    quote
+    #! format: off
+    return quote
         local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
+    #! format: on
 end
 
 # ╔═╡ 80ffd650-d95b-471a-9d2f-e2bc781c322e
@@ -189,9 +191,20 @@ let
 	println("Exact eigenvalue using eigvals:       $λ₂")
 end
 
+# ╔═╡ aa642130-d82c-4f80-938a-01bfec29ce43
+md"""For more details, see the [discussion on spectral transformations](https://teaching.matmat.org/numerical-analysis/08_Eigenvalue_problems.html#Spectral-transformations) in the numerical analysis Bachelor class.
+"""
+
+# ╔═╡ b4d035cc-b2f3-495e-9895-d0a3c0790f12
+md"""
+## Optional: Dynamic shifting
+
+See [discussion in numerical analysis](https://teaching.matmat.org/numerical-analysis/08_Eigenvalue_problems.html#Optional:-Dynamic-shifting) Bachelor course.
+"""
+
 # ╔═╡ 6a049358-0e6c-4ea9-8950-52f5bdda287e
 md"""
-## Rayleigh quotient iterations
+## Optional: Rayleigh quotient iterations
 
 We already noted earlier that the Rayleigh quotient is a natural approximation for the eigenvalue corresponding most closely to an approximate eigenvector $v$. A natural idea is thus to replace the shift $σ$ in the shift-and-invert strategy by the Rayleigh quotient $R_A(x^{(i)})$ of the current iterate.
 
@@ -338,7 +351,7 @@ end
 
 # ╔═╡ c3c91935-60f7-4c4a-b43c-973566d58367
 md"""
-## Subspace methods
+## Optional: Subspace methods
 
 So far we restricted ourselves to the rather basic goal of solving only for a **single eigenvector** --- essentially by iterating only a single vector. We already saw that some eigenproblems are challenging to solve in this simple setting, namely exactly if the **largest-absolute eigenvalue has only a small or even a zero gap**. 
 
@@ -424,19 +437,21 @@ We see that each eigenpair $(λ^{(i)}_k, x^{(i)}_k)$ converges with its own spee
 \frac{|λ_{k+1}|}{|λ_{k}|},
 ```
 which can also be proven rigorously.
+
+The above `subspace_iteration` addresses the question of how to compute multiple eigenpairs at once. However, compared to Rayleigh quotient iteration it feels a little like a step back since we are no longer making use of the Rayleigh quotient. Notably, when computing the approximate eigenpairs we are considering each iterated vector separately and allow no "interaction" between them, even though the first iterated vector might well contain a contribution to the eigenvector, which the second iterated vector attempts to approximate. Moreover, we are right now tied to using exactly one iterated vector per eigenvector we want to approximate.
+
+In the next section we will see how projection methods allow us to overcome both these restrictions.
 """
 
-# ╔═╡ 357cd9c6-eb57-48ca-afe5-a752addc6461
+# ╔═╡ 1b63714a-1e7f-40f0-9f2f-5a03744a44d5
 md"""
 ## Projection methods
 
-The above `subspace_iteration` addresses the question of how to compute multiple eigenpairs at once. However, compared to Rayleigh quotient iteration it feels a little like a step back since we are no longer making use of the Rayleigh quotient. Notably, when computing the approximate eigenpairs we are considering each iterated vector separately and allow no "interaction" between them, even though the first iterated vector might well contain a contribution to the eigenvector, which the second iterated vector attempts to approximate. Moreover, we are right now tied to using exactly one iterated vector per eigenvector we want to approximate. We will now see how projection methods allow us to overcome both these restrictions.
-
-The general idea is to somehow construct an $m$-dimensional subspace $\mathcal{S} \subset \mathbb{C}^N$ with $m \ll N$ (details will be discussed later) and fully **solve the eigenvalue problem *projected* into this subspace**. We consider the basic eigenproblem for $A \in \mathbb{C}^{N \times N}$ Hermitian:
+The assumption underlying projection methods is that we are given (by some procedure discussed below) an $m$-dimensional subspace $\mathcal{S} \subset \mathbb{C}^N$ with $m \ll N$. Instead of solving the full eigenproblem, we now restrict ourselves to **solve the eigenvalue problem *projected* into this subspace**. We consider the basic eigenproblem for $A \in \mathbb{C}^{N \times N}$ Hermitian:
 ```math
 A x_i = λ_i x_i \qquad \text{$(\ddagger)$}
 ```
-An orthogonal projection technique now seeks approximate eigenpairs $(\tilde{\lambda}_i, \tilde{x}_i)$ with $\tilde{\lambda}_i \in \mathbb{R}$, $\tilde{x}_i \in \mathcal{S}$, such that the following **Galerkin condition**
+An orthogonal projection technique seeks approximate eigenpairs $(\tilde{\lambda}_i, \tilde{x}_i)$ with $\tilde{\lambda}_i \in \mathbb{R}$, $\tilde{x}_i \in \mathcal{S}$, such that the following **Galerkin condition**
 ```math
 \big(A \tilde{x}_i - \tilde{λ}_i \tilde{x}_i \big) \perp \mathcal{S} \qquad \text{(G)}
 ```
@@ -444,6 +459,10 @@ is satisfied. Equivalently one may enforce
 ```math
 \left\langle v, A \tilde{x}_i - \tilde{λ}_i \tilde{x}_i \right\rangle = 0 \qquad \forall v \in \mathcal{S}. \qquad \text{$(\ast)$}
 ```
+"""
+
+# ╔═╡ 934ec8b3-a0c0-4129-94f1-f3f04c619365
+md"""
 Suppose now that $\{v_1, v_2, \ldots, v_m\}$ is an orthonormal basis for $\mathcal{S}$ and denote by $V = (v_1, v_2, \ldots, v_m) \in \mathbb{C}^{N\times m}$ the matrix with these basis vectors as columns. Expanding $\tilde{x}_i$ in this basis, i.e. introducing a vector $\tilde{y}_i \in \mathbb{C}^m$ with
 ```math
 \tilde{x}_i = V \tilde{y}_i
@@ -457,15 +476,227 @@ or (since $V^H V = I \in \mathbb{C}^{n \times n}$):
 \left(V^H A V\right) \, \tilde{y}_i = \tilde{λ}_i \tilde{y}_i \qquad \text{$(\S)$}
 ```
 Note that this is an $m$-dimensional eigenproblem, which yields an approximate eigenpair $(\tilde{λ}_i, \tilde{y}_i)$ to the original $N$-dimensional eigenpair $(\ddagger)$ above. Thus while $(\ddagger)$ might be too large to be solved by a dense linear algebra routine like `eigen`, the Galerkin approach has allowed us to reduce this to an $m$-dimensional problem, which is easier to treat with `eigen`. Algorithmically this technique is known as the **Rayleigh-Ritz procedure**, which can be summarised as follows:
+"""
 
+# ╔═╡ 84e8b9a8-eb55-46e9-81ab-df248d98a800
+md"""
 > 1. Find an orthonormal basis $\{v_i\}_{i=1,\ldots,m}$, spanning a subspace $\mathcal{S}$.
 > 2. Compute $A_V = V^H A V$, with $V$ containing the basis vectors of $\mathcal{S}$ as columns.
 > 3. Use `eigen` to compute $m$ eigenpairs $(\tilde{λ}_i, \tilde{y}_i)$ of $A_V$.
 > 4. Compute the approximate eigenvectors $\tilde{x}_i = V \tilde{y}_i$ of $A$, which yields the approximate eigenpairs of $A$ as $(\tilde{λ}_i, \tilde{x}_i)$.
+"""
 
+# ╔═╡ 0d96be04-f200-43c1-8374-8a1ec85be47f
+md"""
 Note, that the low-dimensional pairs $(\tilde{λ}_i, \tilde{y}_i)$ are exact eigenpairs of the subproblem matrix $A_V$. The corresponding full-dimensional pairs $(\tilde{λ}_i, \tilde{x}_i)$ are usually called **Ritz pair** with $\tilde{λ}_i$ called **Ritz values** and $\tilde{x}_i$ a **Ritz vector**. 
+"""
 
-One way to put this into practice is to employ the ideas of the `subspace_iteration` discussed above. Recall that this method generates in each iteration a set of orthogonal vectors `U` as guesses for the eigenpairs to be determined. These vectors span a subspace, which can be employed in a Rayleigh-Ritz procedure, leading to the projected subspace iterations:
+# ╔═╡ b02d908b-2882-42b4-803c-fa2b9ca3833f
+md"""As an example we consider the diagonal matrix"""
+
+# ╔═╡ 63ad906a-0fce-4b3e-a5ef-3001c0a1c315
+D  = Diagonal(0:0.1:1)
+
+# ╔═╡ cde89859-7504-4730-afb1-32919d4c5dd2
+md"""has smallest eigenvalue zero."""
+
+# ╔═╡ 13bdb670-8235-47f0-a2fe-ff9b6d12afeb
+md"""
+1. We find an orthonormal basis. Here we just take a random one by orthogonalising $nᵥ random vectors.
+"""
+
+# ╔═╡ 5e02082e-0b07-404b-a5f9-8f86155f4381
+V = ortho_qr(randn(11, 3)); # Generate 3 random orthogonal vectors
+
+# ╔═╡ 0076b5f3-b038-4d8a-8218-dfac8fb8f731
+md"""
+2. We compute the projection into the basis
+"""
+
+
+# ╔═╡ c8b15905-8529-4da0-9944-313e271e0665
+Dᵥ = V'*D*V
+
+# ╔═╡ 5374fdc7-efac-4044-8757-660120992877
+md"""
+3. and compute the Ritz pairs
+"""
+
+# ╔═╡ 56cfee0e-4eec-49e8-9c8d-6ef3552f7c23
+Λᵥ, Yᵥ = eigen(Dᵥ)
+
+# ╔═╡ 5ff2388d-bda2-42bb-957d-6605a1e343ac
+md"""
+4. The approximation to the eigenvalues are thus
+"""
+
+# ╔═╡ 36e7afa4-99ed-4dde-9129-e696759cbf95
+Λᵥ
+
+# ╔═╡ 899b256e-e392-4785-8097-6bf7fad79076
+md"""
+4. and the approximation to the eigenvectors are
+"""
+
+# ╔═╡ cd79bd02-2d61-4eaf-9491-796ff041bdba
+V * Yᵥ
+
+# ╔═╡ 6c1decec-0f96-4d19-b969-29a4344fdbb7
+md"""
+### Relation to Courant-Fisher
+
+The **appeal of projection methods** for computing the eigenpairs of Hermitian matrices results from the connection to the **Courant-Fisher min-max principle**, which guarantees that the eigenvalues computed by the Rayleigh-Ritz procedure satisfy a strong optimality condition: Eigenvalues are approximated from above.
+
+To see this, let us introduce a handy **alternative notation** for subspace methods given **in terms of projections**.
+"""
+
+# ╔═╡ 4413399f-1a77-44f1-8e71-7fdf50233ee8
+md"""
+Making use of our basis for $\mathcal{S}$ it is easy to verify that
+```math
+P_\mathcal{S} = V V^H \in \mathbb{C}^{N\times N}
+```
+is indeed a **projection onto the subspace** $\mathcal{S}$, since the idempotency relation
+```math
+P_\mathcal{S}^2 = \left( V V^H \right)^2 = V (V^H V) V^H = V I V^H = P_\mathcal{S}
+```
+is satisfied. 
+"""
+
+# ╔═╡ e4a01539-ef46-4e4c-86c4-5c37f34a0336
+Foldable("""Rewriting (§) and (G) in terms of projectors""",
+md"""
+Using projector notation also the Galerkin and projective eigenvalue problems can be rewritten, which we provide here for completeness.
+		 
+Since $\tilde{x}_i = V \tilde{y}_i$ implies $V^H \tilde{x}_i = \tilde{y}_i$ and thus $P_\mathcal{S} \tilde{x}_i = \tilde{x}_i$,
+we can rewrite $(\S)$ as
+```math
+P_\mathcal{S} A \tilde{x}_i = V \left(V^H A V\right) \tilde{y}_i
+\stackrel{(\S)}{=} V \tilde{λ}_i \tilde{y}_i
+= P_\mathcal{S} \tilde{λ}_i \tilde{x}_i
+= \tilde{λ}_i \tilde{x}_i,
+```
+which in turn implies
+```math
+P_\mathcal{S} \left( A \tilde{x}_i - \tilde{λ}_i \tilde{x}_i \right) = 0
+```
+--- a projection version of the Galerkin conditions (G) above.
+Yet alternatively we can state
+```math
+P_\mathcal{S} A P_\mathcal{S} \, \tilde{x}_i
+= \tilde{λ}_i P_\mathcal{S} \tilde{x}_i
+= \tilde{λ}_i \tilde{x}_i,
+```
+which is an eigenproblem in the projected operator $P_\mathcal{S} A P_\mathcal{S}$. 
+""")
+
+# ╔═╡ befcfdd1-1f57-45ab-8f96-ae4d01895eea
+md"""
+Based on the above projectors we note
+```math
+\langle \tilde{x}, A \tilde{x} \rangle
+= \big\langle \tilde{x}, \left(P_\mathcal{S} A P_\mathcal{S} \right)\, \tilde{x} \big\rangle
+\qquad \forall \tilde{x} \in \mathcal{S},
+```
+from which it follows that
+if $\tilde{x}$ is inside the subspace employed by an orthogonal projection approach (like the Rayleigh-Ritz procedure), the Rayleigh quotient of the projected matrix $P_\mathcal{S} A P_\mathcal{S}$ and of the original matrix $A$ are identical.
+Therefore:
+```math
+\tilde{λ}_1 = \min_{\tilde{x}\in \mathcal{S}, \tilde{x}\neq 0} \frac{\big\langle \tilde{x}, \left(P_\mathcal{S} A P_\mathcal{S} \right) \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
+= \min_{\tilde{x}\in \mathcal{S}, x\neq 0}
+\frac{\big\langle P_\mathcal{S} \tilde{x}, A P_\mathcal{S} \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
+= \min_{\tilde{x}\in \mathcal{S}, \tilde{x}\neq 0}
+\frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}.
+```
+
+
+
+More generally, based on applying Courant-Fisher to the matrix $P_\mathcal{S} A P_\mathcal{S}$, we obtain the following result
+"""
+
+# ╔═╡ 0233c113-c3ef-456a-aa50-17eb754608ac
+md"""
+**Proposition 5.5.** The $i$-th approximate eigenvalue (counted from small to large including multiplicities) of a Hermitian matrix $A$ obtained from an orthogonal projection method to a subspace $\mathcal{S}$ satisfies
+```math
+\tilde{λ}_i = \min_{s \subset \mathcal{S},\,\text{dim}(s) = i} \ \max_{\tilde{x}\in s,\,\tilde{x}\neq 0} \frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
+```
+
+From this we obtain immediately:
+"""
+
+# ╔═╡ e51a1e89-1675-4b1f-9782-7951b60e1658
+md"""
+**Corollary 5.6.** For $i = 1, 2, \ldots, m$ the inequality
+```math
+λ_i \leq \tilde{λ}_i
+```
+holds, i.e. eigenvalues are **approximated from above** in orthogonal projection methods.
+"""
+
+# ╔═╡ 413d5e90-0b44-4e3f-8ab8-15ac1538c1c7
+md"""
+**Proof.**
+```math
+\tilde{λ}_i = \min_{s \subset \textcolor{red}{\mathcal{S}},\,\text{dim}(s) = i} \ \max_{\tilde{x}\in s,\,\tilde{x}\neq 0} \frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
+\geq
+\min_{s \subset \textcolor{red}{\mathbb{C}^N},\,\text{dim}(s) = i} \ \max_{x\in s,\,x\neq 0} \frac{\big\langle x, A x \big\rangle}{\langle x, x \rangle}
+= λ_i.
+```
+This is the **desired optimality**: The eigenvalue approximation found by a projection method is the **best eigenvalue approximation we can possibly find** within the chosen subspace, and it provides a rigorous upper bound to the exact one.
+"""
+
+# ╔═╡ 262eca5b-d55e-4428-a11a-0614751dd2d6
+md"""
+	Finally, the following characterisation provides a connection between the approximate eigenvalue $\tilde{λ}_i$ and the corresponding approximate eigenvector $\tilde{x}_i$ obtained by an orthogonal projection approach:
+	```math
+	\tilde{λ}_i
+	= \frac{\big\langle \tilde{x}_i, A \tilde{x}_i \big\rangle}{\langle \tilde{x}_i, \tilde{x}_i \rangle}
+	= \min_{0\neq \tilde{x} \in \mathcal{S},\,\tilde{x} \perp \tilde{\mathcal{X}}_{k-1}} \frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
+	```
+	where $\tilde{\mathcal{X}}_k = \text{span}(\tilde{x}_1, \ldots, \tilde{x}_k)$,
+	the space spanned by the $k$ first *approximate* eigenvectors.
+	"""
+
+# ╔═╡ 24dd589f-3275-4924-ba9e-9ad5c7fd075a
+md"""
+Sticking with our example from above, we indeed see how increasing the subspace size `nᵥ` makes the approximate eigenvalues approach the true eigenvalues from above.
+"""
+
+# ╔═╡ 814837a2-761b-4233-81f7-ded2907cb07f
+let
+	Vr = ortho_qr(randn(size(D)))
+	
+	p  = plot(; xlabel="Subspace size nᵥ", ylabel="Approx. eigenvalues")
+	Λs = fill(NaN, size(D))
+	for nv in 1:size(D, 2)
+		V  = Vr[:, 1:nv]
+		Λs[1:nv, nv] = eigvals(V'*D*V)
+	end
+	
+	for nv in 1:size(D, 2)
+		plot!(p, Λs[nv, :]; mark=:o, markersize=5, lw=2, label="")
+	end
+
+	p
+end
+
+# ╔═╡ e1fd4f96-a465-46d8-8c78-cde7c5325e6f
+md"""
+### Optional: Forming a good subspace
+
+Projection methods and the Rayleigh-Ritz procedure are a key ingredient of pretty much all iterative diagonalisation approaches employed nowadays. A full discussion of the standard techniques employed to build the reduced subspace $\mathcal{S}$ is out of the scope of this lecture. An incomplete list of techniques worth mentioning are:
+- If a Krylov basis is constructed and employed for $\mathcal{S}$ one obtains diagonalisation methods such as *Lanczos* or *Arnoldi*.
+- Employing an orthogonal correction based on the current residual to expand and enrich the subspace leads to the *Davidson* family of methods.
+- If the subspace is constructed following the idea of minimising the Rayleigh quotient, we obtain minimisation methods (inverse iterations, PCG, LOPCG). These will be discussed in the following.
+"""
+
+# ╔═╡ bebb6206-9077-40b4-8bf6-63cf5f23d308
+md"""
+### Optional: Application to power iterations
+
+One way to put this into practice is to employ the ideas of the `subspace_iteration` discussed above. Recall that this method generates in each iteration a set of orthogonal vectors `U` by applying `A` to the previous set of vectors. In the `subspace_iteration` algorithm discussed above, these vectors are directly taken as the current estimates for the eigenvectors.
+
+However, these vectors also span a subspace, enabling them to be employed within a Rayleigh-Ritz procedure, leading to the projected subspace iterations:
 """
 
 # ╔═╡ 7237c2e9-c0f3-4cd8-ad1f-6d5cbff35354
@@ -522,113 +753,28 @@ let
 	plot!(norms_2nd; yaxis=:log, label="residual λ₅₀", lw=2)
 end
 
-# ╔═╡ bef6d532-6131-4db7-8b7c-582895a035b1
-md"""
-An **alternative notation** for subspace methods, that is sometimes handy, is given **in terms of projections**.
-Making use of our basis for $\mathcal{S}$ it is easy to verify that
-```math
-P_\mathcal{S} = V V^H \in \mathbb{C}^{N\times N}
-```
-is indeed a projection onto the subspace $\mathcal{S}$, since the idempotency relation
-```math
-P_\mathcal{S}^2 = \left( V V^H \right)^2 = V (V^H V) V^H = V I V^H = P_\mathcal{S}
-```
-is satisfied. Noting further that $\tilde{x}_i = V \tilde{y}_i$ implies $V^H \tilde{x}_i = \tilde{y}_i$ and thus $P_\mathcal{S} \tilde{x}_i = \tilde{x}_i$,
-we can rewrite $(\S)$ as
-```math
-P_\mathcal{S} A \tilde{x}_i = V \left(V^H A V\right) \tilde{y}_i
-\stackrel{(\S)}{=} V \tilde{λ}_i \tilde{y}_i
-= P_\mathcal{S} \tilde{λ}_i \tilde{x}_i
-= \tilde{λ}_i \tilde{x}_i,
-```
-which in turn implies
-```math
-P_\mathcal{S} \left( A \tilde{x}_i - \tilde{λ}_i \tilde{x}_i \right) = 0
-```
---- a projection version of the Galerkin conditions (G) above.
-Yet alternatively we can state
-```math
-P_\mathcal{S} A P_\mathcal{S} \, \tilde{x}_i
-= \tilde{λ}_i P_\mathcal{S} \tilde{x}_i
-= \tilde{λ}_i \tilde{x}_i,
-```
-which is an eigenproblem in the projected operator $P_\mathcal{S} A P_\mathcal{S}$. 
-"""
-
-# ╔═╡ 3cea29a7-fd87-4491-81a6-c53f79387e1f
-md"""
-The **appeal of projection methods** for computing the eigenpairs of Hermitian matrices results from the connection to the **Courant-Fisher min-max principle**, which guarantees that the eigenvalues computed by the Rayleigh-Ritz procedure satisfy a strong optimality condition.
-
-First we note that
-```math
-\langle \tilde{x}, A \tilde{x} \rangle
-= \big\langle \tilde{x}, \left(P_\mathcal{S} A P_\mathcal{S} \right)\, \tilde{x} \big\rangle
-\qquad \forall \tilde{x} \in \mathcal{S},
-```
-from which it follows that
-if $\tilde{x}$ is inside the subspace employed by an orthogonal projection approach (like the Rayleigh-Ritz procedure), the Rayleigh quotient of the projected matrix $P_\mathcal{S} A P_\mathcal{S}$ and of the original matrix $A$ are identical:
-```math
-\tilde{λ}_1 = \min_{\tilde{x}\in \mathcal{S}, \tilde{x}\neq 0} \frac{\big\langle \tilde{x}, \left(P_\mathcal{S} A P_\mathcal{S} \right) \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
-= \min_{\tilde{x}\in \mathcal{S}, x\neq 0}
-\frac{\big\langle P_\mathcal{S} \tilde{x}, A P_\mathcal{S} \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
-= \min_{\tilde{x}\in \mathcal{S}, \tilde{x}\neq 0}
-\frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}.
-```
-More generally, based on applying Courant-Fisher to the matrix $P_\mathcal{S} A P_\mathcal{S}$, we obtain the following result
-
-**Proposition 5.5.** The $i$-th approximate eigenvalue (counted from small to large including multiplicities) of a Hermitian matrix $A$ obtained from an orthogonal projection method to a subspace $\mathcal{S}$ satisfies
-```math
-\tilde{λ}_i = \min_{s \subset \mathcal{S},\,\text{dim}(s) = i} \ \max_{\tilde{x}\in s,\,\tilde{x}\neq 0} \frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
-```
-
-From this we obtain immediately the
-
-**Corollary 5.6.** For $i = 1, 2, \ldots, m$ the inequality
-```math
-λ_i \leq \tilde{λ}_i
-```
-holds, i.e. eigenvalues are **approximated from above** in orthogonal projection methods.
-
-**Proof.**
-```math
-\tilde{λ}_i = \min_{s \subset \textcolor{red}{\mathcal{S}},\,\text{dim}(s) = i} \ \max_{\tilde{x}\in s,\,\tilde{x}\neq 0} \frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
-\geq
-\min_{s \subset \textcolor{red}{\mathbb{C}^N},\,\text{dim}(s) = i} \ \max_{x\in s,\,x\neq 0} \frac{\big\langle x, A x \big\rangle}{\langle x, x \rangle}
-= λ_i.
-```
-This is the **desired optimality**: The eigenvalue approximation found by a projection method is the **best eigenvalue approximation we can possibly find** within the chosen subspace, and it provides a rigorous upper bound to the exact one.
-
-Finally, the following characterisation provides a connection between the approximate eigenvalue $\tilde{λ}_i$ and the corresponding approximate eigenvector $\tilde{x}_i$ obtained by an orthogonal projection approach:
-```math
-\tilde{λ}_i
-= \frac{\big\langle \tilde{x}_i, A \tilde{x}_i \big\rangle}{\langle \tilde{x}_i, \tilde{x}_i \rangle}
-= \min_{0\neq \tilde{x} \in \mathcal{S},\,\tilde{x} \perp \tilde{\mathcal{X}}_{k-1}} \frac{\big\langle \tilde{x}, A \tilde{x} \big\rangle}{\langle \tilde{x}, \tilde{x} \rangle}
-```
-where $\tilde{\mathcal{X}}_k = \text{span}(\tilde{x}_1, \ldots, \tilde{x}_k)$,
-the space spanned by the $k$ first *approximate* eigenvectors.
-"""
-
-# ╔═╡ e1fd4f96-a465-46d8-8c78-cde7c5325e6f
-md"""
-### Forming a good subspace
-
-Projection methods and the Rayleigh-Ritz procedure are a key ingredient of pretty much all iterative diagonalisation approaches employed nowadays. A full discussion of the standard techniques employed to build the reduced subspace $\mathcal{S}$ is out of the scope of this lecture. An incomplete list of techniques worth mentioning are:
-- If a Krylov basis is constructed and employed for $\mathcal{S}$ one obtains diagonalisation methods such as *Lanczos* or *Arnoldi*.
-- Employing an orthogonal correction based on the current residual to expand and enrich the subspace leads to the *Davidson* family of methods.
-- If the subspace is constructed following the idea of minimising the Rayleigh quotient, we obtain minimisation methods (inverse iterations, PCG, LOPCG). These will be discussed in the following.
-"""
-
-# ╔═╡ c56ac72f-643a-4b29-97cb-4f61426d11d5
+# ╔═╡ ccd01cf4-e25d-4c4d-99dd-63a12de4e65d
 md"""
 ## Minimisation methods
 
-In our discussion so far we already employed the variational approach encoded in Courant-Fisher for obtaining eigenvalue problems. E.g. in order to obtain the smallest eigenvalue $λ_1$ we may just
+In our discussion on [Projection methods](#Projection-methods) we already employed the variational ansatz encoded in Courant-Fisher to argue why increasing the subspaces consecutively will eventually lead to a perfect approximation of the eigenpairs.
+"""
+
+# ╔═╡ 6b997532-b424-4df6-afdd-ded41bfba8a8
+md"""
+An orthogonal idea is to directly work on minimising the Reighlay quotient. E.g. since $λ_1$ may just be obtained from
 ```math
+\tag{M}
 λ_1 = \min_{0 \neq x \in \mathbb{C}^N} R_A(x) \qquad R_A(x) = \frac{x^H A x}{x^H x}
 ```
-The purpose of this subsection is to develop methods, that employ this minimisation property directly for computing the eigenpairs of $A$.
+we may think of methods to directly solve this optimisation problem.
+This will be the purpose of this section. Amongst others this leads to the LOPCG algorithm, which interestingly yields an iteration of 3-dimensional subspaces to be used within the [Projection methods](#Projection-methods) discussed above.
+"""
 
-The natural reflex is to employ a steepest descent approach.
+# ╔═╡ aaf81e2f-5e6e-4f5d-8950-831ae85f2476
+md"""
+When considering the minimisation problem (M)
+the natural reflex is to employ a steepest descent approach.
 We thus compute the gradient of $R_A(x)$, namely
 (denoting by $e_i$ the unit vector along coordinate direction $i$):
 ```math
@@ -653,7 +799,10 @@ such that
 \nabla R_A(x) = 2 \frac{Ax - R_A(x) x}{\| x \|^2}.
 ```
 We note that the residual $r = Ax - R_A(x) x$ points along the direction of the gradient of $R_A(x)$.
+"""
 
+# ╔═╡ 37b95aee-ded0-4698-ae1b-4f236ca4cffb
+md"""
 A classic algorithm to solve such minimisation problems in the objective $R_A(x)$ is **preconditioned gradient descent**, in which the iterates are related as
 ```math
 x^{(i+1)} \leftarrow x^{(i)} - \tilde{α} P^{-1} \nabla R_A(x^{(i)})
@@ -769,7 +918,7 @@ The improved convergence rates of $(\ast)$ unfortunately comes with a downside: 
 - Instead of using the basis vectors $\{x^{(i)}, x^{(i-1)}, \tilde{r}^{(i)}\}$ to build the subspace, we compute $p^{(i)} = x^{(i)} - x^{(i-1)}$
   and instead employ $\{ x^{(i)}, p^{(i)}, \tilde{r}^{(i)} \}$,
    which span the same space.
-- Instead of first performing the line search to find the optimal $x^{(i+1)}$ and then computing the Rayleigh coefficient $R_A(x^{(i+1)})$, we perform a **Rayleigh-Ritz procedure projecting onto the subspace** $\mathcal{S} = \text{span} \{ x^{(i)}, p^{(i)}, \tilde{r}^{(i)} \}$. Due to our results on subspace methods (in particular Proposition 5.5.) we know that a Rayleigh-Ritz in the subspace $\mathcal{S}$ is equivalent to finding the minimiser of $R_A(x)$ where $x \in \mathcal{S}$.
+- Instead of first performing the line search to find the optimal $x^{(i+1)}$ and then computing the Rayleigh coefficient $R_A(x^{(i+1)})$, we perform a **Rayleigh-Ritz procedure projecting onto the subspace** $\mathcal{S} = \text{span} \{ x^{(i)}, p^{(i)}, \tilde{r}^{(i)} \}$. Due to our results on [projection methods](#Projection-methods) (in particular Proposition 5.5.) we know that a Rayleigh-Ritz in the subspace $\mathcal{S}$ is equivalent to finding the minimiser of $R_A(x)$ where $x \in \mathcal{S}$.
 
 These two modifications with our previous discussion lead to the **LOPCG (locally optimal preconditioned conjugate gradient)** algorithm:
 """
@@ -1118,7 +1267,7 @@ let
 	Sidebar(toc, ypos) = @htl("""<aside class="plutoui-toc aside indent"
 		style='top:$(ypos)px; max-height: calc(100vh - $(ypos)px - 55px);' >$toc</aside>""")
 	
-	Sidebar(Markdown.parse(read("sidebar.md", String)), 470)
+	Sidebar(Markdown.parse(read("sidebar.md", String)), 540)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -1148,7 +1297,7 @@ PlutoUI = "~0.7.59"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.1"
+julia_version = "1.11.6"
 manifest_format = "2.0"
 project_hash = "fcc591ce4c37b85b9bdfccc2ac034b352d815a36"
 
@@ -2209,7 +2358,7 @@ version = "0.3.27+1"
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
-version = "0.8.1+2"
+version = "0.8.5+0"
 
 [[deps.OpenMPI_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Hwloc_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "MPIPreferences", "TOML", "Zlib_jll"]
@@ -3098,6 +3247,8 @@ version = "1.4.1+1"
 # ╠═e33b4164-b980-446f-9398-9ec68cf224f9
 # ╟─7661b0fa-839a-47a1-a0ea-a89e8d4abc3a
 # ╠═f923e4ba-1833-4b2e-968d-8527fc70720d
+# ╟─aa642130-d82c-4f80-938a-01bfec29ce43
+# ╟─b4d035cc-b2f3-495e-9895-d0a3c0790f12
 # ╟─6a049358-0e6c-4ea9-8950-52f5bdda287e
 # ╠═b0e6abc4-7581-4a7b-9160-792d2824a1cf
 # ╟─6be8652b-525c-4efa-bcc7-b72285ea2d98
@@ -3121,15 +3272,43 @@ version = "1.4.1+1"
 # ╠═bd576cd6-ee70-43b3-ad05-9307d6eeb05d
 # ╠═6f81e36d-7892-42ec-aeb6-91fca5b6399a
 # ╟─137f3b99-d031-4df4-868e-9b5e4d342a83
-# ╟─357cd9c6-eb57-48ca-afe5-a752addc6461
+# ╟─1b63714a-1e7f-40f0-9f2f-5a03744a44d5
+# ╟─934ec8b3-a0c0-4129-94f1-f3f04c619365
+# ╟─84e8b9a8-eb55-46e9-81ab-df248d98a800
+# ╟─0d96be04-f200-43c1-8374-8a1ec85be47f
+# ╟─b02d908b-2882-42b4-803c-fa2b9ca3833f
+# ╠═63ad906a-0fce-4b3e-a5ef-3001c0a1c315
+# ╟─cde89859-7504-4730-afb1-32919d4c5dd2
+# ╟─13bdb670-8235-47f0-a2fe-ff9b6d12afeb
+# ╠═5e02082e-0b07-404b-a5f9-8f86155f4381
+# ╟─0076b5f3-b038-4d8a-8218-dfac8fb8f731
+# ╠═c8b15905-8529-4da0-9944-313e271e0665
+# ╟─5374fdc7-efac-4044-8757-660120992877
+# ╠═56cfee0e-4eec-49e8-9c8d-6ef3552f7c23
+# ╟─5ff2388d-bda2-42bb-957d-6605a1e343ac
+# ╠═36e7afa4-99ed-4dde-9129-e696759cbf95
+# ╟─899b256e-e392-4785-8097-6bf7fad79076
+# ╠═cd79bd02-2d61-4eaf-9491-796ff041bdba
+# ╟─6c1decec-0f96-4d19-b969-29a4344fdbb7
+# ╟─4413399f-1a77-44f1-8e71-7fdf50233ee8
+# ╟─e4a01539-ef46-4e4c-86c4-5c37f34a0336
+# ╟─befcfdd1-1f57-45ab-8f96-ae4d01895eea
+# ╟─0233c113-c3ef-456a-aa50-17eb754608ac
+# ╟─e51a1e89-1675-4b1f-9782-7951b60e1658
+# ╟─413d5e90-0b44-4e3f-8ab8-15ac1538c1c7
+# ╟─262eca5b-d55e-4428-a11a-0614751dd2d6
+# ╟─24dd589f-3275-4924-ba9e-9ad5c7fd075a
+# ╠═814837a2-761b-4233-81f7-ded2907cb07f
+# ╟─e1fd4f96-a465-46d8-8c78-cde7c5325e6f
+# ╟─bebb6206-9077-40b4-8bf6-63cf5f23d308
 # ╠═7237c2e9-c0f3-4cd8-ad1f-6d5cbff35354
 # ╠═a9fdeb7d-e4f8-4320-8d32-792bf405a7aa
 # ╠═2e96d48d-15d9-40cc-8c1d-d8d03e755c2a
 # ╠═e6a62b4f-9919-43b9-ae74-3cb3c1110829
-# ╟─bef6d532-6131-4db7-8b7c-582895a035b1
-# ╟─3cea29a7-fd87-4491-81a6-c53f79387e1f
-# ╟─e1fd4f96-a465-46d8-8c78-cde7c5325e6f
-# ╟─c56ac72f-643a-4b29-97cb-4f61426d11d5
+# ╟─ccd01cf4-e25d-4c4d-99dd-63a12de4e65d
+# ╟─6b997532-b424-4df6-afdd-ded41bfba8a8
+# ╟─aaf81e2f-5e6e-4f5d-8950-831ae85f2476
+# ╟─37b95aee-ded0-4698-ae1b-4f236ca4cffb
 # ╠═1d099205-9d84-4ecc-a2af-81910326a4ba
 # ╠═f17500cc-6e5f-442d-9b22-2dc406367ad6
 # ╠═320a4138-1d2d-4039-adaa-1aeb7f1929cf
