@@ -238,10 +238,8 @@ begin
 	end
 end
 
-# ╔═╡ f94d4725-51e7-4323-942c-ad8125f0b6fb
-md"""
-Note that we are using `BigFloat`, Julia's built-in arbitrary precision floating-point data type, to ensure the returned values are free of any rounding error. This is needed for the next section.
-"""
+# ╔═╡ 08527837-940d-42bd-9f57-5458e08eb100
+md"""Let's plot a few of them for illustration:"""
 
 # ╔═╡ dec7f34f-79c5-492e-b9cd-67bf7005d6c6
 let  # Plot eigenfunction for one example
@@ -349,7 +347,7 @@ Albeit more common than one perhaps thinks, we will not discuss there error cont
 
 # ╔═╡ 38f6171b-6572-4909-91b2-a3c1c85e6490
 md"""
-Ignoring the latter two contributions the error shown in the plot above, i.e. the discrepancy between `fd_eigenvalue` and `numerical_eigenvalue` is the sum of the algorithm error and the arithmetic error. To estimate the two separate contributions, we will make the assumption that the `BigFloat` number format is free of arithmetic error. Note that this is not fully correct (by default uses 256bit of precision) and we will discuss better techniques later in the lecture.
+Ignoring the latter two contributions the error shown in the plot above, i.e. the discrepancy between `fd_eigenvalue` and `numerical_eigenvalue` is the sum of the algorithm error and the arithmetic error. To estimate the two separate contributions, we will employ the `BigFloat` number, which is a data-type that offers 256bit of precision. We will here make the assumption that this is "free of arithmetic error". This is of course not correct in principle. We will discuss better techniques later in the lecture.
 
 Making this assumption we estimate the algorithm error $e_\text{algorithm}$ computationally as:
 """
@@ -1573,7 +1571,7 @@ version = "1.9.2+0"
 # ╠═e0031dfb-1cec-446b-a577-6c6c15f76b2d
 # ╟─f2e33ed8-d7ae-41f9-bf94-e080477cd5de
 # ╠═c0ab4a2b-6ffb-41d5-8318-cddc534b1154
-# ╟─f94d4725-51e7-4323-942c-ad8125f0b6fb
+# ╟─08527837-940d-42bd-9f57-5458e08eb100
 # ╠═88a0697e-03b6-479c-8d49-99adda3e0e97
 # ╠═dec7f34f-79c5-492e-b9cd-67bf7005d6c6
 # ╟─38a0c072-fd9e-4786-b946-4a851f655e94
