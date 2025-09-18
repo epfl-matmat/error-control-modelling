@@ -137,7 +137,7 @@ The eigenpairs of $- \Delta$ on this domain can be easily obtained analytically 
 \Psi_n(x) &= \sqrt{\frac{2}{a}} \sin\left(\frac{n \pi x}{a}\right)
 \end{aligned}
 ```
-for $i = 1, \ldots, \infty$, where eigenvalues are sorted in *ascending order*.
+for $n = 1, \ldots, \infty$, where eigenvalues are sorted in *ascending order*.
 
 Having changed our mathematical model for the underlying phenomenon we want to study we have thus a **model error** 
 
@@ -375,7 +375,7 @@ e_arithmetic = abs(μ1_big - μ1_fp64)
 md"""... and the total error for N=1000 and a=1 as:"""
 
 # ╔═╡ 0c7cc94a-e464-4dc8-869e-909befc9ab90
-e_total = abs(μ1_fp64)
+e_total = abs(μ1_fp64 - 0)
 
 # ╔═╡ 2cd6aaec-a049-47e0-87c1-5c18cd6e0c42
 md"""
