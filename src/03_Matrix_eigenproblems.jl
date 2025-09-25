@@ -284,8 +284,8 @@ Based on the quadratic form we can show
 > \begin{align}
 > 		&\nabla q_A(v) = \lambda \nabla g(v)
 > 		\\
-> 		&\begin{cases}
-> 			A^T \bar v  = \lambda \bar v & \qquad \text{(Wirtinger derivative wrt }x) \\ A v = \lambda v & \qquad \text{(Wirtinger derivative wrt } \bar x)
+> 		&(\ast) \begin{cases}
+> 			v^H A  = \lambda v^H & \qquad \text{(Wirtinger derivative wrt }x) \\ A v = \lambda v & \qquad \text{(Wirtinger derivative wrt } \bar x)
 > 		\end{cases}
 > \end{align}
 > ```
@@ -298,19 +298,15 @@ Our special interest are Hermitian matrices, particularly due to the importance 
 As a reminder, Hermitian matrices satisfy $A^H = A$, i.e. $\langle u, Au \rangle = \langle Au, u \rangle$.
 For these, we have two key results :
 
-!!! note "Theorem 4"
+!!! note "Corollary 4"
 	Eigenvalues of Hermitian matrices are real.
 
 > *Proof.* 
-> If $(\lambda, u)$ is an eigenpair of Hermitian $A \in \mathbb C^{n \times n}$ with $\langle u, u \rangle = 1$, then
+> If $A = A^H$ we can rewrite the first condition $(\ast)$ in the above proof as
 > ```math
-> \begin{align}
-> 		\lambda &= \lambda \langle u, u \rangle
-> 		\\ &= \langle u, A u \rangle
-> 		\\ &= \langle A u, u \rangle
-> 		\\ &= \overline{\langle u, A u \rangle} = \bar \lambda &&& \square
-> \end{align}
+> v^H A^H = λ v^H \quad \Longleftrightarrow \quad A v = \bar \lambda v
 > ```
+> which in combination with the second condition of $(\ast)$ implies $\lambda = \bar \lambda$.
 """
 
 # ╔═╡ b7ad00f2-4112-458c-bf79-6c78a722fde2
@@ -343,7 +339,7 @@ md"""
 > V^H A V = \begin{pmatrix} \lambda_1 & C \\ 0 & B \end{pmatrix}
 > ```
 > where $B \in \mathbb C^{(n-1) \times (n-1)}, C \in \mathbb C^{1 \times (n-1)}$.
-> - As $W$ is an invariant subspace of $A$, so is $W^\perp$ by Lemma 5, and thus $C = 0$.
+> - Since $A$ is Hermitian and $V$ unitary, $V^H A V$ is Hermitian, which implies $B^H = B$ and $C = 0$.
 > - By induction hypothesis $B = Q D Q^T$ with $D$ real and diagonal and $Q$ unitary.
 >   The decomposition is thus obtained as 
 > ```math

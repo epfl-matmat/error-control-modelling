@@ -99,8 +99,8 @@ md"""
 > ```math
 > 	M_{i j}= \begin{cases}0 & \text{if } i=j \\ \frac{A_{i j}}{A_{i i}-\lambda} & \text {otherwise }\end{cases}
 > ```
-> - Due to (2), we thus have $\sum_{j=1}^{n}\left|M_{i j}\right|<1$ $\forall i$, therefore $\|M\|_{\infty}< 1$, and $\|M\|_{2}<\|M\|_{\infty}<1$.
-> - Since $\|M\|_{2}$ bounds the modulus of the eigenvalues of $M$, we have that $I+M$ is non-singular, which implies $A-\lambda I$ is non-singular. Therefore $\lambda$ cannot be an eigenvalue of $A$.
+> - Due to (2), we thus have $\sum_{j=1}^{n}\left|M_{i j}\right|<1$ $\forall i$, therefore $\|M\|_{\infty}< 1$, and $\varrho(M) < \|M\|_{\infty}<1$.
+> - Since $\varrho(M)$ bounds the modulus of the eigenvalues of $M$, we have that $I+M$ is non-singular, which implies $A-\lambda I$ is non-singular. Therefore $\lambda$ cannot be an eigenvalue of $A$.
 > - This contradicts our initial statement.
 >   $\hspace{7cm} \square$
 
@@ -172,7 +172,7 @@ md"""
 >   $\hspace{12cm} \square$
 """
 
-# ╔═╡ fd5bcfb5-86c5-4097-a8b0-3f12ef8ed752
+# ╔═╡ bf7bc022-c5d2-40a1-ae48-731ee97d9a32
 md"""
 This is a simple way to get general error bound by establishing a **residual-error relationship**, i.e. a relation between the residual as a computable check for convergence and the error of our quantity of interest against the exact result. 
 We will note that there is no need to know the exact result !
@@ -190,8 +190,17 @@ We will note that there is no need to know the exact result !
 	Note that there is no reason for $q$ or $C$ to be identical in both cases.
 
 This suggests the following important point: error-residual relationships are not unique.
-In fact for our case a better bound is the Kato-Temple bound, which we will derive next.
+"""
 
+# ╔═╡ a70cff6b-b3d6-4f49-aed0-4d01813d6a95
+md"""
+In fact in many practical examples such as [Herbst, Levitt, Cances 2020, *Figure 7*](https://michael-herbst.com/publications/2020.04.28_error_nonscf_kohn_sham.pdf) one sees that Bauer-Fike does not follow the convergence behaviour of the true error. 
+
+In fact for our case a better bound is the Kato-Temple bound, which we will derive next.
+"""
+
+# ╔═╡ 5e85fbbb-b9b6-49f2-b33f-539ddd7f4cc0
+md"""
 ## Kato-Temple bound
 """
 
@@ -463,7 +472,11 @@ Consider the near-diagonal matrix
 M = $(latexify_md(M))
 
 
-with some Sliders to tune the off-diagonal elements:
+with some Sliders to tune the off-diagonal elements, shown below. As approximate eigenvectors we assume the unit vectors, that is $\tilde{v}_i = e_i$. As a result the corresponding approximate eigenvalues are just
+```math
+	R_M(\tilde{v}_i) = \tilde{v}_i^T M \tilde{v}_i  = M_{ii},
+```
+i.e. the diagonal entries of $M$.
 """
 
 # ╔═╡ a7e14252-02ee-49c1-9f46-5699cf590923
@@ -1687,7 +1700,9 @@ version = "1.9.2+0"
 # ╟─9c189c48-497e-43c1-a50e-fc1ebe7f0714
 # ╟─371399ec-a571-4aed-b910-7307d90edad1
 # ╟─5466b137-915b-4118-9dbf-f97750303784
-# ╟─fd5bcfb5-86c5-4097-a8b0-3f12ef8ed752
+# ╟─bf7bc022-c5d2-40a1-ae48-731ee97d9a32
+# ╟─a70cff6b-b3d6-4f49-aed0-4d01813d6a95
+# ╟─5e85fbbb-b9b6-49f2-b33f-539ddd7f4cc0
 # ╟─54fea52c-6adb-4c83-b380-416bfdaeacec
 # ╟─f172a676-599b-4be7-9b5d-ceba6b1794dc
 # ╟─3ec0e31c-3d09-43d1-9d9a-506320f7d964
