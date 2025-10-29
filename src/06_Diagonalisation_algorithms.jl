@@ -40,7 +40,8 @@ md"""
 md"""
 This lecture will provide a selective overview of standard diagonalisation algorithms, contrasting their respective scope of applicability and the main ingredients. Our main angle will be to understand questions related to numerical stability in the key ingredients of the algorithms. Instead of taking a proof-guided approach, we will mostly follow a computational approach using the increased-precision and interval techniques we discussed in previous lectures.
 
-A more comprehensive treatment of the topic can be found in the book [Numerical Methods for Large Eigenvalue Problems](https://epubs.siam.org/doi/book/10.1137/1.9781611970739) by Youssef Saad as well as the [Lecture notes on Large Scale Eigenvalue Problems](https://people.inf.ethz.ch/arbenz/ewp/Lnotes/lsevp.pdf) by Peter Arbenz.
+For a more gentle introduction see the [chapter on eigenvalue problems in the Numerical Analysis lecture](https://teaching.matmat.org/numerical-analysis/11_Eigenvalue_problems.html).
+For a more comprehensive treatment of the topic see the book [Numerical Methods for Large Eigenvalue Problems](https://epubs.siam.org/doi/book/10.1137/1.9781611970739) by Youssef Saad as well as the [Lecture notes on Large Scale Eigenvalue Problems](https://people.inf.ethz.ch/arbenz/ewp/Lnotes/lsevp.pdf) by Peter Arbenz.
 
 In our discussion we will always take $A \in \mathbb{C}^{N\times N}$ to be a Hermitian matrix and we will seek approximations to the eigenpairs $(\lambda_i, x_i) \in \mathbb{R} \times \mathbb{C}^N$, i.e.
 ```math
@@ -467,6 +468,10 @@ Suppose now that $\{v_1, v_2, \ldots, v_m\}$ is an orthonormal basis for $\mathc
 ```math
 \tilde{x}_i = V \tilde{y}_i
 ```
+equivalent to
+```math
+(\tilde{x}_i)_α = \sum_k V_{αk} (\tilde{y}_i)_k
+```
 equation $(\ast)$ becomes
 ```math
 \left\langle v_j, A V \tilde{y}_i - \tilde{λ}_i V \tilde{y}_i \right\rangle = 0 \qquad \forall j = 1, \ldots, n.
@@ -682,7 +687,7 @@ end
 
 # ╔═╡ e1fd4f96-a465-46d8-8c78-cde7c5325e6f
 md"""
-### Optional: Forming a good subspace
+### Forming a good subspace
 
 Projection methods and the Rayleigh-Ritz procedure are a key ingredient of pretty much all iterative diagonalisation approaches employed nowadays. A full discussion of the standard techniques employed to build the reduced subspace $\mathcal{S}$ is out of the scope of this lecture. An incomplete list of techniques worth mentioning are:
 - If a Krylov basis is constructed and employed for $\mathcal{S}$ one obtains diagonalisation methods such as *Lanczos* or *Arnoldi*.
@@ -881,6 +886,9 @@ md"""
 What preconditioner should be chosen is often highly problem dependent. However, there are a number of standard choices, which can often be employed blindly to speed up the calculations. Popular are in particular incomplete factorisations (e.g. Cholesky) or lower-precision version of the original problem. A detailed discussion is out of the scope of these notes. Details can be found, for example, in book of Saad.
 
 """
+
+# ╔═╡ 652c5513-8263-4211-833f-aa8180711d68
+TODO("mention Nystrom approximation")
 
 # ╔═╡ 4b0cd6fc-50ec-4e12-82e0-30fe2ceb98ce
 md"""
@@ -3368,6 +3376,7 @@ version = "1.9.2+0"
 # ╠═68fff309-a3ec-4ebc-bcfe-bafeac6ef3f5
 # ╟─f4bb1d69-1f06-4769-ac6e-081ddaa437d7
 # ╟─8481465b-171b-4374-8ec9-d7c19bd23d81
+# ╠═652c5513-8263-4211-833f-aa8180711d68
 # ╟─4b0cd6fc-50ec-4e12-82e0-30fe2ceb98ce
 # ╟─9fdc92f6-158f-4e62-82e0-b6c5ce96d9a8
 # ╠═94e6808b-c89c-4431-90d8-5e252e38d834

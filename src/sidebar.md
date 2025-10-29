@@ -6,7 +6,7 @@
 1. [Bounds on Eigenvalues](https://teaching.matmat.org/error-control/04_Matrix_error_bounds.html)
 1. [Errors due to floating-point arithmetic](https://teaching.matmat.org/error-control/05_Floating_point_arithmetic.html)
 1. [Diagonalisation algorithms](https://teaching.matmat.org/error-control/06_Diagonalisation_algorithms.html)
-1. [Matrix Perturbation Theory](https://teaching.matmat.org/error-control/07_Matrix_pgrturbation_theory.html)
+1. [Matrix Perturbation Theory](https://teaching.matmat.org/error-control/07_Matrix_perturbation_theory.html)
 1. [Hilbert Spaces](https://teaching.matmat.org/error-control/08_Hilbert_spaces.html)
 1. [Operators](https://teaching.matmat.org/error-control/09_Operators.html)
 1. [Self-adjoint operators](https://teaching.matmat.org/error-control/10_Spectra_self_adjoint.html)
