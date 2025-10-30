@@ -89,6 +89,12 @@ md"""
 	  ```
 	- A consequence (use Cramer's rule) is that the singularities at $z=\lambda_{1}, \dots, \lambda_{n}$ are not essential. 
 	  Thus, the resolvent is **meromorphic** on $z$ (only has a countable number of singularities, which are removable).
+    -  $R_{z}(A)$ and $A$ commute since
+    ```math
+    \begin{aligned}
+    R_z(A)\, A &= (A - z I)^{-1} (A^{-1})^{-1} = \left( A^{-1} A - A^{-1}z \right)^{-1} \\ &= \left( A A^{-1} - z A^{-1} \right)^{-1} = A (A - zI)^{-1} = A \, R_z(A)
+    \end{aligned}
+    ```
 
 """
 
@@ -129,18 +135,102 @@ TikzPicture(L"""
 \draw[->] (50,100) -- node{$\times$} node[above]{$\lambda_{i-1}$} (200,100) node{$\times$} node[above]{$\lambda_{i}$} -- node{$\times$} node[above]{$\lambda_{i+1}$} (300,100) ;
 """, width="23cm", options="scale=0.05", preamble=raw"\usepackage{amsfonts}")
 
-# ╔═╡ 7f02b176-3057-4ed6-8ebe-31d645f16e48
+# ╔═╡ 3f170e15-b8bd-41ae-b654-da19c53d0654
 md"""
 We consider the integral
 ```math
-P_{i}=-\frac{1}{2 \pi i} \oint_{\contour_{\lambda_{i}}} R_{z}(A) d z
+P_{i}=-\frac{1}{2 \pi i} \oint_{\contour_{\lambda_{i}}} R_{z}(A) d z .
 ```
-and establish these are orthogonal projectors for $i \neq j$ :
+This integral looks rather involved. However, as the following Theorem tells us, it has actually a natural interpretation:
+"""
+
+# ╔═╡ 129c7fb1-479e-4e82-a17c-0b153d2d890d
+md"""
+!!! note "Theorem 1"
+	Let $A \in \mathbb{C}^{n \times n}$ Hermitian. 
+	We have
+	```math
+	\im \left(P_{i}\right)=\ker\left(A-\lambda_{i} I\right)=\eigenspace_A\left(\lambda_{i}\right)
+	```
+	i.e. the image of the projector $P_{i}$ associated to $\lambda_{i}$ is an invariant subspace of $A$, which is equal to the eigenspace associated to $\lambda_{i}$.
+"""
+
+# ╔═╡ 5e03eaa7-df64-4699-ae5a-479614e25dab
+md"""
+> *Proof.* Since $A$ is Hermitian, it admits an eigendecomposition
+> $A = U Λ U^H$ where $Λ = \text{diag}(λ_1, λ_2, \ldots, λ_n)$ and $U$ are
+> the corresponding eigenvectors as columns, i.e. $U = (v_1, v_2, \ldots, v_n)$
+> Then for a $z \in \rho(A)$ we have
+> ```math
+> R_z(A) = (A - z I)^{-1} = U (\Lambda - z)^{-1} U^H
+> ```
+> and therefore
+> ```math
+> \begin{aligned}
+> P_i = -\frac{1}{2π i}\oint_{\contour_{\lambda_{i}}} R_{z}(A) d z
+> &= -\frac{1}{2π i} \oint_{\contour_{\lambda_{i}}} U (\Lambda-z)^{-1} U^H d z \\
+> &= U\, \text{diag}(k_1, \ldots, k_n)\, U^H
+> \end{aligned}
+> ```
+> where we pushed the contour integral to the elements of the inner diagonal matrix
+> ```math
+> k_j = -\frac{1}{2π i} \oint_{\contour_{\lambda_{i}}} \frac{1}{λ_j-z} d z
+> ```
+> The functions $z \mapsto \frac{1}{λ_j-z}$ only feature a single pole
+> of order 1 at $z = λ_j$. 
+>
+> Assume first that $λ_i$ is a simple eigenvalue
+> (i.e. that $λ_{i-1} < λ_i < λ_{i+1}$), then
+> only $1 / (λ_i-z)$, respectively the term $k_i$ has a pole at $z = λ_i$.
+> Since the contour $\contour_{\lambda_{i}}$ only encloses the
+> eigenvalue $\lambda_i$ by the
+> [Cauchy's integral formula](https://en.wikipedia.org/wiki/Cauchy%27s_integral_formula)
+> only the term $k_i$ is non-zero. For all other terms there is no term
+> inside the contour (here we use that $λ_i$ is simple). In fact
+> ```math
+> k_i = -\frac{1}{2π i} \oint_{\contour_{\lambda_{i}}} \frac{1}{λ_i-z} d z = -\frac{1}{2π i} - 2πi = 1.
+> ```
+> Therefore
+> ```math
+> P_i = U\, \text{diag}(0, \ldots 0, \underbrace{1}_\text{$i$-th pos}, 0, \ldots, 0)\, U^H = v_i v_i^H.
+> ```
+> If $λ_i$ is not a simple eigenvalue but has a $p$-fold degeneracy,
+> i.e. $λ_{i} = λ_{i+m} $0 ≤ m ≤ p$, then in fact $k_i = k_{i+1} = \cdots = k_{i+p} = 1$ and therefore
+> ```math
+> \tag{$\ast$}
+> P_i = \sum_{m=0}^p v_i v_i^H,
+> ```
+> where $v_i, v_{i+1}, \ldots, v_{i+p}$ are the mutually orthogonal eigenvectors
+> corresponding to eigenvalue $λ_i$.
+>
+> To complete the connection of the image of $P_i$ to the eigenspace
+> notice that for the eigendecomposition of an
+> arbitrary vector $x = \sum_{i=1}^n c_i v_i$ with coefficients $c_i \in \mathbb{C}$
+> we have that
+> $P_i x = \sum_{m=0}^p c_m v_m \in \eigenspace_A\left(\lambda_{i}\right)$,
+> therefore $\im \left(P_{i}\right) \subseteq \eigenspace_A\left(\lambda_{i}\right)$.
+> Similarly the definition $(\ast)$ implies that
+> $P_i \eigenspace_A\left(\lambda_{i}\right) = \eigenspace_A\left(\lambda_{i}\right)$,
+> therefore $\eigenspace_A\left(\lambda_{i}\right) \subseteq \im P_i$,
+> completing the proof.
+"""
+
+# ╔═╡ d05cc3e8-a8c1-4dbc-808a-7a204aabf068
+md"""
+While our proof required explictly the existance of an eigendecomposition of the matrix $A$, a proof that does not require this explicitly can be found in
+*Youssef Saad. Numerical Methods for Large Eigenvalue Problems, SIAM (2011), Lemma 3.1*. In fact this proof strategy even generalises to operators, where eigenvalues may have over-countably infinite multiplicities or spectra may be overcountable sets (e.g. like the entire real line).
+
+In this sense spectral projectors provide a natural generalisation to eigenspaces, which keeps providing reasonable results also for operators, i.e. infinite-dimensional settings. This justifies employing this formalism in this chapter. While we will not discuss the details, this effectively ensures that our conclusions about perturbative expansions and perturbation theory keep holding also for operators.
+"""
+
+# ╔═╡ 7285b95a-676c-477d-b8bb-0ab6803716be
+md"""
+To obtain some more familiarity with spectral projectors and contour integrals, we will prove the following statements, which establish an algebra and key properties of spectral projectors.
 """
 
 # ╔═╡ e2f62f58-6614-4b80-b225-9e3136027f8d
 md"""
-!!! note "Theorem 1"
+!!! note "Theorem 2 (optional)"
 	The linear transformations $P_{i}, i=1, \dots, n$ defined above associated with distinct eigenvalues $i=1, \dots, n$ are such that
 
 	- (a) $P_{i}^{2}=P_{i}$
@@ -170,7 +260,7 @@ TikzPicture(L"""
 
 # ╔═╡ 2210e9c0-53e3-472e-80e7-4151d14eec9d
 md"""
-> *Proof* of (a).
+> *Proof of (a)*.
 > Let $\contour_{\lambda_{i}}$ and $\contour_{\lambda_{i}}^{\prime}$ be two curves enclosing $\lambda_{i}$ with $\contour_{\lambda_{i}}^{\prime}$ enclosing $\contour_{\lambda_{i}}$ (illustrated above). Then
 >```math
 >	\begin{aligned}
@@ -178,7 +268,7 @@ md"""
 >	& \hspace{-1.3em} \stackrel{\text{1st identity}}{=} \oint_{\contour_{\lambda_{i}}} \oint_{\contour_{\lambda_{i}^{\prime}}} \frac{1}{z^{\prime}-z}\left(R_{z^{\prime}}(A)-R_{z}(A)\right) d z dz'
 >	\end{aligned}
 >```
->Now we use Cauchy's integral formula to obtain
+>Now we use [Cauchy's integral formula](https://en.wikipedia.org/wiki/Cauchy%27s_integral_formula) to obtain
 >```math
 >	\oint_{\contour_{\lambda_{i}}} \frac{d z}{z^{\prime}-z}=0 
 >```
@@ -200,13 +290,13 @@ md"""
 
 # ╔═╡ aefedae9-b792-41db-bb52-c8540619bcf1
 md"""
-> *Proof* of (b).
+> *Proof of (b)*.
 > The proof follows a very similar argument since $\contour_{\lambda_{i}}$ and $\contour_{\lambda_{j}}$ can be taken to be non-intersecting.
 """
 
 # ╔═╡ 36f4bb7f-e1d5-4587-b96a-574820601963
 md"""
-> *Proof* of (c).
+> *Proof of (c)*.
 >We consider
 >```math
 >	P=-\frac{1}{2 \pi i} \sum_{i=1}^{n} \oint_{\contour_{\lambda_{i}}} R_z(A) d z .
@@ -237,95 +327,6 @@ md"""
 >	&& \square
 >	\end{align} 
 >```
-"""
-
-# ╔═╡ 129c7fb1-479e-4e82-a17c-0b153d2d890d
-md"""
-!!! note "Theorem 2"
-	Let $A \in \mathbb{C}^{n \times n}$ Hermitian. 
-	We have
-	```math
-	\im \left(P_{i}\right)=\ker\left(A-\lambda_{i} I\right)=\eigenspace_A\left(\lambda_{i}\right)
-	```
-	i.e. the image of the projector $P_{i}$ associated to $\lambda_{i}$ is an invariant subspace of $A$, which is equal to the eigenspace associated to $\lambda_{i}$.
-"""
-
-# ╔═╡ fec3438a-8da1-4d10-9b71-7c7b87d08fdf
-md"""
-> *Proof.*
-> First note that  $R_{z}(A)$ and $A$ commute since
-> ```math
-> \begin{aligned}
-> R_z(A)\, A &= (A - z I)^{-1} (A^{-1})^{-1} = \left( A^{-1} A - A^{-1}z \right)^{-1} \\ &= \left( A A^{-1} - z A^{-1} \right)^{-1} = A (A - zI)^{-1} = A \, R_z(A)
-> \end{aligned}
-> ```
-> we get by integration $P_{i} A=A P_{i}$, such that $\im \left(P_{i}\right)$ is invariant under $A$.
->
->Next we show $\im \left(P_{i}\right) \supseteq \ker\left(A-\lambda_{i} I\right)$.
->Consider an $x \in \ker\left(A-\lambda_{i} I\right)$ and expand
->```math
->	\begin{aligned}
->	R_{z}(A) x & =(A-z I)^{-1} x \\
->	& =\left[\left(A-\lambda_{i} I\right)-\left(z-\lambda_{i}\right) I\right]^{-1} x \\
->	& =-\frac{1}{z-\lambda_{i}}\left[I-\left(z-\lambda_{i}\right)^{-1}\left(A-\lambda_{i} I\right)\right]^{-1} x.
->	\end{aligned}
-> ```
-> Now observe that $x \in \ker\left(A-\lambda_{i} I\right)$ implies
-> ```math
-> \left[I-\left(z-\lambda_{i}\right)^{-1}\left(A-\lambda_{i} I\right)\right] x
-> = x - \left(z-\lambda_{i}\right)^{-1} 0 = x
-> ```
-> and therefore that 
-> ```math 
-> R_{z}(A) x = -\frac{x}{z-\lambda_{i}}.
-> ```
-> Based on this
->```math
->P_{i} \ x=\left[-\frac{1}{2 \pi i} \oint_{\contour_{i}} R_{z}(A) d z\right] x
-> =\frac{x}{2 \pi i} \oint_{\contour_{i}} \frac{1}{z-\lambda_{i}} d z=x
->```
->and $x \in \im \left(P_{i}\right)$.
->
->Finally, we show $\im \left(P_{i}\right) \subseteq \ker\left(A-\lambda_{i} I\right)$. 
->With
-> ```math
->   \begin{aligned}
->\left(z-\lambda_{i}\right) R_{z}(A)
->    &= (zI - A + A - \lambda_{i}I) R_{z}(A)\\
->    &=-I+\left(A-\lambda_{i} I\right) R_{z}(A)
->   \end{aligned}
->```
->we deduce
->```math
->	\begin{aligned}
->	-\frac{1}{2 \pi i} \oint_{\contour_{\lambda_{i}}}\left(z-\lambda_{i}\right) R_{z}(A) d z & =-\frac{1}{2 \pi i}\left(A-\lambda_{i} I\right) \oint_{\contour_{\lambda_i}} R_{z}(A) d z \\
->	& =\left(A-\lambda_{i} I\right) P_{i}
->	\end{aligned}.
->```
-> Now note, that $A$ is Hermitian and thus admits an eigendecomposition
-> $A = U Λ U^H$ where $Λ = \text{diag}(λ_1, λ_2, \ldots, λ_n)$ and $U$ are
-> the corresponding eigenvectors as columns.
-> Then
-> ```math
-> \begin{aligned}
-> \oint_{\contour_{\lambda_{i}}} \left(z-\lambda_{i}\right) \, R_{z}(A) d z
-> &= \oint_{\contour_{\lambda_{i}}}\left(z-\lambda_{i}\right) \, U (\Lambda-z)^{-1} U^H d z \\
-> &= U\, \text{diag}(k_1, \ldots, k_n)\, U^H
-> \end{aligned}
-> ```
-> where we used $(A-z)^{-1} = U (\Lambda-z)^{-1} U^H$ and pushed the contour integral to the elements of the inner diagonal matrix
-> ```math
-> k_j = \oint_{\contour_{\lambda_{i}}} \left(z-\lambda_{i}\right) (λ_j-z)^{-1} d z = 0.
-> ```
-> These elements are all zero, since only for $j=i$ does the expression $1/(λ_j -z)$
-> even have a singularity inside the contour $\contour_{\lambda_{i}}$,
-> but for this $j$ the singularity is removed by the prefactor.
-> Therefore
-> ```math
-> 0 =\left(A-\lambda_{i} I\right) P_{i}
-> ```
->Since $\forall x \in \im \left(P_{i}\right)$, $x=P_{i} \ x$ this shows $x \in \ker\left(A-\lambda_{i} I\right),$ 
-> thus $\im \left(P_{i}\right) \subseteq  \ker \left(A-\lambda_{i} I\right)$. $\hspace{9cm} \square$
 """
 
 # ╔═╡ f0bbb6e5-5bbf-4c5b-895c-6d4531b75138
@@ -492,7 +493,7 @@ A final nice result is
 # ╔═╡ adfa3d4b-1f96-458c-bc28-e4d79362da66
 md"""
 > *Proof.*
-> Due to Theorem 2, 
+> Due to Theorem 1, 
 > $\im (\tilde{P}_{i} ) = \ker (\tilde{A}-\tilde{\lambda}_{i} I )$ 
 > which implies $(\tilde A-\tilde{\lambda}_{i} I ) \tilde{P}_{i}=0$. 
 >
@@ -1369,14 +1370,16 @@ version = "0.13.1+0"
 # ╟─d5a28a85-68f8-45de-912b-6944edbf1de7
 # ╟─9845a2db-1878-435d-bb4f-e8e77cbde85d
 # ╟─c3fd5d2f-9907-4500-8f40-511752fc6238
-# ╟─7f02b176-3057-4ed6-8ebe-31d645f16e48
+# ╟─3f170e15-b8bd-41ae-b654-da19c53d0654
+# ╟─129c7fb1-479e-4e82-a17c-0b153d2d890d
+# ╟─5e03eaa7-df64-4699-ae5a-479614e25dab
+# ╟─d05cc3e8-a8c1-4dbc-808a-7a204aabf068
+# ╟─7285b95a-676c-477d-b8bb-0ab6803716be
 # ╟─e2f62f58-6614-4b80-b225-9e3136027f8d
 # ╟─38b1496f-cc7f-47c7-b40f-119d2dd1e663
 # ╟─2210e9c0-53e3-472e-80e7-4151d14eec9d
 # ╟─aefedae9-b792-41db-bb52-c8540619bcf1
 # ╟─36f4bb7f-e1d5-4587-b96a-574820601963
-# ╟─129c7fb1-479e-4e82-a17c-0b153d2d890d
-# ╟─fec3438a-8da1-4d10-9b71-7c7b87d08fdf
 # ╟─f0bbb6e5-5bbf-4c5b-895c-6d4531b75138
 # ╟─cd7ed2fa-e9fa-45f9-ac6a-ba9a517e5593
 # ╟─ae59ff31-92e6-4796-bf2d-6fa68e20a852
