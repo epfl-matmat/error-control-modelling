@@ -28,7 +28,7 @@ jobs:
             - name: Install Julia
               uses: julia-actions/setup-julia@v1
               with:
-                  version: "1" # This will automatically pick the latest Julia version
+                  version: "1.11.6"
 
             - name: Cache Julia artifacts & such
               uses: julia-actions/cache@v2
@@ -48,7 +48,7 @@ jobs:
             - name: Install TeX packages (lualatex)
               run: |
                 sudo apt-get update
-                sudo apt-get install -y texlive-luatex texlive-latex-extra lmodern
+                sudo apt-get install pdf2svg texlive-latex-base texlive-binaries texlive-pictures texlive-latex-extra texlive-luatex
                 which lualatex
                 lualatex --version
 
