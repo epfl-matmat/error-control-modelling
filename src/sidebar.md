@@ -8,7 +8,7 @@
 1. [Diagonalisation algorithms](https://teaching.matmat.org/error-control/06_Diagonalisation_algorithms.html)
 1. [Matrix Perturbation Theory](https://teaching.matmat.org/error-control/07_Matrix_perturbation_theory.html)
 1. [Hilbert Spaces](https://teaching.matmat.org/error-control/08_Hilbert_spaces.html)
-1. [Operators](https://teaching.matmat.org/error-control/09_Operators.html)
-1. [Self-adjoint operators](https://teaching.matmat.org/error-control/10_Spectra_self_adjoint.html)
+1. [Operators and their spectra](https://teaching.matmat.org/error-control/09_Operators_Spectra.html)
+1. empty
 1. [Periodic Problems](https://teaching.matmat.org/error-control/11_Periodic_problems.html)
 1. [Nomenclature](https://teaching.matmat.org/error-control/nomenclature.html)
