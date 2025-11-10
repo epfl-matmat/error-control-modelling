@@ -45,6 +45,7 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml', '.github/workflows/*' ) }}
 
+            # This is needed for the embedded tikz images we use. If we pre-generate them as svgs we can drop this.
             - name: Install TeX packages (lualatex)
               run: |
                 sudo apt-get update
