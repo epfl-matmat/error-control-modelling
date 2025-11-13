@@ -149,7 +149,7 @@ Or in other words we would like the approximations
 		\mu_k (\opA) = \inf_{\substack{s \subset S \\ \dim (s) = k}} \max_{0 \neq \varphi \in s} R_{\mathcal{A}}(\varphi)
 		= \inf_{\substack{s \subset S \\ \dim (s) = k}} \max_{0 \neq \varphi \in s} \frac{\langle φ | \mathcal{A} φ \rangle_\hilbert}{\|φ\|_\hilbert}
 ```
-to converge to the smallest members of the spectrum spectrum $\sigma(\mathcal{A})$
+to converge to the smallest members of the spectrum $\sigma(\mathcal{A})$
 (see [below](#Spectra-of-operators) a formal definition of spectrum for operators). 
 """
 
@@ -251,7 +251,7 @@ i.e. the largest possible subspace of $\hilbert$, such that applying the operato
 - To illustrate the point of allowing a domain to be smaller than or different from the Hilbert space, we consider the Schrödinger operator of an isolated system, which has the form $\opH=-\Delta+ V$, where $V$ is a potential. 
   The natural Hilbert space for this setting is $L^{2}(\mathbb{R}^{d})$. 
   Thus to ensure $\opH f \in L^{2} (\mathbb{R}^{d})$ $\forall f \in D(\opH)$, we need to take $D(\opH)=H^{2} (\mathbb{R}^{d} )$, one of the Sobolev spaces we introduced last time. 
-  Clearly both $D(\opH)= \hilbert =L^{2}\left(\mathbb{R}^{d}\right)$ or $D(H)=\hilbert=H^{2}\left(\mathbb{R}^{d}\right)$ are *not* reasonable as in both cases the Laplacian reduces the regularity.
+  Clearly $D(\opH)= \hilbert =L^{2}\left(\mathbb{R}^{d}\right)$ is *not* reasonable as here the Laplacian reduces the regularity.
 """
 
 # ╔═╡ 15012412-d229-45e4-8b12-0dc89d3baaa2
@@ -388,10 +388,50 @@ md"""
 
 """
 
-# ╔═╡ 85df6f49-6935-45f0-9526-0b2b4075f3af
+# ╔═╡ 24f5dd6c-3fa5-4486-ad92-c1bbab44b4ce
 md"""
 ## Spectra of operators
 
+Extending our discussion of the finite-dimensional setting in the [Matrix perturbation theory chapter](https://teaching.matmat.org/error-control/07_Matrix_perturbation_theory.html) we can define:
+
+"""
+
+# ╔═╡ 59c06a2d-d980-458f-bf7a-44bb4f4a8a80
+md"""
+!!! note "Definition (Resolvent set)"
+	Let $\hilbert$ be a separable Hilbert space, $\opA : D(\opA) \rightarrow \hilbert$. The **resolvent set** is
+	```math
+		\resolvent(\opA)=\{z \in \mathbb{C} \mid (\mathcal{A}-z) : D(\opA) \rightarrow \hilbert \text{ is invertible } {\color{noteblue} \underbrace{\color{black} \text{with bounded inverse}}_{\text{This is new in $\infty$-dimensions}}} \}
+	```	
+	where bounded inverse means that the operator
+	```math
+		(\opA -z)^{-1}: \hilbert \rightarrow D(\opA) \leq \hilbert
+	```
+	exists and there is a $C>0$ such that
+	```math
+	\left\|(\opA-z)^{-1} x\right\| \leq C \|x\| \quad \forall x \in \hilbert .
+	```
+	For $z \in \resolvent(x)$ the **resolvent** $R_{z}(\opA)=(\opA-z)^{-1}$ exists and is bounded.
+
+We new that the new aspects in infinite dimensions is the additional requirement for $A - z$ to be bounded. A rationale for this requirement is given below:
+"""
+
+# ╔═╡ 8db7d0bc-ff6b-4387-8009-d83e74faaad0
+md"""
+By construction the set $\resolvent(A)$ contains all $z \in \mathbb{C}$ for which $(\opA-z) x=y$ admits a unique solution $x \in D(\opA)$ for a given $y \in \hilbert$. 
+Thus, for $(\opA-z) x=0$, only the trivial solution $x=0$ is possible. 
+
+To obtain eigenvalues we thus have to study the complement, as before
+"""
+
+# ╔═╡ 86e5f05a-6562-48c4-80f4-10c7cee0698e
+md"""
+!!! note "Definition (Spectrum)"
+	The **spectrum** is $\sigma (\opA) = \mathbb C \setminus \resolvent(\opA)$.
+"""
+
+# ╔═╡ 625f255b-85b4-4ada-90bb-bb4c7d4ac597
+Foldable("Rationale for the additional boundedness requirement", md"""
 Having discussed the basic properties of operators, we now turn our attention towards their spectra.
 
 - Generalizing from matrices, an eigenpair $(\lambda, \varphi) \in \mathbb{C} \times \hilbert$ of the operator $\opA$ satisfies
@@ -429,40 +469,7 @@ Having discussed the basic properties of operators, we now turn our attention to
   which is a contradiction to $φ$ being non-zero.
 
 As in the finite-dimensional case we first construct the *resolvent set*, which includes all the points that cannot be eigenvalues, i.e. the ones where the resolvent exists ($\opA-z$ can be inverted) and also the above aspect of a non-bounded $(\opA-λ)^{-1}$ is excluded:
-"""
-
-# ╔═╡ 59c06a2d-d980-458f-bf7a-44bb4f4a8a80
-md"""
-!!! note "Definition (Resolvent set)"
-	Let $\hilbert$ be a separable Hilbert space, $\opA : D(\opA) \rightarrow \hilbert$. The **resolvent set** is
-	```math
-		\resolvent(\opA)=\{z \in \mathbb{C} \mid (\mathcal{A}-z) : D(\opA) \rightarrow \hilbert \text{ is invertible } {\color{noteblue} \underbrace{\color{black} \text{with bounded inverse}}_{\text{This is new in $\infty$-dimensions}}} \}
-	```	
-	where bounded inverse means that the operator
-	```math
-		(\opA -z)^{-1}: \hilbert \rightarrow D(\opA) \leq \hilbert
-	```
-	exists and there is a $C>0$ such that
-	```math
-	\left\|(\opA-z)^{-1} x\right\| \leq C \|x\| \quad \forall x \in \hilbert .
-	```
-	For $z \in \resolvent(x)$ the **resolvent** $R_{z}(\opA)=(\opA-z)^{-1}$ exists and is bounded.
-
-"""
-
-# ╔═╡ 8db7d0bc-ff6b-4387-8009-d83e74faaad0
-md"""
-By construction the set $\resolvent(A)$ contains all $z \in \mathbb{C}$ for which $(\opA-z) x=y$ admits a unique solution $x \in D(\opA)$ for a given $y \in \hilbert$. 
-Thus, for $(\opA-z) x=0$, only the trivial solution $x=0$ is possible. 
-
-To obtain eigenvalues we thus have to study the complement, as before
-"""
-
-# ╔═╡ 86e5f05a-6562-48c4-80f4-10c7cee0698e
-md"""
-!!! note "Definition (Spectrum)"
-	The **spectrum** is $\sigma (\opA) = \mathbb C \setminus \resolvent(\opA)$.
-"""
+""")
 
 # ╔═╡ 9823dc80-2adb-4e21-9588-fdd7dc1b3545
 md"""
@@ -917,9 +924,9 @@ on which $q_\opA$ can be defined. Notice that we can find a subspace inclusion
 # ╔═╡ 86d8f7b6-68f6-42fd-9564-9c8a82a35e70
 md"""
 To make this explicit, consider an example. We take $\opA = - Δ$ on $L^2(\mathbb{R}^d)$.
-Using partial integration we rewrite
+Using partial integration we rewrite (e.g. for sufficiently regular functions $u$ and $v$):
 ```math
-\langle u, -Δ v \rangle = \int_{\mathbb{R}^d} u -Δ v = \int_{\mathbb{R}^d} ∇u ⋅ ∇v.
+\langle u, -Δ v \rangle = \int_{\mathbb{R}^d} u (-Δ v) = \int_{\mathbb{R}^d} ∇u ⋅ ∇v.
 ```
 While the LHS is only valid for $u, v \in H^2(\mathbb{R}^d)$,
 the RHS can be easily extended to all $u, v \in H^1(\mathbb{R}^d)$
@@ -3345,8 +3352,9 @@ version = "1.9.2+0"
 # ╟─321383d4-7b51-4b39-91cc-97c87c465e1a
 # ╟─4ea66162-8da9-4da9-8cae-14322da43c98
 # ╟─d332ddd1-942a-41c0-b8d1-cef005693f0d
-# ╟─85df6f49-6935-45f0-9526-0b2b4075f3af
+# ╟─24f5dd6c-3fa5-4486-ad92-c1bbab44b4ce
 # ╟─59c06a2d-d980-458f-bf7a-44bb4f4a8a80
+# ╟─625f255b-85b4-4ada-90bb-bb4c7d4ac597
 # ╟─8db7d0bc-ff6b-4387-8009-d83e74faaad0
 # ╟─86e5f05a-6562-48c4-80f4-10c7cee0698e
 # ╟─9823dc80-2adb-4e21-9588-fdd7dc1b3545
