@@ -416,20 +416,6 @@ md"""
 We new that the new aspects in infinite dimensions is the additional requirement for $A - z$ to be bounded. A rationale for this requirement is given below:
 """
 
-# ╔═╡ 8db7d0bc-ff6b-4387-8009-d83e74faaad0
-md"""
-By construction the set $\resolvent(A)$ contains all $z \in \mathbb{C}$ for which $(\opA-z) x=y$ admits a unique solution $x \in D(\opA)$ for a given $y \in \hilbert$. 
-Thus, for $(\opA-z) x=0$, only the trivial solution $x=0$ is possible. 
-
-To obtain eigenvalues we thus have to study the complement, as before
-"""
-
-# ╔═╡ 86e5f05a-6562-48c4-80f4-10c7cee0698e
-md"""
-!!! note "Definition (Spectrum)"
-	The **spectrum** is $\sigma (\opA) = \mathbb C \setminus \resolvent(\opA)$.
-"""
-
 # ╔═╡ 625f255b-85b4-4ada-90bb-bb4c7d4ac597
 Foldable("Rationale for the additional boundedness requirement", md"""
 Having discussed the basic properties of operators, we now turn our attention towards their spectra.
@@ -470,6 +456,20 @@ Having discussed the basic properties of operators, we now turn our attention to
 
 As in the finite-dimensional case we first construct the *resolvent set*, which includes all the points that cannot be eigenvalues, i.e. the ones where the resolvent exists ($\opA-z$ can be inverted) and also the above aspect of a non-bounded $(\opA-λ)^{-1}$ is excluded:
 """)
+
+# ╔═╡ 8db7d0bc-ff6b-4387-8009-d83e74faaad0
+md"""
+By construction the set $\resolvent(A)$ contains all $z \in \mathbb{C}$ for which $(\opA-z) x=y$ admits a unique solution $x \in D(\opA)$ for a given $y \in \hilbert$. 
+Thus, for $(\opA-z) x=0$, only the trivial solution $x=0$ is possible. 
+
+To obtain eigenvalues we thus have to study the complement, as before
+"""
+
+# ╔═╡ 86e5f05a-6562-48c4-80f4-10c7cee0698e
+md"""
+!!! note "Definition (Spectrum)"
+	The **spectrum** is $\sigma (\opA) = \mathbb C \setminus \resolvent(\opA)$.
+"""
 
 # ╔═╡ 9823dc80-2adb-4e21-9588-fdd7dc1b3545
 md"""

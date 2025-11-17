@@ -9,6 +9,6 @@
 1. [Matrix Perturbation Theory](https://teaching.matmat.org/error-control/07_Matrix_perturbation_theory.html)
 1. [Hilbert Spaces](https://teaching.matmat.org/error-control/08_Hilbert_spaces.html)
 1. [Operators and their spectra](https://teaching.matmat.org/error-control/09_Operators_Spectra.html)
-1. empty
-1. [Periodic Problems](https://teaching.matmat.org/error-control/11_Periodic_problems.html)
+1. [Periodic Problems](https://teaching.matmat.org/error-control/10_Periodic_problems.html)
+1. [Density functional theory](https://teaching.matmat.org/error-control/11_Density_functional_theory.html)
 1. [Nomenclature](https://teaching.matmat.org/error-control/nomenclature.html)
