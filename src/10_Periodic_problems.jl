@@ -256,7 +256,7 @@ md"""
   ```
   By Parseval's theorem
   ```math
-  \left\|\frac{d^m u}{dx^m}\right\|_{L^2_\text{per}}^2 = \sum_{G\in \mathbb{L}^\ast} |G|^{2m} \, |\hat{u}_G|^2
+  \left\|\frac{d^m u}{dx^m}\right\|_{L^2_\text{per}}^2 = \sum_{G\in \mathbb{L}^\ast} |G|^{2m} \, |\hat{u}_G|^2 \geq \underbrace{|\widetilde{G}|^{2m} \, |\hat{u}_\widetilde{G}|^2}_\text{for one $\widetilde{G} \in \mathbb{L}^\ast$}
   ```
   Therefore $\forall G \in \mathbb{L}^\ast$ we have
   ```math
@@ -282,7 +282,7 @@ md"""
 !!! info "Proposition 0: Fourier decay and regularity" 
     If $f \in C^p(\mathbb{R}^n)$ and $\partial^α f \in L^1(\mathbb{R}^n)$ for $|α| \leq p$ then there is a $C>0$ such that for all $G \in \mathbb{R}^n$,
     ```math
-    \left| \hat{f}(\xi) \right| \leq C (1 + |G|)^{-p}
+    \left| \hat{f}(G) \right| \leq C (1 + |G|)^{-p}
     ```
     Reciprocally if $x^α \in L^1(\mathbb{R}^n)$ for all multi-indices $|α| \leq p$ then $\hat{f}$ is iof class $C^p$.
 
@@ -393,7 +393,7 @@ $cos(x) = \frac 1 2 \left(e{ix} + e{-ix}\right)$, we get:
 
 # ╔═╡ 2386c0dd-0b29-4168-9f25-2187d43b1461
 md"""
-For given `Ecut` the lowest $10$ eigenvalues are therefore obtained by the function:
+For given `Ecut` the lowest $5$ eigenvalues are therefore obtained by the function:
 """
 
 # ╔═╡ 3ceea351-5110-4a6d-a525-fdf259c74675
@@ -406,6 +406,9 @@ function build_plane_waves_matrix_cos(Ecut)
     # Hamiltonian as derived above
     1/2 * Tridiagonal(ones(2Gmax), Gsq, ones(2Gmax))
 end
+
+# ╔═╡ 2a765fbb-759b-4480-913c-e8f01ef321a0
+build_plane_waves_matrix_cos(10)
 
 # ╔═╡ 5aeaa6b8-50b9-4c5f-bcce-592965b68353
 let
@@ -3245,6 +3248,7 @@ version = "1.9.2+0"
 # ╟─fec13421-c63f-4e96-9d0d-4d4f43ab172d
 # ╟─2386c0dd-0b29-4168-9f25-2187d43b1461
 # ╠═3ceea351-5110-4a6d-a525-fdf259c74675
+# ╠═2a765fbb-759b-4480-913c-e8f01ef321a0
 # ╠═5aeaa6b8-50b9-4c5f-bcce-592965b68353
 # ╟─700ac798-5f2f-456e-8be8-cd40c76e6c96
 # ╠═15fb9074-edbf-4458-9a41-bd3d8707a501

@@ -166,7 +166,7 @@ A subtle point in the definition of operators is that the **choice of the operat
 (for a given "recipe" to evaluate the operator such as $\opA = - \Delta$)
 has a crucial influence on the obtained spectrum $\sigma(\mathcal{A})$.
 For example even in the case of physical operators such as
-the Schrödinger operators $\opH = - Δ / 2 + V$ with smooth potential $V$,
+the Schrödinger operators $\opH = - Δ / 2 + v$ with smooth potential $v$,
 taking the domain *too small* (e.g. $V = C^\infty_0$)
 leads to $\sigma(\mathcal{A}) = \mathbb{C}$.
 This is in contrast to the physical regime where
