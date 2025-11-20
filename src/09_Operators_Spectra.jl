@@ -163,7 +163,7 @@ For example, for $\opA = - \Delta$ defined on all of $\mathbb{R}^3)$
 # ╔═╡ b86c0bf2-cea9-4f6d-89bd-30634e0a2523
 md"""
 A subtle point in the definition of operators is that the **choice of the operator domain** $V$
-(for a given "receipe" to evaluate the operator such as $\opA = - \Delta$)
+(for a given "recipe" to evaluate the operator such as $\opA = - \Delta$)
 has a crucial influence on the obtained spectrum $\sigma(\mathcal{A})$.
 For example even in the case of physical operators such as
 the Schrödinger operators $\opH = - Δ / 2 + V$ with smooth potential $V$,
@@ -235,16 +235,16 @@ Foldable("Properties of matrices that hold for operators", md"""
 md"""
 ## Domains of operators
 
-Picking up on the subtle point of operator domains, let's first establish som standard choices.
+Picking up on the subtle point of operator domains, let's first establish some standard choices.
 """
 
 # ╔═╡ 5f979847-44af-4457-9220-6840b3b1bd11
 md"""
-In the following we will consider the specific case of linear operators on a Hilbert space $\hilbert$, i.e. operators of the form $\opA: D(\opA) \rightarrow \hilbert$. The **domain** $D(\opA) \leq \hilbert$ is a dense subspace of $V$. Unless otherwise noted the standard choice of the domain is
+In the following we will consider the specific case of linear operators on a Hilbert space $\hilbert$, i.e. operators of the form $\opA: D(\opA) \rightarrow \hilbert$. The **domain** $D(\opA) \leq \hilbert$ is a dense subspace of $\hilbert$. Unless otherwise noted the standard choice of the domain is
 ```math
 	D(\mathcal{A})=\{f \in \hilbert \mid \opA f \in  \hilbert \},
 ```
-i.e. the largest possible subspace of $\hilbert$, such that applying the operator does not take us ot of $\hilbert$. Unless otherwise noted we will always employ this domain.
+i.e. the largest possible subspace of $\hilbert$, such that applying the operator does not take us out of $\hilbert$. Unless otherwise noted we will always employ this domain.
 
 - Other choices of the domain are well possible and sometimes useful. Moreover and perhaps surprisingly it has a decisive influence on the properties of an operator. For example it is related to the operator being self-adjoint or not --- which is in turn related to the question whether the operator spectrum is physical or not, as we will discuss. 
 
@@ -256,7 +256,7 @@ i.e. the largest possible subspace of $\hilbert$, such that applying the operato
 
 # ╔═╡ 15012412-d229-45e4-8b12-0dc89d3baaa2
 md"""
-Similar to matrices we can also define norms of operators making refernce to the norm of $\hilbert$:
+Similar to matrices we can also define norms of operators making reference to the norm of $\hilbert$:
 
 !!! note "Definition (Operator norm)"
 	Let $\left(V,\|\cdot\|_{V}\right)$ and $\left(W,\|\cdot\|_{W}\right)$ denote two Banach spaces. The corresponding operator norm is
@@ -264,7 +264,7 @@ Similar to matrices we can also define norms of operators making refernce to the
 	\|\opA \|_{\boundedoperators (V, W)} \coloneqq \sup _{0 \neq x \in V} \frac{\| \opA (v)\|_{W}}{\| v \|_{V}}.
 	```
 	When dealing with an operator $\opA: D(\opA) \rightarrow \hilbert$
-	and whent the underlying Hilbert space is clear, we frequently denote this as
+	and when the underlying Hilbert space is clear, we frequently denote this as
 	```math
 	\| \opA \|_\text{op} \equiv \sup _{0 \neq f \in D(\opA)} \frac{\| \opA f\|_{\hilbert}}{\|f\|_{\hilbert}},
 	```
@@ -513,7 +513,7 @@ md"""
 
 # ╔═╡ feb88cc7-66ac-463c-81b4-a223902c5897
 md"""
-In infinite dimensions one can easly construct examples where conditions (1), (2) or (3) fail separately, so the **spectrum can contain elements**, which are **not eigenvalues**. Similarly **$\sigma(\opA)$ can be empty**. See the Foldable below for explicit constructions of some of these cases.
+In infinite dimensions one can easily construct examples where conditions (1), (2) or (3) fail separately, so the **spectrum can contain elements**, which are **not eigenvalues**. Similarly **$\sigma(\opA)$ can be empty**. See the Foldable below for explicit constructions of some of these cases.
 """
 
 # ╔═╡ 8d7c4bd7-fc1e-4dc4-869c-ae33a27b015c
@@ -576,7 +576,7 @@ Foldable("Lemma 2: Discussion Analyticity of resolvent (optional)", md"""
 md"""
 ## Self-adjoint operators
 
-As discussed in principle multiple choices for the operator domain $D(\opA)$ can sometimes be reasonable and thus seems to leave considerable ambiguity.
+As discussed in principle multiple choices for the operator domain $D(\opA)$ can sometimes be reasonable and thus seem to leave considerable ambiguity.
 
 - As the Schrödinger operator example shows, there is clearly some form of a maximal domain, since we clearly need $\varphi \in D(\opH)=H^{2} (\mathbb R^{d})$ to assure $\opH \varphi \in L^{2} (\mathbb{R}^{d} )$. 
   But what about choosing a smaller domain, e.g. $D(H)=C_{0}^{\infty} (\mathbb{R}^{d} )$ ?
@@ -706,7 +706,7 @@ md"""
 
 We provide some examples of self-adjoint operators on $\hilbert=L^{2}(\mathbb R^{d})$ and state the spectra of some of them (Proofs are given
 [in the second appendix on Weyl sequences](#Example-spectra-of-operators)).
-We will note that the previously introduced **Sobolev spaces arise naturally** as the the correct **domain to ensure self-adjointness** of physical operators.
+We will note that the previously introduced **Sobolev spaces arise naturally** as the correct **domain to ensure self-adjointness** of physical operators.
 """
 
 # ╔═╡ a53f5693-6a82-481c-a1ba-cb10652e96ae
@@ -2087,7 +2087,7 @@ where
 ```math
 \im\Big(\mathbf 1 _{\{λ_i\}} (M)\Big) = \mathop{\mathrm{Ker}}(M - \lambda_i)
 ```
-is the the eigenspace of eigenvalue $\lambda_i$
+is the eigenspace of eigenvalue $\lambda_i$
 and $\mathbf 1 _{\{λ_i\}} (M)$ is the projector into the eigenspace
 of $λ_i$.
 
