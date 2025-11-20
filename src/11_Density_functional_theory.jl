@@ -16,6 +16,7 @@ begin
 	using AtomsBuilder
 	using PseudoPotentialData
 	using Plots
+	using LaTeXStrings
 end
 
 # ╔═╡ 5693c3b8-bd23-468a-b4c2-5d82fa7ea01d
@@ -241,6 +242,19 @@ which is usually employed in practice.
 [^1]: In theory even $\mathcal{N} = \infty$, but this is impossible in practice and therefore a modelling choice.
 """
 
+# ╔═╡ fd463525-1c0f-4c86-a05d-6e4e1d4bd61b
+md"""To make this expression more tractable, we visualise $f(\frac{ε_{nk} - ε_F}{T})$ for $ε_F = 0$ and various values of $T$:"""
+
+# ╔═╡ 44f1632c-c343-40bd-8cca-a8331b506934
+let
+	f(x) = 1 / (1 + exp(x))
+	p = plot(xlims=(-5, 5), xlabel=L"ε_{nk}", ylabel=L"f(ε_{nk}/T)")
+	for T in (1e-3, 1e-1, 0.5)
+		plot!(p, x -> f((x - 0) / T); label="T = $T", lw=2)
+	end
+	p
+end
+
 # ╔═╡ baffb50f-4940-40ec-a88b-47cd3514fbce
 md"""
 
@@ -332,6 +346,7 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 AtomsBuilder = "f5cc8831-eeb7-4288-8d9f-d6c1ddb77004"
 DFTK = "acf6eb54-70d9-11e9-0013-234b7a5f5337"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
@@ -342,6 +357,7 @@ Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 AtomsBuilder = "~0.2.2"
 DFTK = "~0.7.19"
 HypertextLiteral = "~0.9.5"
+LaTeXStrings = "~1.4.0"
 Plots = "~1.41.1"
 PlutoTeachingTools = "~0.4.6"
 PlutoUI = "~0.7.75"
@@ -355,7 +371,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.6"
 manifest_format = "2.0"
-project_hash = "0d2718ef66a5c0e73b0d6a520d8e1fd43e3413f1"
+project_hash = "915e3fe2e3734ab10117b71eb198e95328c58a09"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "8be2ae325471fc20b11c27bb34b518541d07dd3a"
@@ -2363,6 +2379,8 @@ version = "1.9.2+0"
 # ╟─5fe6794f-db25-490d-b210-499547a4fb55
 # ╟─a8b1bfb4-4c21-4db7-a3ff-b500003d3bce
 # ╟─db288ef5-d593-4361-b764-99c36e2ff58a
+# ╟─fd463525-1c0f-4c86-a05d-6e4e1d4bd61b
+# ╠═44f1632c-c343-40bd-8cca-a8331b506934
 # ╟─baffb50f-4940-40ec-a88b-47cd3514fbce
 # ╟─cb5679b0-b6cc-48f3-b181-c7c595d2b72b
 # ╠═54907a13-d519-4689-a64f-b9e4c1b6e888

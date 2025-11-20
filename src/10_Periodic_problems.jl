@@ -24,6 +24,11 @@ md"""
 # Periodic Problems
 """
 
+# ╔═╡ c7351c0e-c5d5-43e8-b0db-24c7b1985ae1
+TODO(md"""Needs more visualisation and rationalisation.
+  - Better use the route that Eric uses about introducing $k$-points as a way to exploit the periodicity in supercell calculations
+""")
+
 # ╔═╡ 1441bdfc-715e-46da-a4d2-8b788c71853f
 md"""
 In the previous lecture we saw that the discrete eigenvalues below the
@@ -443,7 +448,7 @@ end
 
 # ╔═╡ 32086662-d60d-47cd-acb6-0f1a4f18e351
 md"""
-## Periodic operators and periodic schrödinger problems
+## Periodic operators and periodic Schrödinger problems
 
 !!! note "Definition (L-periodicity)"
 	A linear operator $\mathcal A : L^2(\mathbb R^d) \to L^2(\mathbb R^d)$ is called
@@ -523,6 +528,9 @@ The index ``n`` is sometimes also called the **band index** and
 functions ``ψ_{kn}`` satisfying this factorization are also known as
 **Bloch functions** or **Bloch states**.
 """
+
+# ╔═╡ 0d419731-99e9-4380-a667-d2f935044f17
+TODO(md"Rationalise Bloch theory by solving a simple atomic chain model for increasing supercell sizes and then basically manually computing the Bloch decomposition / the mapping between supercells and k-points.")
 
 # ╔═╡ 0b85ae26-7e44-4506-a096-71d2a49def36
 md"""
@@ -713,7 +721,8 @@ Afterwards plot the bands.
 # ╔═╡ 3e5db56a-9b1c-4e15-b5ad-5ddd2f8c8dd8
 let
 	bands = compute_bands(basis_free; n_bands=6, kline_density=100)
-	plot_bandstructure(bands)
+	p = plot_bandstructure(bands)
+	ylims!(p, -0.1, 0.5)
 end
 
 # ╔═╡ 762968dd-1d23-4ada-8f90-c6a98667efff
@@ -826,7 +835,7 @@ The bands are noticeably different.
 
 # ╔═╡ 6092a639-f4ba-4833-9f2a-b9a513e30bb1
 md"""
-## Deep-dive: Bloch-Floquet theory
+## Deep-dive: Bloch-Floquet theory (optional)
 
 This section provides more mathematical details to the high-level discussion we provided above.
 """
@@ -1103,12 +1112,12 @@ Denoting $\mathscr L (V) = \{ f : V \to V | f \text{ linear} \}$ the space of li
 
 # ╔═╡ 6da749bc-0181-49c2-8a7a-9c180930dce6
 md"""
-### Fibers of periodic Schrödinger operators
+## Fibers of periodic Schrödinger operators
 
 We consider $\opH = - \frac1{2} \laplacian + V$ on $L^2(\mathbb R^3)$ with domain $D(\opH) = H^2(\mathbb R^3)$ and $V \in L^2_\text{per} (\mathbb R^3)$ such that $\opH$ is $\mathbb L$-periodic.
 Recall this operator is self-adjoint and as *no* eigenvalues.
 
-- The fibers of $\opH$ are $\opH_k = \lvert - i \nabla_x + k|^2 + V$, where we note
+- The fibers of $\opH$ are $\opH_k = ( - i \nabla_x + k)^2 + V$, where we note
   -  $\opH_k$ is a self-adjoint and bounded from below operator on $L^2_\text{per}(\Omega)$ with domain $H^2_\text{per}(\Omega)$ and form domain $H^1_\text{per}(\Omega)$
   -  $\opH_k$ has a compact resolvent $\resolvent(\opH_k)$, such that each $\opH_k$ has a purely discrete spectrum with eigenvalues accumulating at $+ \infty$ and eigenfunctions forming an orthonormal basis for $L^2_\text{per}(\Omega)$.
 
@@ -3230,6 +3239,7 @@ version = "1.9.2+0"
 # ╔═╡ Cell order:
 # ╟─e747d030-7487-4598-99d6-93afefd425e1
 # ╟─a0407e4d-3edc-48ea-a335-b815b796e378
+# ╠═c7351c0e-c5d5-43e8-b0db-24c7b1985ae1
 # ╟─1441bdfc-715e-46da-a4d2-8b788c71853f
 # ╟─7971ffe3-39f0-4cf8-9cee-fd55483a8ed9
 # ╟─8d9fe76f-dfb3-4683-83c2-5d7cd2aff712
@@ -3256,6 +3266,7 @@ version = "1.9.2+0"
 # ╟─1c07a977-68b7-44e1-9adf-ad1af1b44ebc
 # ╟─e2b26548-3f7d-4950-b22c-e7106912df49
 # ╟─d7644757-dcee-4414-9dda-e09476779ab9
+# ╠═0d419731-99e9-4380-a667-d2f935044f17
 # ╟─0b85ae26-7e44-4506-a096-71d2a49def36
 # ╟─da661541-2007-4681-baea-36164b43efc7
 # ╟─0309d400-92ed-46ad-afce-a516a7f1380b

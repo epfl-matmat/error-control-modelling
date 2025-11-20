@@ -96,6 +96,9 @@ Along these lines, linear operators, i.e. objects mapping functions to functions
 First we formally define:
 """
 
+# ╔═╡ cf897fb6-1e05-46aa-820f-c10a32d15940
+TODO(md"Scratch the general thing, directly introduce operators along with mapping from $D(A)$ to $\hilbert$ and where $D(A)$ is a dense subset of $\hilbert$ of choice.")
+
 # ╔═╡ 897dfb72-71d7-4ee3-a874-8f932fffd261
 md"""
 !!! note "Definition (Operator)"
@@ -3336,6 +3339,7 @@ version = "1.9.2+0"
 # ╟─1f6efd53-2429-46e7-a579-fedd920250ff
 # ╟─e80f5b7f-dfa0-4785-86c9-fdc6c387f3ca
 # ╟─041e2cfd-0ec9-4766-98dd-7a90b2a4da84
+# ╠═cf897fb6-1e05-46aa-820f-c10a32d15940
 # ╟─897dfb72-71d7-4ee3-a874-8f932fffd261
 # ╟─d3ad8a0a-fa8a-4864-ada3-fe237e65c088
 # ╟─a8ec0c38-3f60-4713-a1f7-9a8e054a2533
